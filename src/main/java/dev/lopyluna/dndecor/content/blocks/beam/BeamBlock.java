@@ -42,7 +42,7 @@ public class BeamBlock extends Block implements IWrenchable {
             else beam = BeamStates.BOTTOM;
         }
         KineticBlockEntity.switchToBlockState(level, pos, state.setValue(BEAM, beam));
-        if (level.getBlockState(pos) != state) AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.random.nextFloat() + .5f);
+        if (level.getBlockState(pos) != state) AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.getRandom().nextFloat() + .5f);
         return InteractionResult.SUCCESS;
     }
 

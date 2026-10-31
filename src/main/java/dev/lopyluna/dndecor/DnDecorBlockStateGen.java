@@ -22,12 +22,12 @@ public class DnDecorBlockStateGen {
         return (c, p) -> {
             String location = "block/";
 
-            p.models().withExistingParent("block/" + c.getName() + "/block_shaftless", Create.asResource(large ? "block/large_cogwheel_shaftless":"block/cogwheel_shaftless"))
+            p.models().withExistingParent("block/" + c.getName() + "/block_shaftless", Identifier.fromNamespaceAndPath("create", large ? "block/large_cogwheel_shaftless":"block/cogwheel_shaftless"))
                     .texture(large ? "4":"1_2", DnDecor.loc(location + c.getName()))
                     .texture("particle", DnDecor.loc(location + c.getName()));
             p.models().withExistingParent("block/" + c.getName() + "/block", Identifier.withDefaultNamespace("air"))
                     .texture("particle", DnDecor.loc(location + c.getName()));
-            p.models().withExistingParent("block/" + c.getName() + "/item", Create.asResource(large ? "block/large_cogwheel" : "block/cogwheel"))
+            p.models().withExistingParent("block/" + c.getName() + "/item", Identifier.fromNamespaceAndPath("create", large ? "block/large_cogwheel" : "block/cogwheel"))
                     .texture(large ? "4":"1_2", DnDecor.loc(location + c.getName()))
                     .texture("particle", DnDecor.loc(location + c.getName()));
 

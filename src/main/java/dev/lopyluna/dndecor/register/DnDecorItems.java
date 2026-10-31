@@ -17,12 +17,7 @@ import static dev.lopyluna.dndecor.DnDecor.REG;
 public class DnDecorItems {
 
     public static final ItemEntry<FullBeltConnectorItem> BELT_CONNECTOR = REG.item("belt_connector", FullBeltConnectorItem::new)
-            .lang("Mechanical Belt (Full)")
-            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 4)
-                    .pattern("CC").pattern("CC")
-                    .define('C', AllItems.BELT_CONNECTOR)
-                    .unlockedBy("has_" + c.getName(), has(c.get())).save(p, DnDecor.loc("crafting/" + c.getName()))
-            ).register();
+            .lang("Mechanical Belt (Full)").register();
 
     protected static String getItemName(ItemLike pItemLike) {
         return BuiltInRegistries.ITEM.getKey(pItemLike.asItem()).getPath();

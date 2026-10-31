@@ -121,6 +121,6 @@ public class BoltBlock extends Block implements SimpleWaterloggedBlock, IWrencha
     }
 
     public void playRotateSound(Level level, BlockPos pos) {
-        AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.random.nextFloat() + .5f);
+        AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.getRandom().nextFloat() + .5f);
     }
 }

@@ -56,7 +56,7 @@ public class BoilerBlock extends RotatedPillarBlock implements IWrenchable, IBE<
 
         KineticBlockEntity.switchToBlockState(level, pos, updateAfterWrenched(newState, context));
         checkBlocks(level, level.getBlockState(pos), pos);
-        if (level.getBlockState(pos) != state) AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.random.nextFloat() + .5f);
+        if (level.getBlockState(pos) != state) AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.getRandom().nextFloat() + .5f);
         return InteractionResult.SUCCESS;
     }
 
@@ -71,7 +71,7 @@ public class BoilerBlock extends RotatedPillarBlock implements IWrenchable, IBE<
 
         KineticBlockEntity.switchToBlockState(level, pos, updateAfterWrenched(newState, context));
         checkBlocks(level, level.getBlockState(pos), pos);
-        if (level.getBlockState(pos) != state) AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.random.nextFloat() + .5f);
+        if (level.getBlockState(pos) != state) AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.getRandom().nextFloat() + .5f);
         return InteractionResult.SUCCESS;
     }
 

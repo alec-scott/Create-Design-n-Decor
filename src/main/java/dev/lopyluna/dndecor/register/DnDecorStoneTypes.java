@@ -36,12 +36,10 @@ public enum DnDecorStoneTypes {
 
     GABBRO(STANDARD_RANGE, r -> r.paletteStoneBlock("gabbro", () -> Blocks.POLISHED_DEEPSLATE, true, false)
             .properties(p -> p.destroyTime(1.25f).mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
-            .recipe((c, p) -> p.smelting(DataIngredient.ingredient(Ingredient.of(Items.GRANITE), Items.GRANITE), RecipeCategory.BUILDING_BLOCKS, c, 0.1f))
             .register()),
 
     DOLOMITE(STANDARD_RANGE, r -> r.paletteStoneBlock("dolomite", () -> Blocks.TUFF, true, false)
             .properties(p -> p.destroyTime(1.25f).mapColor(MapColor.TERRACOTTA_WHITE))
-            .recipe((c, p) -> p.smelting(DataIngredient.ingredient(Ingredient.of(Items.DIORITE), Items.DIORITE), RecipeCategory.BUILDING_BLOCKS, c, 0.1f))
             .register()),
 
     ;

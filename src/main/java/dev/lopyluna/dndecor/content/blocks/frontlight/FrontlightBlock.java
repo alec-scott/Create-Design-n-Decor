@@ -110,7 +110,7 @@ public class FrontlightBlock extends Block implements IWrenchable {
         var rotated = face.getAxis().equals(state.getValue(FACING).getAxis()) ? state.cycle(ROTATED) : state.cycle(ADDITIVE);
         if (!rotated.canSurvive(level, context.getClickedPos())) return InteractionResult.PASS;
         KineticBlockEntity.switchToBlockState(level, pos, updateAfterWrenched(rotated, context));
-        if (level.getBlockState(pos) != state) AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.random.nextFloat() + .5f);
+        if (level.getBlockState(pos) != state) AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.getRandom().nextFloat() + .5f);
         return InteractionResult.SUCCESS;
     }
 

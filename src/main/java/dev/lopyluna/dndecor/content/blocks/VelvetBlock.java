@@ -38,11 +38,11 @@ public class VelvetBlock extends Block {
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         DyeColor color = DyeColor.getColor(stack);
         if (color != null) {
-            if (!level.isClientSide) level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
+            if (!level.isClientSide()) level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.getRandom().nextFloat() * .2f);
             applyDye(state, level, pos, color);
             return InteractionResult.SUCCESS;
         } else if (stack.is(Items.SPONGE) || stack.is(Items.WET_SPONGE) || stack.is(Items.WHITE_WOOL) || stack.is(Items.WATER_BUCKET)) {
-            if (!level.isClientSide) level.playSound(null, pos, SoundEvents.SPONGE_ABSORB, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
+            if (!level.isClientSide()) level.playSound(null, pos, SoundEvents.SPONGE_ABSORB, SoundSource.BLOCKS, 1.0f, 1.1f - level.getRandom().nextFloat() * .2f);
             applyDye(state, level, pos, null);
         }
         return InteractionResult.TRY_WITH_EMPTY_HAND;

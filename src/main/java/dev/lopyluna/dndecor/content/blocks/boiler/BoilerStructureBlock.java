@@ -58,7 +58,7 @@ public class BoilerStructureBlock extends Block implements IWrenchable {
     @Override
     public InteractionResult onSneakWrenched(BlockState state, UseOnContext ctx) {
         var level = ctx.getLevel();
-        if (level.isClientSide) return InteractionResult.PASS;
+        if (level.isClientSide()) return InteractionResult.PASS;
         var pos = ctx.getClickedPos();
         if (stillValid(level, pos, state, false)) {
             var masterPos = getMaster(level, pos, state);
@@ -75,7 +75,7 @@ public class BoilerStructureBlock extends Block implements IWrenchable {
     @Override
     public InteractionResult onWrenched(BlockState state, UseOnContext ctx) {
         var level = ctx.getLevel();
-        if (level.isClientSide) return InteractionResult.PASS;
+        if (level.isClientSide()) return InteractionResult.PASS;
         var pos = ctx.getClickedPos();
         if (stillValid(level, pos, state, false)) {
             var masterPos = getMaster(level, pos, state);
@@ -138,7 +138,7 @@ public class BoilerStructureBlock extends Block implements IWrenchable {
     @Override
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.canSurvive(level, pos)) return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
-        if (level instanceof Level world && !world.isClientSide && !world.getBlockTicks().hasScheduledTick(pos, this)) world.scheduleTick(pos, this, 1);
+        if (level instanceof Level world && !world.isClientSide() && !world.getBlockTicks().hasScheduledTick(pos, this)) world.scheduleTick(pos, this, 1);
         return state;
     }
 
@@ -173,7 +173,7 @@ public class BoilerStructureBlock extends Block implements IWrenchable {
         if (stillValid(level, pos, state, false)) {
             var masterPos = getMaster(level, pos, state);
             level.destroyBlockProgress(masterPos.hashCode(), masterPos, -1);
-            if (!level.isClientSide && player.isCreative()) level.destroyBlock(masterPos, false, player);
+            if (!level.isClientSide() && player.isCreative()) level.destroyBlock(masterPos, false, player);
         }
         return super.playerWillDestroy(level, pos, state, player);
     }

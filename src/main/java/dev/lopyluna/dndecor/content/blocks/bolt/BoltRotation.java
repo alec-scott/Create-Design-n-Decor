@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.content.blocks.bolt;
 
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;

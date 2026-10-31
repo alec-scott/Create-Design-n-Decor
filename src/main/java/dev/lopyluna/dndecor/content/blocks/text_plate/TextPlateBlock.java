@@ -80,7 +80,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
         if (be.colorBase == color && be.metalBase == null) return InteractionResult.PASS;
         be.colorBase = color;
         be.metalBase = null;
-        level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
+        level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.getRandom().nextFloat() * .2f);
         return InteractionResult.SUCCESS;
     }
 
@@ -99,7 +99,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
                 } else be.dyedText = color;
             }
             if (flag) {
-                level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
+                level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.getRandom().nextFloat() * .2f);
                 return InteractionResult.SUCCESS;
             }
         } else if (stack.is(Items.GLOW_INK_SAC)) {
@@ -109,7 +109,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
                 else be.glowing = true;
             }
             if (flag) {
-                level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
+                level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.getRandom().nextFloat() * .2f);
                 return InteractionResult.SUCCESS;
             }
         } else for (var type : MaterialTypeProvider.metalTypes) {
@@ -124,9 +124,9 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
                     be.colorBase = DyeColor.WHITE;
                 }
                 if (flag) {
-                    level.playSound(null, pos, metal.sound.getHitSound(), SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
-                    level.playSound(null, pos, metal.sound.getPlaceSound(), SoundSource.BLOCKS, 0.5f, 1.4f - level.random.nextFloat() * .2f);
-                    level.playSound(null, pos, metal.sound.getBreakSound(), SoundSource.BLOCKS, 0.5f, 1.1f - level.random.nextFloat() * .2f);
+                    level.playSound(null, pos, metal.sound.getHitSound(), SoundSource.BLOCKS, 1.0f, 1.1f - level.getRandom().nextFloat() * .2f);
+                    level.playSound(null, pos, metal.sound.getPlaceSound(), SoundSource.BLOCKS, 0.5f, 1.4f - level.getRandom().nextFloat() * .2f);
+                    level.playSound(null, pos, metal.sound.getBreakSound(), SoundSource.BLOCKS, 0.5f, 1.1f - level.getRandom().nextFloat() * .2f);
                     return InteractionResult.SUCCESS;
                 }
             }

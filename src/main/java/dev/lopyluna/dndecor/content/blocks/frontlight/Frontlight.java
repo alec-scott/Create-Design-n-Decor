@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.content.blocks.frontlight;
 
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 

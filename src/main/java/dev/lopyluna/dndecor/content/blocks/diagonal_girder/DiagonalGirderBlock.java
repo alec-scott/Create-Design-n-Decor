@@ -84,7 +84,7 @@ public class DiagonalGirderBlock extends Block implements SimpleWaterloggedBlock
         var level = context.getLevel();
 
         level.setBlock(pos,state.setValue(FACING_UP,!state.getValue(FACING_UP)),2);
-        AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.random.nextFloat() + .5f);
+        AllSoundEvents.WRENCH_ROTATE.playOnServer(level, pos, 1, level.getRandom().nextFloat() + .5f);
         return onWrenched;
     }
 

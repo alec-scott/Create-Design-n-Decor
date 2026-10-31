@@ -69,16 +69,6 @@ public class BlockTransgender {
                 .initialProperties(() -> Blocks.WHITE_WOOL)
                 .properties(p -> p.mapColor(mapColor)).properties(p -> p.sound(SoundType.WOOL))
                 .properties(p -> p.strength(0.5f,1.5f))
-                .recipe((c, p) ->
-                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 4)
-                                .pattern("WB")
-                                .pattern("BW")
-                                .define('W', DnDecorUtils.getWool(dye))
-                                .define('B', DnDecorTags.commonItemTag("nuggets/brass"))
-                                .unlockedBy("has_" + c.getName(), has(c.get()))
-                                .save(DnDecorBlocks.doesRequireDyeDepot(p, dye), DnDecor.loc("crafting/" + c.getName()))
-                )
-                .blockstate((c, p) -> p.simpleBlock(c.get(), p.models().cubeAll(c.getName(), Create.asResource("block/seat/top_" + colorId))))
                 .tag(AllBlockTags.WINDMILL_SAILS).asOptional()
                 .item()
                 .tag(DnDecorTags.modItemTag("dyed_velvet_block")).asOptional()
@@ -89,7 +79,6 @@ public class BlockTransgender {
     public static <B extends Block> NonNullUnaryOperator<BlockBuilder<B, CreateRegistrate>> connected(
             Supplier<CTSpriteShiftEntry> ct) {
         return b -> b.initialProperties(SharedProperties::stone)
-                .blockstate((c, p) -> p.simpleBlock(c.get()))
                 .onRegister(connectedTextures(() -> new EncasedCTBehaviour(ct.get())))
                 .onRegister(casingConnectivity((block, cc) -> cc.makeCasing(block, ct.get())));
     }
@@ -97,11 +86,6 @@ public class BlockTransgender {
     public static <B extends Block> NonNullUnaryOperator<BlockBuilder<B, CreateRegistrate>> layeredConnected(
             Supplier<CTSpriteShiftEntry> ct, Supplier<CTSpriteShiftEntry> ct2) {
         return b -> b.initialProperties(SharedProperties::stone)
-                .blockstate((c, p) -> p.simpleBlock(c.get(), p.models()
-                        .cubeColumn(c.getName(), ct.get()
-                                        .getOriginalResourceLocation(),
-                                ct2.get()
-                                        .getOriginalResourceLocation())))
                 .onRegister(connectedTextures(() -> new HorizontalCTBehaviour(ct.get(), ct2.get())))
                 .onRegister(casingConnectivity((block, cc) -> cc.makeCasing(block, ct.get())));
     }
@@ -109,14 +93,12 @@ public class BlockTransgender {
     public static <B extends OrnateGrateBlock> NonNullUnaryOperator<BlockBuilder<B, CreateRegistrate>> ornateConnected(
             Supplier<CTSpriteShiftEntry> ct) {
         return b -> b.initialProperties(SharedProperties::stone)
-                .blockstate((c, p) -> p.simpleBlock(c.get(), AssetLookup.standardModel(c, p)))
                 .onRegister(connectedTextures(() -> new EncasedCTBehaviour(ct.get())))
                 .onRegister(casingConnectivity((block, cc) -> cc.makeCasing(block, ct.get())));
     }
 
     public static <B extends Block> NonNullUnaryOperator<BlockBuilder<B, CreateRegistrate>> block(Supplier<CTSpriteShiftEntry> ct ) {
         return b -> b.initialProperties(SharedProperties::stone)
-                .blockstate((c, p) -> p.simpleBlock(c.get()))
                 .onRegister(connectedTextures(() -> new EncasedCTBehaviour(ct.get())))
                 .onRegister(casingConnectivity((block, cc) -> cc.makeCasing
                         (block, ct.get())))
@@ -126,11 +108,6 @@ public class BlockTransgender {
 
     public static <B extends Block> NonNullUnaryOperator<BlockBuilder<B, CreateRegistrate>> blockV2( Supplier<CTSpriteShiftEntry> ct, Supplier<CTSpriteShiftEntry> ct2 ) {
         return b -> b.initialProperties(SharedProperties::stone)
-                .blockstate((c, p) -> p.simpleBlock(c.get(), p.models()
-                        .cubeColumn(c.getName(), ct.get()
-                                        .getOriginalResourceLocation(),
-                                ct2.get()
-                                        .getOriginalResourceLocation())))
                 .onRegister(connectedTextures(() -> new HorizontalCTBehaviour(ct.get(), ct2.get())))
                 .onRegister(casingConnectivity((block, cc) -> cc.makeCasing(block, ct.get())))
                 .item()
@@ -157,13 +134,9 @@ public class BlockTransgender {
         return REG.block(name, p -> new WindowBlock(p, translucent))
                 .onRegister(ct == null ? $ -> {
                 } : connectedTextures(() -> ct2 != null ? new HorizontalCTBehaviour(ct.get(), ct2.get()) : new HorizontalCTBehaviour(ct.get())))
-                .addLayer(renderType)
                 .initialProperties(() -> Blocks.GLASS)
                 .properties(BlockTransgender::glassProperties)
                 .properties(p -> p.mapColor(color.get()))
-                .loot(RegistrateBlockLootTables::dropWhenSilkTouch)
-                .blockstate((c, p) -> p.simpleBlock(c.get(), p.models()
-                        .cubeColumn(c.getName(), sideTexture.apply(c.getName()), endTexture.apply(c.getName()))))
                 .tag(BlockTags.IMPERMEABLE)
                 .simpleItem();
     }
@@ -171,18 +144,11 @@ public class BlockTransgender {
     public static BlockEntry<ConnectedGlassBlock> framedGlass(String name, Supplier<ConnectedTextureBehaviour> behaviour) {
         return REG.block(name, ConnectedGlassBlock::new)
                 .onRegister(connectedTextures(behaviour))
-                .addLayer(() -> RenderType::cutout)
                 .initialProperties(() -> Blocks.GLASS)
                 .properties(BlockTransgender::glassProperties)
-                .loot(RegistrateBlockLootTables::dropWhenSilkTouch)
-                .recipe((c, p) -> p.stonecutting(DataIngredient.tag(net.neoforged.neoforge.common.ConventionalItemTags.GLASS_BLOCKS_COLORLESS),
-                        RecipeCategory.BUILDING_BLOCKS, c))
-                .blockstate((c, p) -> BlockStateGen.cubeAll(c, p, "palettes/", name))
                 .tag(net.neoforged.neoforge.common.ConventionalBlockTags.GLASS_BLOCKS_COLORLESS, BlockTags.IMPERMEABLE)
                 .item()
                 .tag(net.neoforged.neoforge.common.ConventionalItemTags.GLASS_BLOCKS_COLORLESS)
-                .model((c, p) -> p.cubeColumn(c.getName(), p.modLoc(palettesDir() + c.getName()),
-                        p.modLoc("block/palettes/" + name)))
                 .build()
                 .register();
     }
@@ -222,7 +188,7 @@ public class BlockTransgender {
     }
 
     private static Function<RegistrateBlockstateProvider, ModelFile> getPaneModelProvider(String CGPparents, String prefix, String partial, Identifier sideTexture, Identifier topTexture) {
-        return p -> p.models().withExistingParent(prefix + partial, Create.asResource(CGPparents + partial))
+        return p -> p.models().withExistingParent(prefix + partial, Identifier.fromNamespaceAndPath("create", CGPparents + partial))
                 .texture("pane", sideTexture).texture("edge", topTexture);
     }
 
@@ -232,21 +198,12 @@ public class BlockTransgender {
         name += "_pane";
         ItemBuilder<BlockItem, BlockBuilder<G, CreateRegistrate>> itemBuilder = REG.block(name, factory)
                 .onRegister(connectedTextures)
-                .addLayer(renderType)
                 .initialProperties(() -> Blocks.GLASS_PANE)
                 .properties(p -> p.mapColor(parent.get().defaultMapColor()))
-                .blockstate(stateProvider)
-                .recipe((c, p) -> {
-                    ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 16)
-                            .pattern("###").pattern("###").define('#', parent.get())
-                            .unlockedBy("has_ingredient", RegistrateRecipeProvider.has(parent.get())).save(p);
-                    if (colorless) p.stonecutting(DataIngredient.tag(ConventionalItemTags.GLASS_PANES_COLORLESS), RecipeCategory.BUILDING_BLOCKS, c);
-                })
-                .loot(RegistrateBlockLootTables::dropWhenSilkTouch)
                 .item();
         if (colorless) itemBuilder.tag(ConventionalItemTags.GLASS_PANES, ConventionalItemTags.GLASS_PANES_COLORLESS);
         else itemBuilder.tag(ConventionalItemTags.GLASS_PANES);
-        BlockBuilder<G, CreateRegistrate> blockBuilder = itemBuilder.model((c, p) -> p.generated(c, sideTexture)).build();
+        BlockBuilder<G, CreateRegistrate> blockBuilder = itemBuilder.build();
         if (colorless) blockBuilder.tag(ConventionalBlockTags.GLASS_PANES, ConventionalBlockTags.GLASS_PANES_COLORLESS);
         else blockBuilder.tag(ConventionalBlockTags.GLASS_PANES);
         return blockBuilder;

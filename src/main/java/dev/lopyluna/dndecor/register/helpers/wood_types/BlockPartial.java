@@ -56,8 +56,6 @@ public abstract class BlockPartial<B extends Block> {
         String blockName = patternName + "_" + this.name;
         BlockBuilder<B, CreateRegistrate> blockBuilder = DnDecor.REG
                 .block(blockName, p -> createBlock(block))
-                .blockstate((c, p) -> generateBlockState(c, p, variantName, pattern, block))
-                .recipe((c, p) -> createRecipes(variant, block, c, p))
                 .transform(b -> transformBlock(b, variantName, pattern));
         ItemBuilder<BlockItem, BlockBuilder<B, CreateRegistrate>> itemBuilder = blockBuilder.item().transform(b -> transformItem(b, variantName, pattern));
         if (canRecycle()) itemBuilder.tag(variant.materialTag);
@@ -159,7 +157,6 @@ public abstract class BlockPartial<B extends Block> {
         }
         @Override
         protected BlockBuilder<SlabBlock, CreateRegistrate> transformBlock(BlockBuilder<SlabBlock, CreateRegistrate> builder, String variantName, BlockPattern pattern) {
-            builder.loot((lt, block) -> lt.add(block, lt.createSlabItemTable(block)));
             return super.transformBlock(builder, variantName, pattern);
         }
     }
@@ -176,7 +173,6 @@ public abstract class BlockPartial<B extends Block> {
         protected ItemBuilder<BlockItem, BlockBuilder<WallBlock, CreateRegistrate>> transformItem(
                 ItemBuilder<BlockItem, BlockBuilder<WallBlock, CreateRegistrate>> builder, String variantName,
                 BlockPattern pattern) {
-            builder.model((c, p) -> p.wallInventory(c.getName(), getTexture(variantName, pattern, 0)));
             return super.transformItem(builder, variantName, pattern);
         }
         @Override

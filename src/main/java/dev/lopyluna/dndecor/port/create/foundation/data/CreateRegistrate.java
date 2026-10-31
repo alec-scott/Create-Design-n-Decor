@@ -69,8 +69,17 @@ public class CreateRegistrate extends AbstractRegistrate<CreateRegistrate> {
         return block -> CONNECTED_TEXTURES.put(block, behaviour);
     }
 
+    /** Casing connectivity callbacks, run on the client by {@link #registerBlockModels}. */
+    private static final java.util.List<Runnable> CASINGS = new java.util.ArrayList<>();
+
+    /** Upstream Create's {@code CreateRegistrate.casingConnectivity} (client resolved, like {@link #blockModel}). */
+    public static <T extends Block> NonNullConsumer<? super T> casingConnectivity(java.util.function.BiConsumer<T, CasingConnectivity> consumer) {
+        return block -> CASINGS.add(() -> consumer.accept(block, new CasingConnectivity()));
+    }
+
     /** Client only: call once during client init. */
     public static void registerBlockModels() {
+        CASINGS.forEach(Runnable::run);
         BLOCK_MODELS.forEach((block, factory) -> com.zurrtum.create.client.AllModels.register(block, factory.get()));
         CONNECTED_TEXTURES.forEach((block, behaviour) -> com.zurrtum.create.client.AllModels.register(block,
             com.zurrtum.create.client.infrastructure.model.CTModel.of(behaviour.get())));

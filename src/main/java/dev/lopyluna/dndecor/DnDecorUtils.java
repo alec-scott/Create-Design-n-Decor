@@ -16,7 +16,7 @@ public class DnDecorUtils {
         return switch (result) {
             case SUCCESS -> InteractionResult.SUCCESS;
             case CONSUME -> InteractionResult.CONSUME;
-            case CONSUME_PARTIAL -> InteractionResult.CONSUME_PARTIAL;
+            case CONSUME_PARTIAL -> InteractionResult.CONSUME;
             case SUCCESS_NO_ITEM_USED -> InteractionResult.TRY_WITH_EMPTY_HAND;
             case PASS -> InteractionResult.PASS;
             case FAIL -> InteractionResult.FAIL;

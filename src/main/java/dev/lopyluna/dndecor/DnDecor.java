@@ -54,6 +54,7 @@ public class DnDecor implements ModInitializer {
 
         REG.register();
         DnDecorRemapHelper.remap();
+        dev.lopyluna.dndecor.port.create.foundation.block.CopperBlockSet.registerAll();
         DnDecorCommon.registerCapabilities();
         DnDecorServer.register();
         DnDecorInventoryIdentifiers.registerDefaults();

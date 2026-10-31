@@ -19,7 +19,7 @@ public class FullBeltGenerator extends BeltGenerator {
     public <T extends Block> ModelFile getModel(DataGenContext<Block, T> ctx, RegistrateBlockstateProvider prov, BlockState state) {
         boolean casing = state.getValue(BeltBlock.CASING);
 
-        if (!casing) return prov.models().getExistingFile(Create.asResource("block/belt/particle"));
+        if (!casing) return prov.models().getExistingFile(Identifier.fromNamespaceAndPath("create", "block/belt/particle"));
 
         BeltPart part = state.getValue(BeltBlock.PART);
         Direction direction = state.getValue(BeltBlock.HORIZONTAL_FACING);
@@ -47,7 +47,7 @@ public class FullBeltGenerator extends BeltGenerator {
         if (diagonal) slopeName = "diagonal";
 
         //Identifier location = prov.modLoc(path + slopeName + "_" + partName);
-        Identifier location = Create.asResource(path + slopeName + "_" + partName);
+        Identifier location = Identifier.fromNamespaceAndPath("create", path + slopeName + "_" + partName);
         return prov.models().getExistingFile(location);
     }
 }

@@ -93,9 +93,7 @@ public class DyedContainerItem extends BlockItem {
             var off = axis == Direction.Axis.X ? start.offset(0, xOffset, zOffset) : start.offset(xOffset, zOffset, 0);
             if (DyedContainerBlock.isContainer(level.getBlockState(off))) continue;
             var context = BlockPlaceContext.at(ctx, off, face);
-            player.getPersistentData().putBoolean("SilenceVaultSound", true);
             super.place(context);
-            player.getPersistentData().remove("SilenceVaultSound");
         }
     }
 }

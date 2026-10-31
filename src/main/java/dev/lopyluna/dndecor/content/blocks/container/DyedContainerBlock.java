@@ -43,7 +43,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.zurrtum.create.content.logistics.vault.ItemVaultBlock.SILENCED_METAL;
 
 @SuppressWarnings({"NullableProblems", "unused"})
 public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedContainerBE>, ItemInventoryProvider<DyedContainerBE> {
@@ -102,22 +101,22 @@ public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedCo
             var color = dyeItem.getDyeColor();
             withBlockEntityDo(level, pos, be -> flag.set(be.setColor(color, false)));
             if (flag.get()) {
-                level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
+                level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.getRandom().nextFloat() * .2f);
                 return InteractionResult.SUCCESS;
             }
         } else if (stack.is(AllItems.SAND_PAPER)) {
             var flag = new AtomicBoolean(false);
             withBlockEntityDo(level, pos, be -> flag.set(be.setColor(null, true)));
             if (flag.get()) {
-                level.playSound(null, pos, AllSoundEvents.SANDING_SHORT.getMainEvent(), SoundSource.BLOCKS, 0.8f, 1.1f - level.random.nextFloat() * .2f);
-                level.playSound(null, pos, SoundEvents.NETHERITE_BLOCK_BREAK, SoundSource.BLOCKS, 0.1f, 0.7f - level.random.nextFloat() * .2f);
+                level.playSound(null, pos, AllSoundEvents.SANDING_SHORT.getMainEvent(), SoundSource.BLOCKS, 0.8f, 1.1f - level.getRandom().nextFloat() * .2f);
+                level.playSound(null, pos, SoundEvents.NETHERITE_BLOCK_BREAK, SoundSource.BLOCKS, 0.1f, 0.7f - level.getRandom().nextFloat() * .2f);
                 return InteractionResult.SUCCESS;
             }
         } else if (stack.is(Items.WATER_BUCKET) || stack.is(Items.WET_SPONGE)) {
             var flag = new AtomicBoolean(false);
             withBlockEntityDo(level, pos, be -> flag.set(be.setColor(null, true)));
             if (flag.get()) {
-                level.playSound(null, pos, SoundEvents.AXOLOTL_SPLASH, SoundSource.BLOCKS, 0.8f, 1.5f - level.random.nextFloat() * .25f);
+                level.playSound(null, pos, SoundEvents.AXOLOTL_SPLASH, SoundSource.BLOCKS, 0.8f, 1.5f - level.getRandom().nextFloat() * .25f);
                 return InteractionResult.SUCCESS;
             }
         }
@@ -195,12 +194,8 @@ public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedCo
         return state;
     }
 
-    @Override
-    public SoundType getSoundType(BlockState state, LevelReader world, BlockPos pos, Entity entity) {
-        SoundType soundType = super.getSoundType(state, world, pos, entity);
-        if (entity != null && entity.getPersistentData().contains("SilenceVaultSound")) return SILENCED_METAL;
-        return soundType;
-    }
+    // PORT-NOTE(26.1): the multi-place sound silencing used NeoForge's entity-aware getSoundType and persistent data;
+    // dropped as in Create Fly's item vault
 
     @Override
     public boolean hasAnalogOutputSignal(BlockState state) {

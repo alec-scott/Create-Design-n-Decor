@@ -75,7 +75,7 @@ public class DnDCogWheelBlock extends CogWheelBlock {
     }
 
     protected void triggerShiftingGearsAdvancement(Level world, BlockPos pos, BlockState state, Player player) {
-        if (world.isClientSide) return;
+        if (world.isClientSide()) return;
 
         Axis axis = state.getValue(DnDCogWheelBlock.AXIS);
         for (Axis perpendicular1 : Iterate.axes) {

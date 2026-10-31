@@ -1,0 +1,56 @@
+package dev.lopyluna.dndecor.port.create.foundation.block;
+
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.function.Function;
+
+/** Upstream Create's {@code DyedBlockList}. PORT-NOTE(26.1): Create Fly registers its dyed blocks without one. */
+public class DyedBlockList<T extends Block> implements Iterable<BlockEntry<T>> {
+    private static final int COLOR_AMOUNT = DyeColor.values().length;
+
+    private final BlockEntry<?>[] values = new BlockEntry<?>[COLOR_AMOUNT];
+
+    public DyedBlockList(Function<DyeColor, BlockEntry<? extends T>> filler) {
+        for (DyeColor color : DyeColor.values()) values[color.ordinal()] = filler.apply(color);
+    }
+
+    @SuppressWarnings("unchecked")
+    public BlockEntry<T> get(DyeColor color) {
+        return (BlockEntry<T>) values[color.ordinal()];
+    }
+
+    public boolean contains(Block block) {
+        for (BlockEntry<?> entry : values) if (entry.is(block)) return true;
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    public BlockEntry<T>[] toArray() {
+        return (BlockEntry<T>[]) Arrays.copyOf(values, values.length);
+    }
+
+    @Override
+    public @NotNull Iterator<BlockEntry<T>> iterator() {
+        return new Iterator<>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < values.length;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public BlockEntry<T> next() {
+                if (!hasNext()) throw new NoSuchElementException();
+                return (BlockEntry<T>) values[index++];
+            }
+        };
+    }
+}

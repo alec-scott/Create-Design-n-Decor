@@ -74,8 +74,8 @@ public class DnDecorServer {
         if (!pFrom.equals(newState)) {
             if (pLevel.setBlockAndUpdate(pPos, newState)) {
                 var volume = pSound != null && pSound2 != null ? 0.75f : 1.0f;
-                if (pSound != null) pLevel.playSound(null, pPos, pSound, SoundSource.BLOCKS, volume, 1.1f - pLevel.random.nextFloat() * .2f);
-                if (pSound2 != null) pLevel.playSound(null, pPos, pSound2, SoundSource.BLOCKS, volume, 1.1f - pLevel.random.nextFloat() * .2f);
+                if (pSound != null) pLevel.playSound(null, pPos, pSound, SoundSource.BLOCKS, volume, 1.1f - pLevel.getRandom().nextFloat() * .2f);
+                if (pSound2 != null) pLevel.playSound(null, pPos, pSound2, SoundSource.BLOCKS, volume, 1.1f - pLevel.getRandom().nextFloat() * .2f);
                 if (pParticles && pParticleState != null) pLevel.addDestroyBlockEffect(pPos, pTo);
             }
             return InteractionResult.SUCCESS;
@@ -117,13 +117,13 @@ public class DnDecorServer {
             };
         } else return switch (block) {
             case FlywheelBlock flywheelBlock when !(block instanceof FreeSpinBlock b && b.type == FreeSpinBlock.Type.LARGE_FAN) ->
-                    changeBlock(pLevel, pPos, pState, AllBlocks.FLYWHEEL.getDefaultState(), SoundEvents.SPONGE_ABSORB);
+                    changeBlock(pLevel, pPos, pState, AllBlocks.FLYWHEEL.defaultBlockState(), SoundEvents.SPONGE_ABSORB);
 
             case FreeSpinBlock freeSpinBlock ->
                     changeBlock(pLevel, pPos, pState, DnDecorBlocks.LARGE_FAN.getDefaultState(), SoundEvents.SPONGE_ABSORB);
 
             case FlapDisplayBlock flapDisplayBlock ->
-                    changeBlock(pLevel, pPos, pState, AllBlocks.DISPLAY_BOARD.getDefaultState(), SoundEvents.SPONGE_ABSORB);
+                    changeBlock(pLevel, pPos, pState, AllBlocks.DISPLAY_BOARD.defaultBlockState(), SoundEvents.SPONGE_ABSORB);
 
             default -> InteractionResult.PASS;
         };

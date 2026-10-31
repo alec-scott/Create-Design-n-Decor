@@ -1,6 +1,7 @@
 package dev.lopyluna.dndecor.register.helpers.list_providers;
 
-import com.simibubi.create.content.decoration.palettes.AllPaletteStoneTypes;
+import com.zurrtum.create.AllBlocks;
+import net.minecraft.world.level.block.Blocks;
 import dev.lopyluna.dndecor.port.registrate.util.DataIngredient;
 import dev.lopyluna.dndecor.port.registrate.util.entry.ItemProviderEntry;
 import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
@@ -29,6 +30,26 @@ public class MaterialTypeProvider {
 
     public static List<NonNullSupplier<MetalType>> metalTypes = new ArrayList<>();
 
+    // PORT-NOTE(26.1): upstream Create's AllPaletteStoneTypes (name -> base block), in its order; Create Fly registers
+    // the palette blocks directly in AllBlocks
+    private static final Map<String, NonNullSupplier<Block>> CREATE_PALETTE_STONES = new LinkedHashMap<>();
+    static {
+        CREATE_PALETTE_STONES.put("granite", () -> Blocks.GRANITE);
+        CREATE_PALETTE_STONES.put("diorite", () -> Blocks.DIORITE);
+        CREATE_PALETTE_STONES.put("andesite", () -> Blocks.ANDESITE);
+        CREATE_PALETTE_STONES.put("calcite", () -> Blocks.CALCITE);
+        CREATE_PALETTE_STONES.put("dripstone", () -> Blocks.DRIPSTONE_BLOCK);
+        CREATE_PALETTE_STONES.put("deepslate", () -> Blocks.DEEPSLATE);
+        CREATE_PALETTE_STONES.put("tuff", () -> Blocks.TUFF);
+        CREATE_PALETTE_STONES.put("asurine", () -> AllBlocks.ASURINE);
+        CREATE_PALETTE_STONES.put("crimsite", () -> AllBlocks.CRIMSITE);
+        CREATE_PALETTE_STONES.put("limestone", () -> AllBlocks.LIMESTONE);
+        CREATE_PALETTE_STONES.put("ochrum", () -> AllBlocks.OCHRUM);
+        CREATE_PALETTE_STONES.put("scoria", () -> AllBlocks.SCORIA);
+        CREATE_PALETTE_STONES.put("scorchia", () -> AllBlocks.SCORCHIA);
+        CREATE_PALETTE_STONES.put("veridium", () -> AllBlocks.VERIDIUM);
+    }
+
     public static void checkStoneTypeList() {
         for (var stone : DnDecorStoneTypes.values()) {
             if (stone == null) continue;
@@ -38,12 +59,10 @@ public class MaterialTypeProvider {
                 MaterialTypeProvider.stoneTypes.add(stone.baseBlock);
             }
         }
-        for (var stone : AllPaletteStoneTypes.values()) {
-            if (stone == null) continue;
-            if (stone.baseBlock == null) continue;
-            if (!MaterialTypeProvider.stoneTypes.contains(stone.baseBlock)) {
-                MaterialTypeProvider.stoneTypesRegister.putIfAbsent(stone.baseBlock, Lang.asId(stone.name()).replace("_block", ""));
-                MaterialTypeProvider.stoneTypes.add(stone.baseBlock);
+        for (var stone : CREATE_PALETTE_STONES.entrySet()) {
+            if (!MaterialTypeProvider.stoneTypes.contains(stone.getValue())) {
+                MaterialTypeProvider.stoneTypesRegister.putIfAbsent(stone.getValue(), stone.getKey());
+                MaterialTypeProvider.stoneTypes.add(stone.getValue());
             }
         }
     }

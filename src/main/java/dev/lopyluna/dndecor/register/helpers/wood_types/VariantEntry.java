@@ -36,10 +36,7 @@ public class VariantEntry {
             BlockBuilder<? extends Block, CreateRegistrate> builder =
                     REG.block(pattern.createName(name), pattern.getBlockFactory())
                             .initialProperties(baseBlock)
-                            .transform(pickaxeOnly())
-                            .blockstate(pattern.getBlockStateGenerator()
-                                    .apply(pattern)
-                                    .apply(name)::accept);
+                            .transform(pickaxeOnly());
 
             ItemBuilder<BlockItem, ? extends BlockBuilder<? extends Block, CreateRegistrate>> itemBuilder = builder.item();
 
@@ -50,13 +47,8 @@ public class VariantEntry {
 
             itemBuilder.tag(paletteStoneVariants.materialTag, PALETTE_BLOCKS.tag);
 
-            if (pattern.isTranslucent()) builder.addLayer(() -> RenderType::translucent);
             pattern.createCTBehaviour(name).ifPresent(b -> builder.onRegister(connectedTextures(b)));
 
-            builder.recipe((c, p) -> {
-                p.stonecutting(DataIngredient.tag(paletteStoneVariants.materialTag), RecipeCategory.BUILDING_BLOCKS, c);
-                pattern.addRecipes(baseBlock, c, p);
-            });
 
             itemBuilder.register();
             BlockEntry<? extends Block> block = builder.register();

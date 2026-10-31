@@ -27,25 +27,25 @@ public abstract class FlapDisplayBlockEntityMixin extends KineticBlockEntity {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getBlockState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;"))
     public BlockState updateControllerStatusGetState(Level instance, BlockPos pos, Operation<BlockState> original) {
         var state = original.call(instance, pos);
-        if (state.getBlock() instanceof FlapDisplayBlock) return BlockHelper.copyProperties(state, AllBlocks.DISPLAY_BOARD.getDefaultState());
+        if (state.getBlock() instanceof FlapDisplayBlock) return BlockHelper.copyProperties(state, AllBlocks.DISPLAY_BOARD.defaultBlockState());
         return state;
     }
 
     @ModifyVariable(method = "updateControllerStatus()V", at = @At("STORE"), name = "blockState")
     private BlockState updateControllerStatusState(BlockState state) {
-        return state.getBlock() instanceof FlapDisplayBlock ? BlockHelper.copyProperties(state, AllBlocks.DISPLAY_BOARD.getDefaultState()) : state;
+        return state.getBlock() instanceof FlapDisplayBlock ? BlockHelper.copyProperties(state, AllBlocks.DISPLAY_BOARD.defaultBlockState()) : state;
     }
 
     @WrapOperation(method = "getController()Lcom/simibubi/create/content/trains/display/FlapDisplayBlockEntity;",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getBlockState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;"))
     public BlockState getController(Level instance, BlockPos pos, Operation<BlockState> original) {
         var state = original.call(instance, pos);
-        if (state.getBlock() instanceof FlapDisplayBlock) return BlockHelper.copyProperties(state, AllBlocks.DISPLAY_BOARD.getDefaultState());
+        if (state.getBlock() instanceof FlapDisplayBlock) return BlockHelper.copyProperties(state, AllBlocks.DISPLAY_BOARD.defaultBlockState());
         return state;
     }
 
     @ModifyVariable(method = "getController()Lcom/simibubi/create/content/trains/display/FlapDisplayBlockEntity;", at = @At("STORE"), name = "blockState")
     private BlockState getControllerState(BlockState state) {
-        return state.getBlock() instanceof FlapDisplayBlock ? BlockHelper.copyProperties(state, AllBlocks.DISPLAY_BOARD.getDefaultState()) : state;
+        return state.getBlock() instanceof FlapDisplayBlock ? BlockHelper.copyProperties(state, AllBlocks.DISPLAY_BOARD.defaultBlockState()) : state;
     }
 }

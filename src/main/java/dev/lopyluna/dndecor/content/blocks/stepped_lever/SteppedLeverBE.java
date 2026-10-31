@@ -47,7 +47,7 @@ public class SteppedLeverBE extends SmartBlockEntity implements IHaveGoggleInfor
             --this.lastChange;
             if (this.lastChange == 0) this.updateOutput();
         }
-        if (this.level.isClientSide) this.clientState.tickChaser();
+        if (this.level.isClientSide()) this.clientState.tickChaser();
     }
 
     public void initialize() {

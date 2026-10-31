@@ -37,12 +37,9 @@ public class BoltEntry<T extends Block> {
     }
 
     public BlockBuilder<BoltBlock, CreateRegistrate> buildBolts(BlockBuilder<BoltBlock, CreateRegistrate> builder, MaterialTypeProvider.MetalType metal, MapColor color, String type, String boltType) {
-        var build = builder.initialProperties(SharedProperties::netheriteMetal).properties(p -> p.mapColor(color))
-                .blockstate((c, p) -> p.getVariantBuilder(c.get()).forAllStates(boltStates(c, p, type, boltType)));
-        if (metal.equals(AllMetalTypes.NETHERITE)) build = build.item().properties(Item.Properties::fireResistant).transform(b -> b
-                .model((c, p) -> p.blockItem(() -> c.getEntry().getBlock(), "/block_0")).build());
-        else build = build.item().transform(b -> b
-                .model((c, p) -> p.blockItem(() -> c.getEntry().getBlock(), "/block_0")).build());
+        var build = builder.initialProperties(SharedProperties::netheriteMetal).properties(p -> p.mapColor(color));
+        if (metal.equals(AllMetalTypes.NETHERITE)) build = build.item().properties(Item.Properties::fireResistant).transform(b -> b.build());
+        else build = build.item().transform(b -> b.build());
         return build;
     }
 
@@ -59,22 +56,10 @@ public class BoltEntry<T extends Block> {
         var builderFlat = REG.block(type + "_flat_bolt", BoltBlock::new);
         builderFlat = buildBolts(builderFlat, metal, mapColor, type, "flat");
 
-        builderCross = builderCross.recipe((c, p) -> {
-            var ingredient = metal.getIngredient();
-            if (ingredient != null) p.stonecutting(ingredient, RecipeCategory.BUILDING_BLOCKS, c, 4);
-        });
-        builderDash = builderDash.recipe((c, p) -> {
-            var ingredient = metal.getIngredient();
-            if (ingredient != null) p.stonecutting(ingredient, RecipeCategory.BUILDING_BLOCKS, c, 4);
-        });
-        builderDot = builderDot.recipe((c, p) -> {
-            var ingredient = metal.getIngredient();
-            if (ingredient != null) p.stonecutting(ingredient, RecipeCategory.BUILDING_BLOCKS, c, 4);
-        });
-        builderFlat = builderFlat.recipe((c, p) -> {
-            var ingredient = metal.getIngredient();
-            if (ingredient != null) p.stonecutting(ingredient, RecipeCategory.BUILDING_BLOCKS, c, 4);
-        });
+        builderCross = builderCross;
+        builderDash = builderDash;
+        builderDot = builderDot;
+        builderFlat = builderFlat;
 
         var boltMineable = DnDecorTags.modBlockTag("mineable/pickaxe/" + type + "_bolt");
         MetalTypeHelper.create("pickaxe", boltMineable);

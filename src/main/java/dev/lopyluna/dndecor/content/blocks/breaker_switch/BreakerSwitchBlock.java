@@ -39,7 +39,7 @@ public class BreakerSwitchBlock extends FaceAttachedHorizontalDirectionalBlock i
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             addParticles(state, level, pos, 1.0F);
             return InteractionResult.SUCCESS;
         }
