@@ -1,5 +1,7 @@
 package dev.lopyluna.dndecor.content.blocks.breaker_switch;
 
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import com.zurrtum.create.client.api.goggles.IHaveGoggleInformation;
 import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
@@ -26,18 +28,18 @@ public class BreakerSwitchBE extends SmartBlockEntity implements IHaveGoggleInfo
 
 
     @Override
-    protected void read(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-        this.state = compound.getInt("State");
-        this.lastChange = compound.getInt("ChangeTimer");
+    protected void read(ValueInput compound, boolean clientPacket) {
+        this.state = compound.getIntOr("State", 0);
+        this.lastChange = compound.getIntOr("ChangeTimer", 0);
         this.clientState.chase(this.state, 0.5F, LerpedFloat.Chaser.EXP);
-        super.read(compound, registries, clientPacket);
+        super.read(compound, clientPacket);
     }
 
     @Override
-    protected void write(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
+    protected void write(ValueOutput compound, boolean clientPacket) {
         compound.putInt("State", this.state);
         compound.putInt("ChangeTimer", this.lastChange);
-        super.write(compound, registries, clientPacket);
+        super.write(compound, clientPacket);
     }
 
     public void tick() {
@@ -59,7 +61,13 @@ public class BreakerSwitchBE extends SmartBlockEntity implements IHaveGoggleInfo
         BreakerSwitchBlock.updateNeighbors(getBlockState(), level, worldPosition);
     }
 
-    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState oldState) {
+        super.preRemoveSideEffects(pos, oldState);
+        if (state != 0 && level != null) BreakerSwitchBlock.updateNeighbors(oldState, level, pos);
     }
 
     public void changeState(boolean sneak) {

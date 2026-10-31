@@ -1,7 +1,9 @@
 package dev.lopyluna.dndecor.content.blocks.boiler;
 
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.LevelReader;
 import com.zurrtum.create.content.equipment.wrench.IWrenchable;
-import com.zurrtum.create.client.foundation.block.render.MultiPosDestructionHandler;
+import com.zurrtum.create.foundation.block.LandingEffectControlBlock;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
 import dev.lopyluna.dndecor.register.DnDecorShapes;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -35,19 +37,18 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
 
 import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
 @SuppressWarnings("NullableProblems")
-public class BoilerStructureBlock extends Block implements IWrenchable {
+public class BoilerStructureBlock extends Block implements IWrenchable, LandingEffectControlBlock {
     public static final EnumProperty<BoilerBlock.BoilerSize> SIZE = BoilerBlock.SIZE;
     public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 
     public BoilerStructureBlock(Properties properties) {
-        super(properties.noLootTable().noOcclusion().dynamicShape());
+        super(properties.noLootTable().noOcclusion().dynamicShape().pushReaction(PushReaction.DESTROY));
     }
 
     @Override
@@ -108,7 +109,7 @@ public class BoilerStructureBlock extends Block implements IWrenchable {
     }
 
     @Override
-    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+    protected VoxelShape getOcclusionShape(BlockState state) {
         return Shapes.empty();
     }
 
@@ -123,21 +124,16 @@ public class BoilerStructureBlock extends Block implements IWrenchable {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         var masterPos = getMaster(level, pos, state);
         var masterState = level.getBlockState(masterPos);
-        if (masterState.getBlock() instanceof BoilerBlock block) return block.getCloneItemStack(masterState, target, level, masterPos, player);
+        if (masterState.getBlock() instanceof BoilerBlock block) return new ItemStack(block);
         return ItemStack.EMPTY;
     }
 
     @Override
-    public PushReaction getPistonPushReaction(BlockState pState) {
-        return PushReaction.DESTROY;
-    }
-
-    @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        if (state.canSurvive(level, pos)) return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (state.canSurvive(level, pos)) return super.updateShape(state, level, tickAccess, pos, direction, neighborPos, neighborState, random);
         if (level instanceof Level world && !world.isClientSide() && !world.getBlockTicks().hasScheduledTick(pos, this)) world.scheduleTick(pos, this, 1);
         return state;
     }
@@ -158,7 +154,7 @@ public class BoilerStructureBlock extends Block implements IWrenchable {
     }
 
     @Override
-    protected int getLightBlock(BlockState state, BlockGetter level, BlockPos pos) {
+    protected int getLightDampening(BlockState state) {
         return 0;
     }
     @Override
@@ -184,29 +180,22 @@ public class BoilerStructureBlock extends Block implements IWrenchable {
     protected boolean skipRendering(BlockState state, BlockState adjacentState, Direction side) {
         return adjacentState.getBlock() instanceof BoilerStructureBlock || super.skipRendering(state, adjacentState, side);
     }
-    @Override
-    public boolean shouldDisplayFluidOverlay(BlockState state, BlockAndTintGetter world, BlockPos pos, FluidState fluidState) {
-        return true;
-    }
+    // PORT-NOTE(26.1): NeoForge's shouldDisplayFluidOverlay, the entity-aware getSoundType (the master boiler's sound)
+    // and the hit/destroy particle hooks have no Fabric equivalent; dropped as in Create Fly's water wheel structure.
+    // The break overlay across the boiler is DnDecorClient's MultiPosDestructionHandler.
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (state.getBlock() == newState.getBlock() || movedByPiston) return;
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        if (movedByPiston) return;
+        var newState = level.getBlockState(pos);
+        if (state.getBlock() == newState.getBlock()) return;
         if (!newState.isAir()) return;
         if (!stillValid(level, pos, state, false)) return;
         level.destroyBlock(getMaster(level, pos, state), true);
     }
 
     @Override
-    public SoundType getSoundType(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
-        var mPos = getMaster(level, pos, state);
-        if (mPos.equals(pos)) return SoundType.EMPTY;
-        var mState = level.getBlockState(mPos);
-        return mState.isEmpty() ? SoundType.EMPTY : mState.getBlock().getSoundType(mState, level, mPos, entity);
-    }
-
-    @Override
-    protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
+    protected boolean propagatesSkylightDown(BlockState state) {
         return true;
     }
 
@@ -250,35 +239,8 @@ public class BoilerStructureBlock extends Block implements IWrenchable {
     }
 
     @Override
-    public boolean addLandingEffects(BlockState state1, ServerLevel level, BlockPos pos, BlockState state2, LivingEntity entity, int numberOfParticles) {
+    public boolean addLandingEffects(BlockState state, ServerLevel level, BlockPos pos, LivingEntity entity, double distance) {
         return true;
     }
 
-    public static class RenderProperties implements IClientBlockExtensions, MultiPosDestructionHandler {
-        @Override
-        public boolean addDestroyEffects(BlockState state, Level Level, BlockPos pos, ParticleEngine manager) {
-            return true;
-        }
-
-        @Override
-        public boolean addHitEffects(BlockState state, Level level, HitResult target, ParticleEngine manager) {
-            if (target instanceof BlockHitResult bhr) {
-                BlockPos targetPos = bhr.getBlockPos();
-                var struc = DnDecorBlocks.BOILER_STRUCTURE.get();
-                if (struc.stillValid(level, targetPos, state, false)) manager.crack(struc.getMaster(level, targetPos, state), bhr.getDirection());
-                return true;
-            }
-            return IClientBlockExtensions.super.addHitEffects(state, level, target, manager);
-        }
-
-        @Override
-        @Nullable
-        public Set<BlockPos> getExtraPositions(ClientLevel level, BlockPos pos, BlockState blockState, int progress) {
-            var struc = DnDecorBlocks.BOILER_STRUCTURE.get();
-            if (!struc.stillValid(level, pos, blockState, false)) return null;
-            HashSet<BlockPos> set = new HashSet<>(struc.getAttachedPositions(level, pos, blockState));
-            set.remove(pos);
-            return set;
-        }
-    }
 }

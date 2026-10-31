@@ -9,7 +9,7 @@ import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullBiConsumer;
 import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullFunction;
 import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.DnDecor;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
@@ -61,7 +61,6 @@ public class BlockPattern {
     private NonNullFunction<NonNullSupplier<Block>, NonNullBiConsumer<DataGenContext<Block, ? extends Block>, RegistrateRecipeProvider>> additionalRecipes;
     private BlockPartial<? extends Block>[] partials;
 
-    private RenderType renderType;
 
     private static BlockPattern create(String name, PatternNameType nameType,
                                               BlockPartial<?>... partials) {

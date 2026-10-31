@@ -1,5 +1,8 @@
 package dev.lopyluna.dndecor.content.blocks.catwalk;
 
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.InteractionResult;
 
 import com.zurrtum.create.content.equipment.wrench.IWrenchable;
@@ -57,7 +60,7 @@ public class CatwalkBlock extends Block implements SimpleWaterloggedBlock, IWren
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         IPlacementHelper placementHelper = PlacementHelpers.get(placementHelperId);
         if (!player.isShiftKeyDown() && player.mayBuild() && placementHelper.matchesItem(stack)) {
-            placementHelper.getOffset(player, level, state, pos, hitResult).placeInWorld(level, (BlockItem) stack.getItem(), player, hand, hitResult);
+            placementHelper.getOffset(player, level, state, pos, hitResult).placeInWorld(level, (BlockItem) stack.getItem(), player, hand);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.TRY_WITH_EMPTY_HAND;
@@ -79,9 +82,9 @@ public class CatwalkBlock extends Block implements SimpleWaterloggedBlock, IWren
     }
 
     @Override
-    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+    protected VoxelShape getOcclusionShape(BlockState state) {
         var list = new ArrayList<VoxelShape>();
-        super.getOcclusionShape(state, level, pos).forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) ->
+        super.getOcclusionShape(state).forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) ->
                 list.add(Shapes.box(Math.max(minX, 0.0), Math.max(minY, 0.0), Math.max(minZ, 0.0), Math.min(maxX, 1.0), Math.min(maxY, 1.0), Math.min(maxZ, 1.0))));
         return list.stream().reduce((a, b) -> Shapes.join(a, b, BooleanOp.OR)).orElse(Shapes.empty()).optimize();
     }
@@ -111,9 +114,9 @@ public class CatwalkBlock extends Block implements SimpleWaterloggedBlock, IWren
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
-        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        return super.updateShape(state, facing, facingState, level, pos, facingPos);
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random) {
+        if (state.getValue(WATERLOGGED)) tickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(state, level, tickAccess, pos, facing, facingPos, facingState, random);
     }
 
     @Override

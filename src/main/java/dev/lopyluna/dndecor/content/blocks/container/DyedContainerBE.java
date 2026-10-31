@@ -1,6 +1,8 @@
 package dev.lopyluna.dndecor.content.blocks.container;
 
+import net.minecraft.world.level.storage.ValueInput;
 import com.zurrtum.create.api.connectivity.ConnectivityHandler;
+import com.zurrtum.create.foundation.block.NeighborChangeListeningBlock;
 import com.zurrtum.create.api.packager.InventoryIdentifier;
 import com.zurrtum.create.content.logistics.vault.ItemVaultBlockEntity;
 import com.zurrtum.create.foundation.utility.BlockHelper;
@@ -14,9 +16,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.Container;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -67,13 +72,25 @@ public class DyedContainerBE extends ItemVaultBlockEntity {
         updatePos.setWithOffset(provokingPos, direction);
         if (!level.hasChunk(SectionPos.blockToSectionCoord(updatePos.getX()), SectionPos.blockToSectionCoord(updatePos.getZ()))) return;
 
+        // PORT-NOTE(26.1): as Create Fly's ItemVaultBlockEntity.updateComparatorsInner (NeoForge's onNeighborChange and
+        // getWeakChanges are gone)
         var state = level.getBlockState(updatePos);
-        state.onNeighborChange(level, updatePos, provokingPos);
-        if (state.isRedstoneConductor(level, updatePos)) {
+        if (state.getBlock() instanceof NeighborChangeListeningBlock block) block.onNeighborChange(state, level, updatePos, provokingPos);
+        if (state.is(Blocks.COMPARATOR)) level.neighborChanged(state, updatePos, provokingBlock, null, false);
+        else if (state.isRedstoneConductor(level, updatePos)) {
             updatePos.move(direction);
             state = level.getBlockState(updatePos);
-            if (state.getWeakChanges(level, updatePos)) level.neighborChanged(state, updatePos, provokingBlock, provokingPos, false);
+            if (state.is(Blocks.COMPARATOR)) level.neighborChanged(state, updatePos, provokingBlock, null, false);
         }
+    }
+
+    public @Nullable Container getInventory() {
+        if (itemCapability != null) {
+            Container inventory = itemCapability.get();
+            if (inventory != null) return inventory;
+        }
+        initCapability();
+        return itemCapability != null ? itemCapability.get() : null;
     }
 
     @Override
@@ -204,8 +221,8 @@ public class DyedContainerBE extends ItemVaultBlockEntity {
     }
 
     @Override
-    protected void read(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-        super.read(compound, registries, clientPacket);
+    protected void read(ValueInput compound, boolean clientPacket) {
+        super.read(compound, clientPacket);
         checkColor(getBlockState());
     }
 }

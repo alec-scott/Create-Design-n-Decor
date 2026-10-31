@@ -77,14 +77,7 @@ public class SteppedLeverBlock extends FaceAttachedHorizontalDirectionalBlock im
         });
     }
 
-    @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (isMoving || state.getBlock() == newState.getBlock()) return;
-        withBlockEntityDo(level, pos, be -> {
-            if (be.state != 0) updateNeighbors(state, level, pos);
-            level.removeBlockEntity(pos);
-        });
-    }
+    // PORT-NOTE(26.1): onRemove is gone; the powered neighbour update is the block entity's preRemoveSideEffects
 
     private static void addParticles(BlockState state, LevelAccessor worldIn, BlockPos pos, float alpha) {
         var sDir = state.getValue(FACING).getOpposite();
@@ -92,7 +85,7 @@ public class SteppedLeverBlock extends FaceAttachedHorizontalDirectionalBlock im
         double d0 = (double) pos.getX() + 0.5D + 0.1D * (double) sDir.getStepX() + 0.2D * (double) cDir.getStepX();
         double d1 = (double) pos.getY() + 0.5D + 0.1D * (double) sDir.getStepY() + 0.2D * (double) cDir.getStepY();
         double d2 = (double) pos.getZ() + 0.5D + 0.1D * (double) sDir.getStepZ() + 0.2D * (double) cDir.getStepZ();
-        worldIn.addParticle(new DustParticleOptions(new Vector3f(1.0F, 0.0F, 0.0F), alpha), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+        worldIn.addParticle(new DustParticleOptions(0xFF0000, alpha), d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
 
     static void updateNeighbors(BlockState state, Level world, BlockPos pos) {

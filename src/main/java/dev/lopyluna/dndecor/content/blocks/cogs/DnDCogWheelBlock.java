@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.content.blocks.cogs;
 
+import net.minecraft.server.level.ServerPlayer;
 import com.zurrtum.create.AllBlocks;
 import com.zurrtum.create.AllShapes;
 import com.zurrtum.create.content.kinetics.base.IRotate;
@@ -94,7 +95,7 @@ public class DnDCogWheelBlock extends CogWheelBlock {
                     if (blockState.getValue(DnDCogWheelBlock.AXIS) != axis) continue;
                     if (ICogWheel.isLargeCog(blockState) == isLarge) continue;
 
-                    AllAdvancements.COGS.awardTo(player);
+                    if (player instanceof ServerPlayer serverPlayer) AllAdvancements.COGS.trigger(serverPlayer);
                 }
             }
         }
@@ -117,7 +118,7 @@ public class DnDCogWheelBlock extends CogWheelBlock {
         Level level = context.getLevel();
         BlockState stateBelow = level.getBlockState(context.getClickedPos().below());
 
-        if (AllBlocks.ROTATION_SPEED_CONTROLLER.has(stateBelow) && isLargeCog())
+        if (stateBelow.is(AllBlocks.ROTATION_SPEED_CONTROLLER) && isLargeCog())
             return stateBelow.getValue(SpeedControllerBlock.HORIZONTAL_AXIS) == Axis.X ? Axis.Z : Axis.X;
 
         BlockPos placedOnPos = context.getClickedPos().relative(context.getClickedFace().getOpposite());

@@ -9,7 +9,7 @@ import dev.lopyluna.dndecor.port.registrate.util.DataIngredient;
 import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
 import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.register.DnDecorStoneTypes;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;

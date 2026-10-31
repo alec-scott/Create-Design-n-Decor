@@ -1,5 +1,7 @@
 package dev.lopyluna.dndecor.events;
 
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.core.component.DataComponents;
 import com.zurrtum.create.AllBlocks;
 import com.zurrtum.create.content.kinetics.crusher.CrushingWheelBlock;
 import com.zurrtum.create.content.kinetics.flywheel.FlywheelBlock;
@@ -8,6 +10,7 @@ import com.zurrtum.create.content.trains.display.FlapDisplayBlock;
 import com.zurrtum.create.foundation.utility.BlockHelper;
 import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.DnDecorUtils;
+import dev.lopyluna.dndecor.content.blocks.cogs.DnDCogwheelBlockItem;
 import dev.lopyluna.dndecor.content.blocks.flywheel.FreeSpinBlock;
 import dev.lopyluna.dndecor.content.blocks.text_plate.TextPlateBlock;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
@@ -45,6 +48,8 @@ public class DnDecorServer {
 
     public static InteractionResult onItemUseOnBlock(Player player, Level level, InteractionHand hand, BlockHitResult hit) {
         if (player.isSpectator()) return InteractionResult.PASS;
+        var cog = DnDCogwheelBlockItem.onItemUseFirst(player, level, hand, hit);
+        if (cog != InteractionResult.PASS && cog != InteractionResult.TRY_WITH_EMPTY_HAND) return cog;
         var blockPos = hit.getBlockPos();
         var state = level.getBlockState(blockPos);
         var face = hit.getDirection();
@@ -99,7 +104,7 @@ public class DnDecorServer {
                                              InteractionHand pHand, ItemStack pStack, UseOnContext pContext) {
         var block = pState.getBlock();
         if (pStack.getItem() instanceof DyeItem dyeItem) {
-            var color = dyeItem.getDyeColor();
+            var color = pStack.getOrDefault(DataComponents.DYE, DyeColor.WHITE);
             return switch (block) {
                 case FlywheelBlock flywheelBlock when !(block instanceof FreeSpinBlock b && b.type == FreeSpinBlock.Type.LARGE_FAN) ->
                         changeBlock(pLevel, pPos, pState, DnDecorBlocks.DYED_FLYWHEELS.get(color).getDefaultState(), SoundEvents.DYE_USE);

@@ -34,12 +34,15 @@ public final class DataIngredient {
     private final Function<RegistrateRecipeProvider, Ingredient> ingredientFactory;
     @Nullable
     private final Ingredient immediateIngredient;
+    @Nullable
+    private final TagKey<Item> tag;
     @Getter
     private final Identifier id;
     private final Function<RegistrateRecipeProvider, Criterion<InventoryChangeTrigger.TriggerInstance>> criteriaFactory;
 
     private DataIngredient(Ingredient parent, ItemLike item) {
         this.ingredientFactory = provider -> parent;
+        this.tag = null;
         this.immediateIngredient = parent;
         this.id = BuiltInRegistries.ITEM.getKey(item.asItem());
         this.criteriaFactory = prov -> RegistrateRecipeProvider.has(item);
@@ -48,12 +51,14 @@ public final class DataIngredient {
     private DataIngredient(TagKey<Item> tag) {
         this.ingredientFactory = provider -> provider.tag(tag);
         this.immediateIngredient = null;
+        this.tag = tag;
         this.id = tag.location();
         this.criteriaFactory = prov -> prov.has(tag);
     }
     
     private DataIngredient(Ingredient parent, Identifier id, ItemPredicate... predicates) {
         this.ingredientFactory = provider -> parent;
+        this.tag = null;
         this.immediateIngredient = parent;
         this.id = id;
         this.criteriaFactory = prov -> RegistrateRecipeProvider.inventoryTrigger(predicates);
@@ -96,6 +101,12 @@ public final class DataIngredient {
     
     public static DataIngredient ingredient(Ingredient parent, Identifier id, ItemPredicate... criteria) {
         return new DataIngredient(parent, id, criteria);
+    }
+
+    // PORT-NOTE(dndecor): runtime matching, used by D&D's text plates (NeoForge's DataIngredient was an Ingredient)
+    public boolean test(ItemStack stack) {
+        if (tag != null) return stack.is(tag);
+        return immediateIngredient != null && immediateIngredient.test(stack);
     }
 
     public Ingredient toVanilla(RegistrateRecipeProvider provider) {

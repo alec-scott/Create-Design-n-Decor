@@ -1,5 +1,8 @@
 package dev.lopyluna.dndecor.content.blocks;
 
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.InteractionResult;
 
 import com.zurrtum.create.content.equipment.wrench.IWrenchable;
@@ -46,7 +49,7 @@ public class LargeChain extends ChainBlock implements SimpleWaterloggedBlock, IW
     public static final int placementHelperId = PlacementHelpers.register(new LargeChain.PlacementHelper());
 
     public LargeChain(Properties properties) {
-        super(properties.noCollission().noOcclusion().isSuffocating(LargeChain::never).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(DnDecorSoundTypes.CHAIN_HEAVY));
+        super(properties.noCollision().noOcclusion().isSuffocating(LargeChain::never).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(DnDecorSoundTypes.CHAIN_HEAVY));
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(AXIS, Direction.Axis.Y));
     }
 
@@ -64,9 +67,9 @@ public class LargeChain extends ChainBlock implements SimpleWaterloggedBlock, IW
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
-        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        return super.updateShape(state, facing, facingState, level, pos, facingPos);
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random) {
+        if (state.getValue(WATERLOGGED)) tickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(state, level, tickAccess, pos, facing, facingPos, facingState, random);
     }
 
     @Override
@@ -107,7 +110,7 @@ public class LargeChain extends ChainBlock implements SimpleWaterloggedBlock, IW
     @Override
     protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         IPlacementHelper helper = PlacementHelpers.get(placementHelperId);
-        if (helper.matchesItem(pStack)) return helper.getOffset(pPlayer, pLevel, pState, pPos, pHit).placeInWorld(pLevel, (BlockItem) pStack.getItem(), pPlayer, pHand, pHit);
+        if (helper.matchesItem(pStack)) return helper.getOffset(pPlayer, pLevel, pState, pPos, pHit).placeInWorld(pLevel, (BlockItem) pStack.getItem(), pPlayer, pHand);
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 

@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.content.blocks.metal_supports;
 
+import net.minecraft.world.level.redstone.Orientation;
 import dev.lopyluna.dndecor.register.DnDecorShapes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -44,7 +45,7 @@ public class MetalSupportBlock extends Block {
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation neighborPos, boolean movedByPiston) {
         super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
         updateState(state,level,pos,false);
     }

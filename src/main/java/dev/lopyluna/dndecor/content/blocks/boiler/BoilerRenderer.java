@@ -36,7 +36,7 @@ public class BoilerRenderer implements BlockEntityRenderer<BoilerBlockEntity> {
         for (int a = -1; a <= 1; a++) for (int b = -1; b <= 1; b++) {
             var samplePos = axis == Direction.Axis.Y ? pos.offset(a, 0, b) : axis == Direction.Axis.Z ? pos.offset(a, b, 0) : pos.offset(0, a, b);
             var sampleState = level.getBlockState(samplePos);
-            if (sampleState.isSolidRender(level, samplePos)) continue;
+            if (sampleState.isSolidRender()) continue;
 
             totalBlock += level.getBrightness(LightLayer.BLOCK, samplePos);
             bestSky = Math.max(bestSky, level.getBrightness(LightLayer.SKY, samplePos));

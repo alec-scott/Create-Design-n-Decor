@@ -1,5 +1,9 @@
 package dev.lopyluna.dndecor.content.blocks.text_plate;
 
+import com.zurrtum.create.AllItems;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 import com.zurrtum.create.AllBlocks;
@@ -90,7 +94,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
         var item = stack.getItem();
         if (item instanceof DyeItem dyeItem) {
             var flag = true;
-            var color = dyeItem.getDyeColor();
+            var color = stack.getOrDefault(DataComponents.DYE, DyeColor.WHITE);
             if (level.getBlockEntity(pos) instanceof TextPlateBE be) {
                 if (be.dyedText == color) {
                     if (be.colorBase == color && be.metalBase == null) flag = false;
@@ -131,7 +135,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
                 }
             }
         }
-        boolean isClipboard = AllBlocks.CLIPBOARD.isIn(stack);
+        boolean isClipboard = stack.is(AllItems.CLIPBOARD);
         var component = stack.getHoverName();
         if (isClipboard) {
             var entries = ClipboardEntry.getLastViewedEntries(stack);
@@ -204,7 +208,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
         var stack = placer.getItemInHand(placer.getUsedItemHand() == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
         var item = stack.getItem();
         if (item instanceof DyeItem dyeItem && level.getBlockEntity(pos) instanceof TextPlateBE be) {
-            var color = dyeItem.getDyeColor();
+            var color = stack.getOrDefault(DataComponents.DYE, DyeColor.WHITE);
             if (be.colorBase == color) return;
             be.colorBase = color;
         } else for (var type : MaterialTypeProvider.metalTypes) {
@@ -230,10 +234,10 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
-        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random) {
+        if (state.getValue(WATERLOGGED)) tickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         updateBE(level, pos, state);
-        return super.updateShape(state, facing, facingState, level, pos, facingPos);
+        return super.updateShape(state, level, tickAccess, pos, facing, facingPos, facingState, random);
     }
 
     @Override
@@ -250,8 +254,9 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
         if (level.getBlockEntity(pos) instanceof TextPlateBE be) be.update(state);
     }
 
-    @Override
-    public SoundType getSoundType(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
+    // PORT-NOTE(26.1): vanilla's getSoundType has no position, so the plate's metal sound only applies to breaking
+    // (spawnDestroyParticles); other sounds use the block's default
+    public static SoundType getPlateSound(LevelReader level, BlockPos pos) {
         var result = SoundType.NETHERITE_BLOCK;
         if (level.getBlockEntity(pos) instanceof TextPlateBE be && be.metalBase != null) result = be.metalBase.sound;
         return result;
@@ -259,8 +264,8 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
 
     @Override
     protected void spawnDestroyParticles(Level level, Player player, BlockPos pos, BlockState state) {
-        if (!state.isAir() && !net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions.of(state).playBreakSound(state, level, pos)) {
-            var sound = state.getSoundType(level, pos, null);
+        if (!state.isAir()) {
+            var sound = getPlateSound(level, pos);
             level.playLocalSound(pos, sound.getBreakSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F, false);
         }
         level.playLocalSound(pos, SoundEvents.ITEM_FRAME_BREAK, SoundSource.BLOCKS, 0.6F, 0.7F, false);
@@ -268,7 +273,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
+        return RenderShape.INVISIBLE;
     }
 
     @Override

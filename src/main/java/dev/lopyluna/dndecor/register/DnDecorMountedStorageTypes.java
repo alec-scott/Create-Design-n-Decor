@@ -14,10 +14,10 @@ public class DnDecorMountedStorageTypes {
     public static final RegistryEntry<MountedItemStorageType<?>, DyedContainerStorageType> CONTAINER = simpleItem("container", DyedContainerStorageType::new);
 
     private static <T extends MountedItemStorageType<?>> RegistryEntry<MountedItemStorageType<?>, T> simpleItem(String name, Supplier<T> supplier) {
-        return REG.mountedItemStorage(name, supplier).register();
+        return REG.mountedItemStorage(name, supplier::get).register();
     }
     private static <T extends MountedFluidStorageType<?>> RegistryEntry<MountedFluidStorageType<?>, T> simpleFluid(String name, Supplier<T> supplier) {
-        return REG.mountedFluidStorage(name, supplier).register();
+        return REG.mountedFluidStorage(name, supplier::get).register();
     }
 
     public static void register() {}

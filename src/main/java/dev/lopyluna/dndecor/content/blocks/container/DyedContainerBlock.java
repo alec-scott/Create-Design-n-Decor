@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.content.blocks.container;
 
+import net.minecraft.core.component.DataComponents;
 import com.zurrtum.create.AllItems;
 import com.zurrtum.create.AllSoundEvents;
 import com.zurrtum.create.api.connectivity.ConnectivityHandler;
@@ -50,12 +51,7 @@ public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedCo
     // PORT-NOTE(26.1): Create Fly exposes block inventories through ItemInventoryProvider (was a NeoForge capability)
     @Override
     public @Nullable Container getInventory(LevelAccessor world, BlockPos pos, BlockState state, DyedContainerBE blockEntity, @Nullable Direction context) {
-        if (blockEntity.itemCapability != null) {
-            Container inventory = blockEntity.itemCapability.get();
-            if (inventory != null) return inventory;
-        }
-        blockEntity.initCapability();
-        return blockEntity.itemCapability != null ? blockEntity.itemCapability.get() : null;
+        return blockEntity.getInventory();
     }
     public static final Property<Direction.Axis> HORIZONTAL_AXIS = BlockStateProperties.HORIZONTAL_AXIS;
     public static final BooleanProperty LARGE = BooleanProperty.create("large");
@@ -98,7 +94,7 @@ public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedCo
         var i = stack.getItem();
         if (i instanceof DyeItem dyeItem) {
             var flag = new AtomicBoolean(false);
-            var color = dyeItem.getDyeColor();
+            var color = stack.getOrDefault(DataComponents.DYE, DyeColor.WHITE);
             withBlockEntityDo(level, pos, be -> flag.set(be.setColor(color, false)));
             if (flag.get()) {
                 level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.getRandom().nextFloat() * .2f);
@@ -136,16 +132,8 @@ public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedCo
         return IWrenchable.super.onWrenched(state, context);
     }
 
-    @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean pIsMoving) {
-        if (isContainerReplacement(state, newState)) return;
-        if (state.hasBlockEntity() && (state.getBlock() != newState.getBlock() || !newState.hasBlockEntity())) {
-            if (!(level.getBlockEntity(pos) instanceof DyedContainerBE be)) return;
-            ItemHelper.dropContents(level, pos, be.getInventoryOfBlock());
-            level.removeBlockEntity(pos);
-            ConnectivityHandler.splitMulti(be);
-        }
-    }
+    // PORT-NOTE(26.1): onRemove is gone. Drops and splitting are ItemVaultBlockEntity.preRemoveSideEffects; recolouring
+    // keeps the block entity because every container block shares its type.
 
     private static boolean isContainerReplacement(BlockState oldState, BlockState newState) {
         return oldState.hasBlockEntity() && newState.hasBlockEntity()
@@ -203,7 +191,7 @@ public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedCo
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+    public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos, Direction direction) {
         return ItemHelper.calcRedstoneFromBlockEntity(this, pLevel, pPos);
     }
 

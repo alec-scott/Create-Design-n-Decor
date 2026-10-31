@@ -23,6 +23,9 @@ sourceSets {
             // Datagen is stubbed (the committed src/generated/resources are used); see PORTING-26.1.md.
             exclude 'dev/lopyluna/dndecor/DnDecorDatagen.java'
             exclude 'dev/lopyluna/dndecor/content/datagen/**'
+            exclude 'dev/lopyluna/dndecor/DnDecorBlockStateGen.java'
+            exclude 'dev/lopyluna/dndecor/content/blocks/diagonal_girder/DiagonalGirderGenerator.java'
+            exclude 'dev/lopyluna/dndecor/content/blocks/full_belt/FullBeltGenerator.java'
         }
     }
 }

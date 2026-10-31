@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.content.blocks.lamp;
 
+import net.minecraft.world.level.redstone.Orientation;
 import com.zurrtum.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -34,7 +35,7 @@ public class LampBlock extends Block implements IWrenchable {
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation neighborPos, boolean movedByPiston) {
         if (level instanceof ServerLevel server) checkAndFlip(state, server, pos);
         super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
     }

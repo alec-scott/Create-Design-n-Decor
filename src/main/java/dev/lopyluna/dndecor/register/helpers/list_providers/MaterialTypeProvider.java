@@ -73,7 +73,7 @@ public class MaterialTypeProvider {
     }
 
     public static Item getResolvedItem(Identifier loc) {
-        var item = BuiltInRegistries.ITEM.get(loc);
+        var item = BuiltInRegistries.ITEM.getValue(loc);
         if (item == Items.AIR) System.out.println("⚠ Item not yet registered: " + loc + " is " + item);
         return item;
     }
@@ -147,7 +147,7 @@ public class MaterialTypeProvider {
                 if (!stack.isEmpty()) stacks.add(stack);
             }
 
-            if (!stacks.isEmpty()) return DataIngredient.ingredient(Ingredient.of(stacks.stream()), stacks.getFirst().getItem());
+            if (!stacks.isEmpty()) return DataIngredient.ingredient(Ingredient.of(stacks.stream().map(ItemStack::getItem)), stacks.getFirst().getItem());
             return null;
         }
 

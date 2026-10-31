@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.content.blocks.container;
 
+import net.minecraft.world.item.component.TypedEntityData;
 import com.zurrtum.create.api.connectivity.ConnectivityHandler;
 import com.zurrtum.create.content.equipment.symmetryWand.SymmetryWandItem;
 import com.zurrtum.create.foundation.block.IBE;
@@ -40,13 +41,12 @@ public class DyedContainerItem extends BlockItem {
         if (server == null) return false;
         var data = itemStack.get(DataComponents.BLOCK_ENTITY_DATA);
         if (data != null) {
-            var nbt = data.copyTag();
+            var nbt = data.copyTagWithoutId();
             nbt.remove("Length");
             nbt.remove("Size");
             nbt.remove("Controller");
             nbt.remove("LastKnownPos");
-            BlockEntity.addEntityType(nbt, ((IBE<?>) getBlock()).getBlockEntityType());
-            itemStack.set(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(nbt));
+            itemStack.set(DataComponents.BLOCK_ENTITY_DATA, TypedEntityData.of(((IBE<?>) getBlock()).getBlockEntityType(), nbt));
         }
         return super.updateCustomBlockEntityTag(blockPos, level, player, itemStack, blockState);
     }

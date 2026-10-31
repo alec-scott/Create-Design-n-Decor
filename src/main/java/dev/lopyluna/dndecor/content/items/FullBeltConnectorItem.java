@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.content.items;
 
+import net.minecraft.server.level.ServerPlayer;
 import com.zurrtum.create.AllDataComponents;
 import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
 import com.zurrtum.create.content.kinetics.belt.BeltBlock;
@@ -33,12 +34,8 @@ import java.util.Objects;
 
 public class FullBeltConnectorItem extends BlockItem {
     public FullBeltConnectorItem(Properties properties) {
-        super(DnDecorBlocks.BELT.get(), properties);
-    }
-
-    @Override
-    public @NotNull String getDescriptionId() {
-        return getOrCreateDescriptionId();
+        // PORT-NOTE(26.1): getDescriptionId is final; the item key ("item.dndecor.belt_connector") is set on the properties
+        super(DnDecorBlocks.BELT.get(), properties.useItemDescriptionPrefix());
     }
 
     @NotNull
@@ -77,19 +74,19 @@ public class FullBeltConnectorItem extends BlockItem {
 
             if (firstPulley != null && !firstPulley.equals(pos)) {
                 createBelts(world, firstPulley, pos);
-                AllAdvancements.BELT.awardTo(playerEntity);
+                if (playerEntity instanceof ServerPlayer serverPlayer) AllAdvancements.BELT.trigger(serverPlayer);
                 if (!playerEntity.isCreative()) context.getItemInHand().shrink(1);
             }
 
             if (!context.getItemInHand().isEmpty()) {
                 heldStack.remove(AllDataComponents.BELT_FIRST_SHAFT);
-                playerEntity.getCooldowns().addCooldown(this, 5);
+                playerEntity.getCooldowns().addCooldown(heldStack, 5);
             }
             return InteractionResult.SUCCESS;
         }
 
         heldStack.set(AllDataComponents.BELT_FIRST_SHAFT, pos);
-        playerEntity.getCooldowns().addCooldown(this, 5);
+        playerEntity.getCooldowns().addCooldown(heldStack, 5);
         return InteractionResult.SUCCESS;
     }
 

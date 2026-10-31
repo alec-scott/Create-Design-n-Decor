@@ -33,7 +33,7 @@ import dev.lopyluna.dndecor.content.blocks.OrnateGrateBlock;
 import dev.lopyluna.dndecor.content.blocks.VelvetBlock;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
 import dev.lopyluna.dndecor.register.DnDecorTags;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -115,21 +115,21 @@ public class BlockTransgender {
     }
 
     public static BlockBuilder<WindowBlock, CreateRegistrate> customWindowBlock(String name, Supplier<CTSpriteShiftEntry> ct,
-                                                            Supplier<Supplier<RenderType>> renderType, boolean translucent, Supplier<MapColor> color) {
+                                                            Supplier<Supplier<?>> renderType, boolean translucent, Supplier<MapColor> color) {
         NonNullFunction<String, Identifier> end_texture = n -> DnDecor.loc(palettesDir() + name + "_end");
         NonNullFunction<String, Identifier> side_texture = n -> DnDecor.loc(palettesDir() + n);
         return windowBlock(name, ct, null, renderType, translucent, end_texture, side_texture, color);
     }
 
     public static BlockBuilder<WindowBlock, CreateRegistrate> customWindowBlock(String name, Supplier<CTSpriteShiftEntry> ct, Supplier<CTSpriteShiftEntry> ct2,
-                    Supplier<Supplier<RenderType>> renderType, boolean translucent, Supplier<MapColor> color) {
+                    Supplier<Supplier<?>> renderType, boolean translucent, Supplier<MapColor> color) {
         NonNullFunction<String, Identifier> end_texture = n -> DnDecor.loc(palettesDir() + name + "_end");
         NonNullFunction<String, Identifier> side_texture = n -> DnDecor.loc(palettesDir() + n);
         return windowBlock(name, ct, ct2, renderType, translucent, end_texture, side_texture, color);
     }
 
     public static BlockBuilder<WindowBlock, CreateRegistrate> windowBlock(String name,
-                    Supplier<CTSpriteShiftEntry> ct, Supplier<CTSpriteShiftEntry> ct2, Supplier<Supplier<RenderType>> renderType, boolean translucent,
+                    Supplier<CTSpriteShiftEntry> ct, Supplier<CTSpriteShiftEntry> ct2, Supplier<Supplier<?>> renderType, boolean translucent,
                     NonNullFunction<String, Identifier> endTexture, NonNullFunction<String, Identifier> sideTexture, Supplier<MapColor> color) {
         return REG.block(name, p -> new WindowBlock(p, translucent))
                 .onRegister(ct == null ? $ -> {
@@ -153,7 +153,7 @@ public class BlockTransgender {
                 .register();
     }
 
-    public static BlockBuilder<ConnectedGlassPaneBlock, CreateRegistrate> customWindowPane(String name, Supplier<? extends Block> parent, Supplier<CTSpriteShiftEntry> ctshift, Supplier<Supplier<RenderType>> renderType) {
+    public static BlockBuilder<ConnectedGlassPaneBlock, CreateRegistrate> customWindowPane(String name, Supplier<? extends Block> parent, Supplier<CTSpriteShiftEntry> ctshift, Supplier<Supplier<?>> renderType) {
         var topTexture = DnDecor.loc(palettesDir() + name + "_pane_top");
         var sideTexture = DnDecor.loc(palettesDir() + name);
         return connectedGlassPane(name, parent, ctshift, sideTexture, sideTexture, topTexture, renderType, false);
@@ -163,12 +163,12 @@ public class BlockTransgender {
         var sideTexture = DnDecor.loc(palettesDir() + name);
         var itemSideTexture = DnDecor.loc(palettesDir() + name);
         var topTexture = DnDecor.loc(palettesDir() + name + "_pane_top");
-        Supplier<Supplier<RenderType>> renderType = () -> RenderType::cutoutMipped;
+        Supplier<Supplier<?>> renderType = () -> RenderTypes::cutoutMipped;
         return connectedGlassPane(name, parent, ctshift, sideTexture, itemSideTexture, topTexture, renderType, true).register();
     }
 
     private static BlockBuilder<ConnectedGlassPaneBlock, CreateRegistrate> connectedGlassPane(String name, Supplier<? extends Block> parent, Supplier<CTSpriteShiftEntry> ctshift,
-        Identifier sideTexture, Identifier itemSideTexture, Identifier topTexture, Supplier<Supplier<RenderType>> renderType, boolean colorless) {
+        Identifier sideTexture, Identifier itemSideTexture, Identifier topTexture, Supplier<Supplier<?>> renderType, boolean colorless) {
         NonNullConsumer<? super ConnectedGlassPaneBlock> connectedTextures = ctshift == null ? $ -> {
         } : connectedTextures(() -> new GlassPaneCTBehaviour(ctshift.get()));
         String CGPparents = "block/connected_glass_pane/";
@@ -193,7 +193,7 @@ public class BlockTransgender {
     }
 
     private static <G extends GlassPaneBlock> BlockBuilder<G, CreateRegistrate> glassPane(String name, Supplier<? extends Block> parent, Identifier sideTexture,
-        Identifier topTexture, NonNullFunction<BlockBehaviour.Properties, G> factory, Supplier<Supplier<RenderType>> renderType,
+        Identifier topTexture, NonNullFunction<BlockBehaviour.Properties, G> factory, Supplier<Supplier<?>> renderType,
         NonNullConsumer<? super G> connectedTextures, NonNullBiConsumer<DataGenContext<Block, G>, RegistrateBlockstateProvider> stateProvider, boolean colorless) {
         name += "_pane";
         ItemBuilder<BlockItem, BlockBuilder<G, CreateRegistrate>> itemBuilder = REG.block(name, factory)

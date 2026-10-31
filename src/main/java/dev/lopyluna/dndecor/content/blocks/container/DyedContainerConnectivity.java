@@ -195,7 +195,6 @@ public class DyedContainerConnectivity {
             partAt.removeController(true);
             if (cache != null) cache.put(pos, partAt);
         }
-        level.invalidateCapabilities(controller.getBlockPos());
     }
 
     private static boolean matchesVariant(DyedContainerBE be, @Nullable DyeColor color, boolean solidColor) {

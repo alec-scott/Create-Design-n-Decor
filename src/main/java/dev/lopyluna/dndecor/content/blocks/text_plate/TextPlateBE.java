@@ -1,5 +1,7 @@
 package dev.lopyluna.dndecor.content.blocks.text_plate;
 
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 import dev.lopyluna.dndecor.register.helpers.list_providers.MaterialTypeProvider;
@@ -33,11 +35,11 @@ public class TextPlateBE extends SmartBlockEntity {
         if (extended) text = "ab";
     }
 
-    @Override public void addBehaviours(List<BlockEntityBehaviour> behaviours) {}
+    @Override public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {}
 
     @Override
-    protected void write(CompoundTag nbt, HolderLookup.Provider provider, boolean clientPacket) {
-        super.write(nbt, provider, clientPacket);
+    protected void write(ValueOutput nbt, boolean clientPacket) {
+        super.write(nbt, clientPacket);
         nbt.putString("DyedText", dyedText.getName());
         nbt.putString("Text", text.isEmpty() ? text : text.substring(0, Math.min(text.length(), extended?2:1)));
         nbt.putBoolean("Glowing", glowing);
@@ -47,21 +49,20 @@ public class TextPlateBE extends SmartBlockEntity {
     }
 
     @Override
-    protected void read(CompoundTag nbt, HolderLookup.Provider provider, boolean clientPacket) {
-        super.read(nbt, provider, clientPacket);
+    protected void read(ValueInput nbt, boolean clientPacket) {
+        super.read(nbt, clientPacket);
         update(null);
 
-        dyedText = DyeColor.byName(nbt.getString("DyedText"), DyeColor.WHITE);
-        text = nbt.getString("Text");
+        dyedText = DyeColor.byName(nbt.getStringOr("DyedText", ""), DyeColor.WHITE);
+        text = nbt.getStringOr("Text", "");
         if (!text.isEmpty()) text = text.substring(0, Math.min(text.length(), extended?2:1));
-        glowing = nbt.getBoolean("Glowing");
+        glowing = nbt.getBooleanOr("Glowing", false);
 
 
         metalBase = null;
         colorBase = null;
-        if (!nbt.contains("Base")) return;
-
-        var type = nbt.getString("Base");
+        var type = nbt.getStringOr("Base", "");
+        if (type.isEmpty()) return;
         MaterialTypeProvider.getMetalTypeByID(type).ifPresent(t -> metalBase = t.get());
         if (metalBase != null) return;
         colorBase = DyeColor.byName(type, DyeColor.WHITE);

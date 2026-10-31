@@ -1,5 +1,7 @@
 package dev.lopyluna.dndecor.content.blocks.boiler;
 
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ScheduledTickAccess;
 import com.zurrtum.create.AllSoundEvents;
 import com.zurrtum.create.content.equipment.wrench.IWrenchable;
 import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
@@ -98,7 +100,7 @@ public class BoilerBlock extends RotatedPillarBlock implements IWrenchable, IBE<
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
+        return RenderShape.INVISIBLE;
     }
 
     @Override
@@ -110,13 +112,13 @@ public class BoilerBlock extends RotatedPillarBlock implements IWrenchable, IBE<
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
-        checkBlocks(level, state, pos);
+        if (level instanceof LevelAccessor accessor) checkBlocks(accessor, state, pos);
     }
 
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        checkBlocks(level, state, pos);
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (level instanceof LevelAccessor accessor) checkBlocks(accessor, state, pos);
+        return super.updateShape(state, level, tickAccess, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override
@@ -125,12 +127,12 @@ public class BoilerBlock extends RotatedPillarBlock implements IWrenchable, IBE<
     }
 
     @Override
-    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+    protected VoxelShape getOcclusionShape(BlockState state) {
         return Shapes.empty();
     }
 
     @Override
-    protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
+    protected boolean propagatesSkylightDown(BlockState state) {
         return true;
     }
 
@@ -188,7 +190,7 @@ public class BoilerBlock extends RotatedPillarBlock implements IWrenchable, IBE<
     }
 
     @Override
-    protected int getLightBlock(BlockState state, BlockGetter level, BlockPos pos) {
+    protected int getLightDampening(BlockState state) {
         return 0;
     }
 

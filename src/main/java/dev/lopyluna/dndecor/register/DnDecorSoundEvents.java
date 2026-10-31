@@ -1,13 +1,6 @@
 package dev.lopyluna.dndecor.register;
 
-import com.zurrtum.create.AllSoundEvents;
-import dev.lopyluna.dndecor.DnDecor;
-
+// PORT-NOTE(26.1): D&D registers no sound events of its own; the unused AllSoundEvents builder helper is gone
 @SuppressWarnings("all")
 public class DnDecorSoundEvents {
-
-
-    private static AllSoundEvents.SoundEntryBuilder create(String name) {
-        return AllSoundEvents.create(DnDecor.loc(name));
-    }
 }

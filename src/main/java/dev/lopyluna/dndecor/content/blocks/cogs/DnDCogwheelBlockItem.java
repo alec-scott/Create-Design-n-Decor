@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -43,18 +44,21 @@ public class DnDCogwheelBlockItem extends BlockItem {
                 PlacementHelpers.register(large ? new IntegratedLargeCogHelper() : new IntegratedSmallCogHelper());
     }
 
-    @Override
-    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-        Level world = context.getLevel();
-        BlockPos pos = context.getClickedPos();
+    // PORT-NOTE(26.1): was NeoForge's Item.onItemUseFirst; called from a UseBlockCallback (DnDecorServer), as Create Fly
+    // hooks its own cogwheels into the use-item-on code path
+    public static InteractionResult onItemUseFirst(Player player, Level world, InteractionHand hand, BlockHitResult ray) {
+        if (!(player.getItemInHand(hand).getItem() instanceof DnDCogwheelBlockItem item)) return InteractionResult.PASS;
+        return item.useFirst(world, player, hand, ray);
+    }
+
+    private InteractionResult useFirst(Level world, Player player, InteractionHand hand, BlockHitResult ray) {
+        BlockPos pos = ray.getBlockPos();
         BlockState state = world.getBlockState(pos);
 
         IPlacementHelper helper = PlacementHelpers.get(placementHelperId);
-        Player player = context.getPlayer();
-        BlockHitResult ray = new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, true);
         if (helper.matchesState(state) && player != null && !player.isShiftKeyDown()) {
             return helper.getOffset(player, world, state, pos, ray)
-                    .placeInWorld(world, this, player, context.getHand(), ray).result();
+                    .placeInWorld(world, this, player, hand);
         }
 
         if (integratedCogHelperId != -1) {
@@ -62,11 +66,11 @@ public class DnDCogwheelBlockItem extends BlockItem {
 
             if (helper.matchesState(state) && player != null && !player.isShiftKeyDown()) {
                 return helper.getOffset(player, world, state, pos, ray)
-                        .placeInWorld(world, this, player, context.getHand(), ray).result();
+                        .placeInWorld(world, this, player, hand);
             }
         }
 
-        return super.onItemUseFirst(stack, context);
+        return InteractionResult.PASS;
     }
     private static class SmallCogHelper extends DiagonalCogHelper {
 
