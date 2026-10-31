@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.mixins.belts;
 
+import com.zurrtum.create.content.kinetics.belt.item.BeltConnectorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -23,32 +24,32 @@ import org.spongepowered.asm.mixin.injection.At;
 public class BeltSlicerMixin {
 
     @WrapOperation(method = "useWrench",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    private static boolean useWrench(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    private static boolean useWrench(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
     @WrapOperation(method = "useConnector",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    private static boolean useConnector(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    private static boolean useConnector(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
 
     @WrapOperation(method = "useWrench",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"))
-    private static boolean useWrenchIsIn(ItemStack stack, Item instance, Operation<Boolean> original, BlockState state) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z"))
+    private static boolean useWrenchIsIn(ItemStack stack, Object instance, Operation<Boolean> original, BlockState state) {
         return instance == AllItems.BELT_CONNECTOR ?
-                state.getBlock() instanceof FullBeltBlock ? original.call(stack, DnDecorItems.BELT_CONNECTOR.get()) : original.call(stack, instance) : original.call(stack, instance);
+                state.getBlock() instanceof FullBeltBlock ? original.call(stack, (Object) DnDecorItems.BELT_CONNECTOR.get()) : original.call(stack, instance) : original.call(stack, instance);
     }
     @WrapOperation(method = "useWrench",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;getDefaultInstance()Lnet/minecraft/world/item/ItemStack;"))
-    private static ItemStack useWrenchStack(Item instance, Operation<ItemStack> original, BlockState state) {
+            at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/content/kinetics/belt/item/BeltConnectorItem;getDefaultInstance()Lnet/minecraft/world/item/ItemStack;"))
+    private static ItemStack useWrenchStack(BeltConnectorItem instance, Operation<ItemStack> original, BlockState state) {
         return instance == AllItems.BELT_CONNECTOR ?
-                state.getBlock() instanceof FullBeltBlock ? original.call(DnDecorItems.BELT_CONNECTOR.get()) : original.call(instance) : original.call(instance);
+                state.getBlock() instanceof FullBeltBlock ? DnDecorItems.BELT_CONNECTOR.get().getDefaultInstance() : original.call(instance) : original.call(instance);
     }
     @WrapOperation(method = "useConnector",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;getDefaultInstance()Lnet/minecraft/world/item/ItemStack;"))
-    private static ItemStack useConnectorStack(Item instance, Operation<ItemStack> original, BlockState state) {
+            at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/content/kinetics/belt/item/BeltConnectorItem;getDefaultInstance()Lnet/minecraft/world/item/ItemStack;"))
+    private static ItemStack useConnectorStack(BeltConnectorItem instance, Operation<ItemStack> original, BlockState state) {
         return instance == AllItems.BELT_CONNECTOR ?
-                state.getBlock() instanceof FullBeltBlock ? original.call(DnDecorItems.BELT_CONNECTOR.get()) : original.call(instance) : original.call(instance);
+                state.getBlock() instanceof FullBeltBlock ? DnDecorItems.BELT_CONNECTOR.get().getDefaultInstance() : original.call(instance) : original.call(instance);
     }
 }

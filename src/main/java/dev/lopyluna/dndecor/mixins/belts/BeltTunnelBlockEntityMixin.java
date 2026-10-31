@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = AllTransfer.class, remap = false)
 public class BeltTunnelBlockEntityMixin {
     @WrapOperation(method = "lambda$register$6",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    private static boolean registerCapabilities(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    private static boolean registerCapabilities(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
 }

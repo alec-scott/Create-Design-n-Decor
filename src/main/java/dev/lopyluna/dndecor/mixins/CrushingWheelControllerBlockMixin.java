@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public class CrushingWheelControllerBlockMixin {
 
     @WrapOperation(method = "lambda$updateSpeed$0",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    private static boolean updateSpeed(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    private static boolean updateSpeed(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.CRUSHING_WHEEL ? state.getBlock() instanceof CrushingWheelBlock : original.call(state, block);
     }
 }

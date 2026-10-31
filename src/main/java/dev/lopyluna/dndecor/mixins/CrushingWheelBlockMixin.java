@@ -19,14 +19,14 @@ public abstract class CrushingWheelBlockMixin extends RotatedPillarKineticBlock 
     }
 
     @WrapOperation(method = "updateControllers",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    public boolean updateControllersCheckInstance(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    public boolean updateControllersCheckInstance(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.CRUSHING_WHEEL ? state.getBlock() instanceof CrushingWheelBlock : original.call(state, block);
     }
 
     @WrapOperation(method = "canSurvive",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    public boolean canSurviveCheckInstance(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    public boolean canSurviveCheckInstance(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.CRUSHING_WHEEL ? state.getBlock() instanceof CrushingWheelBlock : original.call(state, block);
     }
 }

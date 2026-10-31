@@ -15,18 +15,18 @@ import org.spongepowered.asm.mixin.injection.At;
 public class BeltTunnelBlockMixin {
 
     @WrapOperation(method = "isValidPositionForPlacement",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    private static boolean isValidPositionForPlacement(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    private static boolean isValidPositionForPlacement(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
     @WrapOperation(method = "getTunnelState",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    private static boolean getTunnelState(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    private static boolean getTunnelState(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
     @WrapOperation(method = "hasValidOutput",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    private static boolean hasValidOutput(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    private static boolean hasValidOutput(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
 }

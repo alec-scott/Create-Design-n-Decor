@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = BeltFunnelBlock.class, remap = false)
 public class BeltFunnelBlockMixin {
     @WrapOperation(method = "getShapeForPosition",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    private static boolean getShapeForPosition(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+    private static boolean getShapeForPosition(BlockState state, Object block, Operation<Boolean> original) {
         return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
 }
