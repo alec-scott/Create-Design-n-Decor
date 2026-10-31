@@ -1,27 +1,28 @@
 package dev.lopyluna.dndecor.content.blocks.cogs;
 
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.zurrtum.create.client.AllPartialModels;
-import com.zurrtum.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
-import com.zurrtum.create.client.content.kinetics.simpleRelays.BracketedKineticBlockEntityRenderer;
-import com.zurrtum.create.content.kinetics.simpleRelays.ICogWheel;
-import com.zurrtum.create.content.kinetics.simpleRelays.SimpleKineticBlockEntity;
-import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
-import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
-import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
-import com.zurrtum.create.client.catnip.animation.AnimationTickHolder;
 import com.zurrtum.create.client.catnip.render.CachedBuffers;
-import com.zurrtum.create.client.catnip.render.SuperByteBuffer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import com.zurrtum.create.client.content.kinetics.simpleRelays.BracketedKineticBlockEntityRenderer;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.client.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
+import com.zurrtum.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
+import com.zurrtum.create.content.kinetics.simpleRelays.ICogWheel;
+import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
-import net.minecraft.core.Direction.AxisDirection;
+import net.minecraft.world.level.CardinalLighting;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
+import static com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer.*;
+import static com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityVisual.rotationOffset;
+import static com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityVisual.shouldOffset;
+
+// PORT-NOTE(26.1): extract/submit, following Create Fly's BracketedKineticBlockEntityRenderer with D&D's dyed and
+// custom cog models (submit is inherited). Only used without Flywheel visualization, as before.
 public class DnDCogwheelRenderer extends BracketedKineticBlockEntityRenderer {
 
 	public DnDCogwheelRenderer(Context context) {
@@ -29,46 +30,41 @@ public class DnDCogwheelRenderer extends BracketedKineticBlockEntityRenderer {
 	}
 
 	@Override
-	protected void renderSafe(BracketedKineticBlockEntity be, float partialTicks, PoseStack ms,
-							  MultiBufferSource buffer, int light, int overlay) {
-
-		if (VisualizationManager.supportsVisualization(be.getLevel()))
+	public void extractRenderState(BracketedKineticBlockEntity be, BracketedKineticRenderState state, float tickProgress,
+								   Vec3 cameraPos, @Nullable CrumblingOverlay crumblingOverlay) {
+		if (!(be.getBlockState().getBlock() instanceof DnDCogWheelBlock block)) {
+			super.extractRenderState(be, state, tickProgress, cameraPos, crumblingOverlay);
 			return;
+		}
+		Level level = SmartBlockEntityRenderer.extractBase(be, state, crumblingOverlay);
+		CardinalLighting cardinalLighting = SmartBlockEntityRenderer.getCardinalLighting(level);
+		Axis axis = getRotationAxisOf(state.blockState);
+		Direction facing = Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE);
+		boolean large = ICogWheel.isLargeCog(state.blockState);
+		PartialModel model = large ? DnDecorPartialModels.DYED_LARGE_COGWHEEL.get(block.color) : DnDecorPartialModels.DYED_COGWHEEL.get(block.color);
+		if (block.customModel != null) model = block.customModel;
 
-
-
-		Axis axis = getRotationAxisOf(be);
-		Direction facing = Direction.fromAxisAndDirection(axis, AxisDirection.POSITIVE);
-		PartialModel model = ICogWheel.isLargeCog(be.getBlockState()) ? DnDecorPartialModels.DYED_LARGE_COGWHEEL.get(((DnDCogWheelBlock)be.getBlockState().getBlock()).color) : DnDecorPartialModels.DYED_COGWHEEL.get(((DnDCogWheelBlock)be.getBlockState().getBlock()).color);
-
-		if(((DnDCogWheelBlock)be.getBlockState().getBlock()).customModel !=null)
-			model = ((DnDCogWheelBlock)be.getBlockState().getBlock()).customModel;
-
-		renderRotatingBuffer(be,
-			CachedBuffers.partialFacingVertical(model, be.getBlockState(), facing),
-			ms, buffer.getBuffer(RenderTypes.cutoutMipped()), light);
-
-		float angle = getAngleForLargeCogShaft(be, axis);
-		SuperByteBuffer shaft =
-			CachedBuffers.partialFacingVertical(AllPartialModels.COGWHEEL_SHAFT, be.getBlockState(), facing);
-		kineticRotationTransform(shaft, be, axis, angle, light);
-		shaft.renderInto(ms, buffer.getBuffer(RenderTypes.solid()));
-	}
-
-	public static float getAngleForLargeCogShaft(SimpleKineticBlockEntity be, Axis axis) {
-		BlockPos pos = be.getBlockPos();
-		float offset = getShaftAngleOffset(axis, pos);
-		float time = AnimationTickHolder.getRenderTime(be.getLevel());
-		float angle = ((time * be.getSpeed() * 3f / 10 + offset) % 360) / 180 * (float) Math.PI;
-		return angle;
-	}
-
-	public static float getShaftAngleOffset(Axis axis, BlockPos pos) {
-		float offset = 0;
-		double d = (((axis == Axis.X) ? 0 : pos.getX()) + ((axis == Axis.Y) ? 0 : pos.getY())
-			+ ((axis == Axis.Z) ? 0 : pos.getZ())) % 2;
-		if (d == 0)
-			offset = 22.5f;
-		return offset;
+		int color = getTintColor(be);
+		float progress = getProgress(be, level);
+		float offset;
+		state.shaft = null;
+		state.shaftAngle = null;
+		if (large) {
+			float shaftOffset;
+			if (shouldOffset(axis, state.blockPos)) {
+				offset = shaftOffset = 22.5f;
+			} else {
+				offset = 11.25f;
+				shaftOffset = 0;
+			}
+			state.shaftAngle = getRotateAngle(progress, shaftOffset, facing);
+			state.shaft = CachedBuffers.partialFacingVertical(AllPartialModels.COGWHEEL_SHAFT, state.blockState, facing)
+				.cardinalLighting(cardinalLighting).light(state.lightCoords).color(color).extractRenderState();
+		} else {
+			offset = rotationOffset(state.blockState, axis, state.blockPos);
+		}
+		state.angle = getRotateAngle(progress, offset, facing);
+		state.model = CachedBuffers.partialFacingVertical(model, state.blockState, facing)
+			.cardinalLighting(cardinalLighting).light(state.lightCoords).color(color).extractRenderState();
 	}
 }

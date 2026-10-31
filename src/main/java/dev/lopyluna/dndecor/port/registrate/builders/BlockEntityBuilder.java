@@ -77,6 +77,7 @@ public class BlockEntityBuilder<T extends BlockEntity, P> extends AbstractBuilde
     private NonNullSupplier<NonNullFunction<BlockEntityRendererProvider.Context, BlockEntityRenderer>> renderer;
     @Nullable
     private NonNullSupplier<SimpleBlockEntityVisualizer.Factory<T>> visual;
+    private java.util.function.Predicate<T> renderNormally = be -> false;
 
     protected BlockEntityBuilder(AbstractRegistrate<?> owner, P parent, String name, BuilderCallback callback, BlockEntityFactory<T> factory) {
         super(owner, parent, name, callback, Registries.BLOCK_ENTITY_TYPE);
@@ -127,6 +128,17 @@ public class BlockEntityBuilder<T extends BlockEntity, P> extends AbstractBuilde
         this.visual = visual;
         return this;
     }
+
+    /** PORT-NOTE(dndecor): upstream Registrate's overloads; {@code renderNormally} keeps the vanilla renderer running. */
+    public BlockEntityBuilder<T, P> visual(NonNullSupplier<SimpleBlockEntityVisualizer.Factory<T>> visual, boolean renderNormally) {
+        return visual(visual, be -> renderNormally);
+    }
+
+    public BlockEntityBuilder<T, P> visual(NonNullSupplier<SimpleBlockEntityVisualizer.Factory<T>> visual, java.util.function.Predicate<T> renderNormally) {
+        this.visual = visual;
+        this.renderNormally = renderNormally;
+        return this;
+    }
     
     /**
      * Register an {@link BlockEntityRenderer} for this block entity.
@@ -164,7 +176,7 @@ public class BlockEntityBuilder<T extends BlockEntity, P> extends AbstractBuilde
         }
         if (visual != null) {
             EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () ->
-                    SimpleBlockEntityVisualizer.builder(type).factory(visual.get()).apply());
+                    SimpleBlockEntityVisualizer.builder(type).factory(visual.get()).skipVanillaRender(be -> !renderNormally.test(be)).apply());
         }
         return type;
     }

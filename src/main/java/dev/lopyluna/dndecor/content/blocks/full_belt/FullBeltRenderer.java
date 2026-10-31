@@ -1,118 +1,90 @@
 package dev.lopyluna.dndecor.content.blocks.full_belt;
 
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.zurrtum.create.client.AllPartialModels;
-import com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer;
-import com.zurrtum.create.content.kinetics.belt.*;
-import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
-import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
-import com.zurrtum.create.client.flywheel.lib.transform.TransformStack;
-import dev.lopyluna.dndecor.register.DnDecorBlocks;
-import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
-import dev.lopyluna.dndecor.register.client.DnDecorSpriteShifts;
-import com.zurrtum.create.client.catnip.animation.AnimationTickHolder;
 import com.zurrtum.create.catnip.data.Iterate;
-import com.zurrtum.create.catnip.math.AngleHelper;
+import com.zurrtum.create.client.catnip.animation.AnimationTickHolder;
 import com.zurrtum.create.client.catnip.render.CachedBuffers;
 import com.zurrtum.create.client.catnip.render.SpriteShiftEntry;
 import com.zurrtum.create.client.catnip.render.SuperByteBuffer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import com.zurrtum.create.client.content.kinetics.belt.BeltRenderer;
+import com.zurrtum.create.client.content.kinetics.belt.BeltRenderer.BeltRenderState;
+import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.client.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
+import com.zurrtum.create.content.kinetics.belt.BeltBlock;
+import com.zurrtum.create.content.kinetics.belt.BeltBlockEntity;
+import com.zurrtum.create.content.kinetics.belt.BeltPart;
+import com.zurrtum.create.content.kinetics.belt.BeltSlope;
+import dev.lopyluna.dndecor.register.DnDecorBlocks;
+import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
+import dev.lopyluna.dndecor.register.client.DnDecorSpriteShifts;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.AxisDirection;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.CardinalLighting;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.function.Supplier;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
 public class FullBeltRenderer extends BeltRenderer {
 
 	public FullBeltRenderer(BlockEntityRendererProvider.Context context) {
 		super(context);
 	}
+
+	// PORT-NOTE(26.1): Create Fly's BeltRenderer does the extract/submit work (rotation, pulley, items); without Flywheel
+	// only the belt surfaces are swapped for D&D's models and scrolling textures, using the same scroll maths
 	@Override
-	protected void renderSafe(BeltBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-		if (!VisualizationManager.supportsVisualization(be.getLevel())) {
-			BlockState blockState = be.getBlockState();
-			if (!DnDecorBlocks.BELT.has(blockState)) return;
+	public void extractRenderState(BeltBlockEntity be, BeltRenderState state, float tickProgress, Vec3 cameraPos, @Nullable CrumblingOverlay crumblingOverlay) {
+		super.extractRenderState(be, state, tickProgress, cameraPos, crumblingOverlay);
+		Level level = be.getLevel();
+		if (VisualizationManager.supportsVisualization(level) || state.top == null) return;
+		BlockState blockState = state.blockState;
+		if (!blockState.is(DnDecorBlocks.BELT.get())) return;
 
-			BeltSlope beltSlope = blockState.getValue(BeltBlock.SLOPE);
-			BeltPart part = blockState.getValue(BeltBlock.PART);
-			Direction facing = blockState.getValue(BeltBlock.HORIZONTAL_FACING);
-			AxisDirection axisDirection = facing.getAxisDirection();
-
-			boolean downward = beltSlope == BeltSlope.DOWNWARD;
-			boolean upward = beltSlope == BeltSlope.UPWARD;
-			boolean diagonal = downward || upward;
-			boolean start = part == BeltPart.START;
-			boolean end = part == BeltPart.END;
-			boolean sideways = beltSlope == BeltSlope.SIDEWAYS;
-			boolean alongX = facing.getAxis() == Direction.Axis.X;
-
-			PoseStack localTransforms = new PoseStack();
-			var msr = TransformStack.of(localTransforms);
-			VertexConsumer vb = buffer.getBuffer(RenderTypes.solid());
-			float renderTick = AnimationTickHolder.getRenderTime(be.getLevel());
-
-			msr.center().rotateYDegrees(AngleHelper.horizontalAngle(facing) + (upward ? 180 : 0) + (sideways ? 270 : 0))
-					.rotateZDegrees(sideways ? 90 : 0)
-					.rotateXDegrees(!diagonal && beltSlope != BeltSlope.HORIZONTAL ? 90 : 0)
-					.uncenter();
-
-			if (downward || beltSlope == BeltSlope.VERTICAL && axisDirection == AxisDirection.POSITIVE) {
-				boolean b = start;
-				start = end;
-				end = b;
-			}
-
-			DyeColor color = be.color.orElse(null);
-			for (boolean bottom : Iterate.trueAndFalse) {
-				PartialModel beltPartial = getBeltPartial(diagonal, start, end, bottom);
-				SuperByteBuffer beltBuffer = CachedBuffers.partial(beltPartial, blockState).light(light);
-				SpriteShiftEntry spriteShift = getSpriteShiftEntry(color, diagonal, bottom);
-
-				// UV shift
-				float speed = be.getSpeed();
-				if (speed != 0 || be.color.isPresent()) {
-					float time = renderTick * axisDirection.getStep();
-					if (diagonal && (downward ^ alongX) || !sideways && !diagonal && alongX || sideways && axisDirection == AxisDirection.NEGATIVE) speed = -speed;
-
-					float scrollMulti = diagonal ? 3f / 8f : 0.5f;
-					float spriteSize = spriteShift.getTarget().getV1() - spriteShift.getTarget().getV0();
-
-					double scroll = speed * time / (31.5 * 16) + (bottom ? 0.5 : 0.0);
-					scroll = scroll - Math.floor(scroll);
-					scroll = scroll * spriteSize * scrollMulti;
-
-					beltBuffer.shiftUVScrolling(spriteShift, (float) scroll);
-				}
-				beltBuffer.transform(localTransforms).renderInto(ms, vb);
-				if (diagonal) break;
-			}
-
-			if (be.hasPulley()) {
-				Direction dir = sideways ? Direction.UP : blockState.getValue(BeltBlock.HORIZONTAL_FACING).getClockWise();
-
-				Supplier<PoseStack> matrixStackSupplier = () -> {
-					PoseStack stack = new PoseStack();
-					var stacker = TransformStack.of(stack);
-					stacker.center();
-					if (dir.getAxis() == Direction.Axis.X) stacker.rotateYDegrees(90);
-					if (dir.getAxis() == Direction.Axis.Y) stacker.rotateXDegrees(90);
-					stacker.rotateXDegrees(90);
-					stacker.uncenter();
-					return stack;
-				};
-
-				SuperByteBuffer superBuffer = CachedBuffers.partialDirectional(AllPartialModels.BELT_PULLEY, blockState, dir, matrixStackSupplier);
-				KineticBlockEntityRenderer.standardKineticRotationTransform(superBuffer, be, light).renderInto(ms, vb);
-			}
+		BeltSlope beltSlope = blockState.getValue(BeltBlock.SLOPE);
+		BeltPart part = blockState.getValue(BeltBlock.PART);
+		Direction facing = blockState.getValue(BeltBlock.HORIZONTAL_FACING);
+		AxisDirection axisDirection = facing.getAxisDirection();
+		boolean downward = beltSlope == BeltSlope.DOWNWARD;
+		boolean upward = beltSlope == BeltSlope.UPWARD;
+		boolean diagonal = downward || upward;
+		boolean start = part == BeltPart.START;
+		boolean end = part == BeltPart.END;
+		boolean sideways = beltSlope == BeltSlope.SIDEWAYS;
+		boolean alongX = facing.getAxis() == Direction.Axis.X;
+		if (downward || beltSlope == BeltSlope.VERTICAL && axisDirection == AxisDirection.POSITIVE) {
+			boolean b = start;
+			start = end;
+			end = b;
 		}
-		renderItems(be, partialTicks, ms, buffer, light, overlay);
+
+		DyeColor color = be.color.orElse(null);
+		CardinalLighting cardinalLighting = SmartBlockEntityRenderer.getCardinalLighting(level);
+		float speed = be.getSpeed();
+		boolean needScroll = speed != 0 || color != null;
+		double scroll = 0;
+		if (needScroll) {
+			float time = AnimationTickHolder.getRenderTime(level) * axisDirection.getStep();
+			if (diagonal && (downward ^ alongX) || !sideways && !diagonal && alongX || sideways && axisDirection == AxisDirection.NEGATIVE) speed = -speed;
+			scroll = speed * time / (31.5 * 16);
+		}
+		for (boolean bottom : Iterate.trueAndFalse) {
+			if (diagonal && bottom) continue;
+			SuperByteBuffer beltBuffer = CachedBuffers.partial(getBeltPartial(diagonal, start, end, bottom), blockState);
+			if (needScroll) {
+				SpriteShiftEntry spriteShift = getSpriteShiftEntry(color, diagonal, bottom);
+				float scrollMulti = diagonal ? 3f / 8f : 0.5f;
+				float spriteSize = spriteShift.getTarget().getV1() - spriteShift.getTarget().getV0();
+				double s = scroll + (bottom ? 0.5 : 0.0);
+				beltBuffer.shiftUVScrolling(spriteShift, (float) ((s - Math.floor(s)) * spriteSize * scrollMulti));
+			}
+			var extracted = beltBuffer.cardinalLighting(cardinalLighting).light(state.lightCoords).extractRenderState();
+			if (bottom) state.bottom = extracted;
+			else state.top = extracted;
+		}
 	}
 
 	public static SpriteShiftEntry getSpriteShiftEntry(DyeColor color, boolean diagonal, boolean bottom) {

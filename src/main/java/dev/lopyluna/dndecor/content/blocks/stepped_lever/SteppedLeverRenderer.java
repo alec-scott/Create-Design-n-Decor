@@ -1,35 +1,53 @@
 package dev.lopyluna.dndecor.content.blocks.stepped_lever;
 
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.zurrtum.create.content.redstone.analogLever.AnalogLeverBlock;
-import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
-import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
 import com.zurrtum.create.catnip.math.AngleHelper;
 import com.zurrtum.create.client.catnip.render.CachedBuffers;
 import com.zurrtum.create.client.catnip.render.SuperByteBuffer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import com.zurrtum.create.client.catnip.render.SuperByteBufferRenderState;
+import com.zurrtum.create.client.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
+import com.zurrtum.create.content.redstone.analogLever.AnalogLeverBlock;
+import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.UnknownNullability;
+import org.jspecify.annotations.Nullable;
 
+// PORT-NOTE(26.1): extract/submit renderer (was a SafeBlockEntityRenderer); the handle's transforms are captured by
+// SuperByteBuffer.extractRenderState, as in Create Fly's AnalogLeverRenderer
 @SuppressWarnings("unused")
-public class SteppedLeverRenderer extends SafeBlockEntityRenderer<SteppedLeverBE> {
+public class SteppedLeverRenderer implements BlockEntityRenderer<SteppedLeverBE, SteppedLeverRenderer.State> {
     public SteppedLeverRenderer(BlockEntityRendererProvider.Context context) {
     }
 
-    protected void renderSafe(SteppedLeverBE be, float pt, PoseStack ms, MultiBufferSource bs, int light, int overlay) {
-        var leverState = be.getBlockState();
+    @Override
+    public State createRenderState() {
+        return new State();
+    }
+
+    @Override
+    public void extractRenderState(SteppedLeverBE be, State renderState, float pt, Vec3 cameraPos, @Nullable CrumblingOverlay crumblingOverlay) {
+        Level level = SmartBlockEntityRenderer.extractBase(be, renderState, crumblingOverlay);
+        var leverState = renderState.blockState;
         var state = be.clientState.getValue(pt);
-        var vb = bs.getBuffer(RenderTypes.cutoutMipped());
         var handle = CachedBuffers.partial(DnDecorPartialModels.STEPPED_LEVER_HANDLE, leverState);
         var angle = (((state / 15f * 135f) - 22.5f) / 180f) * (float) Math.PI;
+        transform(handle, leverState).translate(8/16f, 4/16f, 8/16f).rotate(angle, Direction.EAST.getAxis()).translate(-8/16f, -4/16f, -8/16f);
+        renderState.handle = handle.cardinalLighting(level).light(renderState.lightCoords).extractRenderState();
+    }
 
-        transform(handle, leverState).translate(8/16f, 4/16f, 8/16f).rotate(Direction.EAST.getAxis(), angle).translate(-8/16f, -4/16f, -8/16f);
-        handle.light(light).renderInto(ms, vb);
+    @Override
+    public void submit(State state, PoseStack ms, SubmitNodeCollector queue, CameraRenderState cameraState) {
+        state.handle.submit(ms, queue);
     }
 
     private SuperByteBuffer transform(SuperByteBuffer buffer, BlockState leverState) {
@@ -39,5 +57,9 @@ public class SteppedLeverRenderer extends SafeBlockEntityRenderer<SteppedLeverBE
         buffer.rotateCentered((rY / 180f) * (float) Math.PI, Direction.UP);
         buffer.rotateCentered((rX / 180f) * (float) Math.PI, Direction.EAST);
         return buffer;
+    }
+
+    public static class State extends BlockEntityRenderState {
+        public @UnknownNullability SuperByteBufferRenderState handle;
     }
 }

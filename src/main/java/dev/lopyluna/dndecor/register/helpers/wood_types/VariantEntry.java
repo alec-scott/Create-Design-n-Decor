@@ -35,8 +35,7 @@ public class VariantEntry {
         for (BlockPattern pattern : paletteStoneVariants.variantTypes) {
             BlockBuilder<? extends Block, CreateRegistrate> builder =
                     REG.block(pattern.createName(name), pattern.getBlockFactory())
-                            .initialProperties(baseBlock)
-                            .transform(pickaxeOnly());
+                            .initialProperties(baseBlock);
 
             ItemBuilder<BlockItem, ? extends BlockBuilder<? extends Block, CreateRegistrate>> itemBuilder = builder.item();
 
@@ -57,12 +56,7 @@ public class VariantEntry {
             for (BlockPartial<? extends Block> partialBlock : pattern.getPartials()) registeredPartials.add(partialBlock.create(name, pattern, block, paletteStoneVariants).register());
         }
 
-        REG.addDataGenerator(ProviderType.RECIPE, p -> p.stonecutting(DataIngredient.tag(paletteStoneVariants.materialTag), RecipeCategory.BUILDING_BLOCKS, baseBlock));
-        REG.addDataGenerator(ProviderType.ITEM_TAGS, p -> {
-            var block = baseBlock.get().asItem();
-            p.addTag(paletteStoneVariants.materialTag).add(block);
-            p.addTag(PALETTE_BLOCKS.tag).add(block);
-        });
+        // PORT-NOTE(26.1): the stonecutting recipe and item tags were datagen only (committed generated resources)
 
         this.registeredBlocks = registeredBlocks.build();
         this.registeredPartials = registeredPartials.build();

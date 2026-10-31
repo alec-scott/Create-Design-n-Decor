@@ -1,33 +1,42 @@
 package dev.lopyluna.dndecor.content.blocks.boiler;
 
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.zurrtum.create.client.catnip.render.CachedBuffers;
-import net.minecraft.util.LightCoordsUtil;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import com.zurrtum.create.client.catnip.render.SuperByteBufferRenderState;
+import com.zurrtum.create.client.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
+import net.minecraft.util.LightCoordsUtil;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
-@SuppressWarnings({"NullableProblems", "unused"})
-public class BoilerRenderer implements BlockEntityRenderer<BoilerBlockEntity> {
+// PORT-NOTE(26.1): extract/submit renderer. The boiler is bigger than its block, so it is drawn here with light
+// averaged over the surrounding blocks.
+@SuppressWarnings("unused")
+public class BoilerRenderer implements BlockEntityRenderer<BoilerBlockEntity, BoilerRenderer.State> {
     public BoilerRenderer(BlockEntityRendererProvider.Context context) {}
 
     @Override
-    public void render(BoilerBlockEntity be, float pt, PoseStack ps, MultiBufferSource bs, int l, int o) {
-        var level = be.getLevel();
+    public State createRenderState() {
+        return new State();
+    }
+
+    @Override
+    public void extractRenderState(BoilerBlockEntity be, State renderState, float pt, Vec3 cameraPos, @Nullable CrumblingOverlay crumblingOverlay) {
+        Level level = SmartBlockEntityRenderer.extractBase(be, renderState, crumblingOverlay);
+        renderState.block = null;
         if (level == null) return;
-        var state = be.getBlockState();
+        var state = renderState.blockState;
         if (!(state.getBlock() instanceof BoilerBlock)) return;
-        var pos = be.getBlockPos();
+        var pos = renderState.blockPos;
         var axis = state.getValue(BoilerBlock.AXIS);
-
-        var vb = bs.getBuffer(RenderTypes.cutout());
-        var block = CachedBuffers.block(state);
-
 
         int totalBlock = 0;
         int bestSky = 0;
@@ -43,9 +52,16 @@ public class BoilerRenderer implements BlockEntityRenderer<BoilerBlockEntity> {
             samples++;
         }
 
-        int avgBlock = totalBlock / samples;
-        int avgLight = LightCoordsUtil.pack(avgBlock, bestSky);
+        int avgLight = samples == 0 ? renderState.lightCoords : LightCoordsUtil.pack(totalBlock / samples, bestSky);
+        renderState.block = CachedBuffers.block(state).cardinalLighting(level).light(avgLight).extractRenderState();
+    }
 
-        block.light(avgLight).overlay(o).renderInto(ps, vb);
+    @Override
+    public void submit(State state, PoseStack ps, SubmitNodeCollector queue, CameraRenderState cameraState) {
+        if (state.block != null) state.block.submit(ps, queue);
+    }
+
+    public static class State extends BlockEntityRenderState {
+        public @Nullable SuperByteBufferRenderState block;
     }
 }

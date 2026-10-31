@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.register;
 
+import com.zurrtum.create.client.content.kinetics.belt.BeltVisual;
 import dev.lopyluna.dndecor.port.create.BETypeOverride;
 
 import com.zurrtum.create.AllBlockEntityTypes;
@@ -59,7 +60,7 @@ public class DnDecorBETypes {
             .register();
 
     public static final BlockEntityEntry<BeltBlockEntity> BELT = REG.blockEntity("belt", BETypeOverride.of(BeltBlockEntity::new))
-            .visual(() -> FullBeltVisual::new, BeltBlockEntity::shouldRenderNormally)
+            .visual(() -> FullBeltVisual::new, be -> !BeltVisual.shouldSkipVanillaRender(be))
             .validBlocks(DnDecorBlocks.BELT)
             .renderer(() -> FullBeltRenderer::new)
             .register();

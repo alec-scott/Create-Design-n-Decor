@@ -33,7 +33,6 @@ import dev.lopyluna.dndecor.content.blocks.OrnateGrateBlock;
 import dev.lopyluna.dndecor.content.blocks.VelvetBlock;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
 import dev.lopyluna.dndecor.register.DnDecorTags;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -163,7 +162,7 @@ public class BlockTransgender {
         var sideTexture = DnDecor.loc(palettesDir() + name);
         var itemSideTexture = DnDecor.loc(palettesDir() + name);
         var topTexture = DnDecor.loc(palettesDir() + name + "_pane_top");
-        Supplier<Supplier<?>> renderType = () -> RenderTypes::cutout;
+        Supplier<Supplier<?>> renderType = () -> () -> null;
         return connectedGlassPane(name, parent, ctshift, sideTexture, itemSideTexture, topTexture, renderType, true).register();
     }
 

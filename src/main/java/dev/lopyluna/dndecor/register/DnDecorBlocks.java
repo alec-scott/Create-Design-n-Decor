@@ -60,7 +60,6 @@ import dev.lopyluna.dndecor.register.helpers.list_providers.MetalTypeBlockList;
 import dev.lopyluna.dndecor.register.helpers.list_providers.MetalTypeBoltBlockList;
 import dev.lopyluna.dndecor.register.helpers.list_providers.StoneTypeBlockList;
 import com.zurrtum.create.catnip.data.Iterate;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -311,10 +310,10 @@ public class DnDecorBlocks {
             .register();
 
     public static final BlockEntry<WindowBlock> ORNATE_IRON_GLASS =
-            customWindowBlock("ornate_iron_glass", () -> omni("palettes/ornate_iron_glass"), () -> omni("palettes/ornate_iron_glass_end"), () -> RenderTypes::cutout, false, () -> MapColor.TERRACOTTA_LIGHT_GRAY).register();
+            customWindowBlock("ornate_iron_glass", () -> omni("palettes/ornate_iron_glass"), () -> omni("palettes/ornate_iron_glass_end"), () -> () -> null, false, () -> MapColor.TERRACOTTA_LIGHT_GRAY).register();
 
     public static final BlockEntry<ConnectedGlassPaneBlock> ORNATE_IRON_GLASS_PANE =
-            customWindowPane("ornate_iron_glass", ORNATE_IRON_GLASS, () -> omni("palettes/ornate_iron_glass"), () -> RenderTypes::cutout).register();
+            customWindowPane("ornate_iron_glass", ORNATE_IRON_GLASS, () -> omni("palettes/ornate_iron_glass"), () -> () -> null).register();
 
     public static final StoneTypeBlockList<CrushingWheelBlock> STONE_TYPE_CRUSHING_WHEELS = new StoneTypeBlockList<>((block, id) -> {
         if (id.equals("andesite")) return ExistingEntries.block(REG, AllBlocks.CRUSHING_WHEEL);
@@ -799,7 +798,7 @@ public class DnDecorBlocks {
     }
 
     public static <T extends Block> Function<BlockState, ModelFile> getBlockModel(boolean customItem, DataGenContext<Block, T> c, RegistrateBlockstateProvider p) {
-        return $ -> AssetLookup.partialBaseModel(c, p); // PORT-NOTE(26.1): datagen only; the shim has no standardModel
+        return AssetLookup.partialBaseModel(c, p); // PORT-NOTE(26.1): datagen only; the shim has no standardModel
     }
 
     public static ArrayList<String> DD_DYES = null;
