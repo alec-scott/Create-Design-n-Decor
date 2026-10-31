@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.content.blocks;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.InteractionResult;
 
 import com.zurrtum.create.foundation.utility.BlockHelper;
@@ -36,7 +37,7 @@ public class VelvetBlock extends Block {
     @SuppressWarnings("NullableProblems")
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        DyeColor color = DyeColor.getColor(stack);
+        DyeColor color = stack.get(DataComponents.DYE);
         if (color != null) {
             if (!level.isClientSide()) level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.getRandom().nextFloat() * .2f);
             applyDye(state, level, pos, color);
@@ -91,7 +92,7 @@ public class VelvetBlock extends Block {
     }
 
     @Override
-    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, double fallDistance) {
         super.fallOn(level, state, pos, entity, fallDistance * 0.1F);
     }
 

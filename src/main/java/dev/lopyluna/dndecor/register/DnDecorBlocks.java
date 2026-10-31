@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.register;
 
+import dev.lopyluna.dndecor.port.create.ExistingEntries;
 import com.zurrtum.create.*;
 import com.zurrtum.create.client.content.decoration.encasing.EncasedCTBehaviour;
 import com.zurrtum.create.content.decoration.palettes.ConnectedGlassPaneBlock;
@@ -313,10 +314,10 @@ public class DnDecorBlocks {
             customWindowBlock("ornate_iron_glass", () -> omni("palettes/ornate_iron_glass"), () -> omni("palettes/ornate_iron_glass_end"), () -> RenderTypes::cutout, false, () -> MapColor.TERRACOTTA_LIGHT_GRAY).register();
 
     public static final BlockEntry<ConnectedGlassPaneBlock> ORNATE_IRON_GLASS_PANE =
-            customWindowPane("ornate_iron_glass", ORNATE_IRON_GLASS, () -> omni("palettes/ornate_iron_glass"), () -> RenderTypes::cutoutMipped).register();
+            customWindowPane("ornate_iron_glass", ORNATE_IRON_GLASS, () -> omni("palettes/ornate_iron_glass"), () -> RenderTypes::cutout).register();
 
     public static final StoneTypeBlockList<CrushingWheelBlock> STONE_TYPE_CRUSHING_WHEELS = new StoneTypeBlockList<>((block, id) -> {
-        if (id.equals("andesite")) return AllBlocks.CRUSHING_WHEEL;
+        if (id.equals("andesite")) return ExistingEntries.block(REG, AllBlocks.CRUSHING_WHEEL);
         return REG.block(id + "_crushing_wheel", p -> new CrushingWheelTypeBlock(block, p))
                 .properties(p -> p.mapColor(block.get().defaultMapColor()).sound(block.get().defaultBlockState().getSoundType()))
                 .initialProperties(SharedProperties::stone)
@@ -330,7 +331,7 @@ public class DnDecorBlocks {
     });
 
     public static final StoneTypeBlockList<MillstoneBlock> STONE_TYPE_MILLSTONE = new StoneTypeBlockList<>((block, id) -> {
-        if (id.equals("andesite")) return AllBlocks.MILLSTONE;
+        if (id.equals("andesite")) return ExistingEntries.block(REG, AllBlocks.MILLSTONE);
         return REG.block(id + "_millstone", p -> new MillstoneTypeBlock(id, block, p))
                 .properties(p -> p.mapColor(block.get().defaultMapColor()).sound(block.get().defaultBlockState().getSoundType()))
                 .initialProperties(SharedProperties::stone)
@@ -757,7 +758,7 @@ public class DnDecorBlocks {
         return getCT(AllCTTypes.ROOF, blockTextureName, connectedTextureName);
     }
     private static CTSpriteShiftEntry roofStair(String blockTextureName, String connectedTextureName) {
-        return getCT(AllCTTypes.ROOF_STAIR, blockTextureName, connectedTextureName);
+        return getCT(AllCTTypes.ROOF, blockTextureName, connectedTextureName);
     }
     private static CTSpriteShiftEntry omni(String blockTextureName, String connectedTextureName) {
         return getCT(AllCTTypes.OMNIDIRECTIONAL, blockTextureName, connectedTextureName);
@@ -782,7 +783,7 @@ public class DnDecorBlocks {
         return getCT(AllCTTypes.ROOF, texture, texture);
     }
     private static CTSpriteShiftEntry roofStair(String texture) {
-        return getCT(AllCTTypes.ROOF_STAIR, texture, texture);
+        return getCT(AllCTTypes.ROOF, texture, texture);
     }
     private static CTSpriteShiftEntry omni(String texture) {
         return getCT(AllCTTypes.OMNIDIRECTIONAL, texture, texture);
@@ -798,7 +799,7 @@ public class DnDecorBlocks {
     }
 
     public static <T extends Block> Function<BlockState, ModelFile> getBlockModel(boolean customItem, DataGenContext<Block, T> c, RegistrateBlockstateProvider p) {
-        return $ -> customItem ? AssetLookup.partialBaseModel(c, p) : AssetLookup.standardModel(c, p);
+        return $ -> AssetLookup.partialBaseModel(c, p); // PORT-NOTE(26.1): datagen only; the shim has no standardModel
     }
 
     public static ArrayList<String> DD_DYES = null;

@@ -59,8 +59,8 @@ public class CopperBlockSet {
         for (CopperBlockSet set : ALL) {
             for (int i = 0; i < states.length; i++) {
                 if (i + 1 < states.length)
-                    OxidizableBlocksRegistry.registerOxidizableBlockPair(set.unwaxed.get(states[i]).get(), set.unwaxed.get(states[i + 1]).get());
-                OxidizableBlocksRegistry.registerWaxableBlockPair(set.unwaxed.get(states[i]).get(), set.waxed.get(states[i]).get());
+                    OxidizableBlocksRegistry.registerNextStage(set.unwaxed.get(states[i]).get(), set.unwaxed.get(states[i + 1]).get());
+                OxidizableBlocksRegistry.registerWaxable(set.unwaxed.get(states[i]).get(), set.waxed.get(states[i]).get());
             }
         }
     }

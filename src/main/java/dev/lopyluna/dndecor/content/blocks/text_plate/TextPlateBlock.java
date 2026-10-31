@@ -13,6 +13,7 @@ import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import dev.lopyluna.dndecor.register.DnDecorShapes;
 import dev.lopyluna.dndecor.register.helpers.list_providers.MaterialTypeProvider;
 import com.zurrtum.create.catnip.math.VoxelShaper;
+import com.zurrtum.create.foundation.block.NeighborChangeListeningBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -48,7 +49,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("NullableProblems")
-public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWaterloggedBlock {
+public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWaterloggedBlock, NeighborChangeListeningBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty EXTENDED = BlockStateProperties.EXTENDED;
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -229,7 +230,6 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
 
     @Override
     public void onNeighborChange(BlockState state, LevelReader level, BlockPos pos, BlockPos neighbor) {
-        super.onNeighborChange(state, level, pos, neighbor);
         updateBE(level, pos, state);
     }
 

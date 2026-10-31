@@ -99,6 +99,20 @@ public class CreateRegistrate extends AbstractRegistrate<CreateRegistrate> {
         return entry;
     }
 
+    /**
+     * Upstream Create's {@code paletteStoneBlock}: a plain stone block with an item.
+     *
+     * <p>PORT-NOTE(26.1): the blockstate, item model and replaceable tags were datagen only; the committed generated
+     * resources cover them.</p>
+     */
+    public dev.lopyluna.dndecor.port.registrate.builders.BlockBuilder<Block, CreateRegistrate> paletteStoneBlock(String name, NonNullSupplier<Block> propertiesFrom, boolean worldGenStone, boolean hasNaturalVariants) {
+        return block(name, Block::new)
+                .initialProperties(propertiesFrom)
+                .transform(TagGen.pickaxeOnly())
+                .item()
+                .build();
+    }
+
     public <T extends DisplaySource> NoConfigBuilder<DisplaySource, T, CreateRegistrate> displaySource(
             String name, NonNullSupplier<T> supplier) {
         return generic(self(), name, (net.minecraft.resources.ResourceKey) CreateRegistries.DISPLAY_SOURCE.key(), supplier);

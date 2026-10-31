@@ -13,14 +13,8 @@ import net.minecraft.world.level.block.Blocks;
 public class DnDecorUtils {
 
     public static InteractionResult itemResult(InteractionResult result) {
-        return switch (result) {
-            case SUCCESS -> InteractionResult.SUCCESS;
-            case CONSUME -> InteractionResult.CONSUME;
-            case CONSUME_PARTIAL -> InteractionResult.CONSUME;
-            case SUCCESS_NO_ITEM_USED -> InteractionResult.TRY_WITH_EMPTY_HAND;
-            case PASS -> InteractionResult.PASS;
-            case FAIL -> InteractionResult.FAIL;
-        };
+        // PORT-NOTE(26.1): ItemInteractionResult was folded into InteractionResult; kept for callers
+        return result;
     }
 
     public static ItemLike getWool(DyeColor color) {

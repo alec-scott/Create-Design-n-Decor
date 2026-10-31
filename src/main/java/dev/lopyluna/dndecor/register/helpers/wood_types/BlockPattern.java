@@ -137,8 +137,7 @@ public class BlockPattern {
     @SuppressWarnings("all")
     public IBlockStateProvider cubeAll(String variant) {
         Identifier all = toLocation(variant, textures[0]);
-        return (ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models()
-                .cubeAll(createName(variant), all));
+        return (ctx, prov) -> {}; // PORT-NOTE(26.1): datagen only
     }
 
     @SuppressWarnings("all")
@@ -146,39 +145,21 @@ public class BlockPattern {
         Identifier side = toLocation(variant, textures[0]);
         Identifier bottom = toLocation(variant, textures[1]);
         Identifier top = toLocation(variant, textures[2]);
-        return (ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models()
-                .cubeBottomTop(createName(variant), side, bottom, top));
+        return (ctx, prov) -> {}; // PORT-NOTE(26.1): datagen only
     }
 
     @SuppressWarnings("all")
     public IBlockStateProvider pillar(String variant) {
         Identifier side = toLocation(variant, textures[0]);
         Identifier end = toLocation(variant, textures[1]);
-        return (ctx, prov) -> prov.getVariantBuilder(ctx.getEntry())
-                .forAllStatesExcept(state -> {
-                    Direction.Axis axis = state.getValue(BlockStateProperties.AXIS);
-                    if (axis == Direction.Axis.Y)
-                        return ConfiguredModel.builder()
-                                .modelFile(prov.models()
-                                        .cubeColumn(createName(variant), side, end))
-                                .uvLock(false)
-                                .build();
-                    return ConfiguredModel.builder()
-                            .modelFile(prov.models()
-                                    .cubeColumnHorizontal(createName(variant) + "_horizontal", side, end))
-                            .uvLock(false)
-                            .rotationX(90)
-                            .rotationY(axis == Direction.Axis.X ? 90 : 0)
-                            .build();
-                    }, BlockStateProperties.WATERLOGGED, ConnectedPillarBlock.NORTH, ConnectedPillarBlock.SOUTH, ConnectedPillarBlock.EAST, ConnectedPillarBlock.WEST);
+        return (ctx, prov) -> {}; // PORT-NOTE(26.1): datagen only
     }
 
     @SuppressWarnings("all")
     public IBlockStateProvider cubeColumn(String variant) {
         Identifier side = toLocation(variant, textures[0]);
         Identifier end = toLocation(variant, textures[1]);
-        return (ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models()
-                .cubeColumn(createName(variant), side, end));
+        return (ctx, prov) -> {}; // PORT-NOTE(26.1): datagen only
     }
     protected String createName(String variant) {
         if (nameType == PatternNameType.WRAP) {

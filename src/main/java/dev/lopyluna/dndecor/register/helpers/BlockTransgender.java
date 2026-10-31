@@ -146,9 +146,9 @@ public class BlockTransgender {
                 .onRegister(connectedTextures(behaviour))
                 .initialProperties(() -> Blocks.GLASS)
                 .properties(BlockTransgender::glassProperties)
-                .tag(net.neoforged.neoforge.common.ConventionalBlockTags.GLASS_BLOCKS_COLORLESS, BlockTags.IMPERMEABLE)
+                .tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.GLASS_BLOCKS_COLORLESS, BlockTags.IMPERMEABLE)
                 .item()
-                .tag(net.neoforged.neoforge.common.ConventionalItemTags.GLASS_BLOCKS_COLORLESS)
+                .tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GLASS_BLOCKS_COLORLESS)
                 .build()
                 .register();
     }
@@ -163,7 +163,7 @@ public class BlockTransgender {
         var sideTexture = DnDecor.loc(palettesDir() + name);
         var itemSideTexture = DnDecor.loc(palettesDir() + name);
         var topTexture = DnDecor.loc(palettesDir() + name + "_pane_top");
-        Supplier<Supplier<?>> renderType = () -> RenderTypes::cutoutMipped;
+        Supplier<Supplier<?>> renderType = () -> RenderTypes::cutout;
         return connectedGlassPane(name, parent, ctshift, sideTexture, itemSideTexture, topTexture, renderType, true).register();
     }
 
@@ -182,7 +182,7 @@ public class BlockTransgender {
                 noSideAlt = getPaneModelProvider(CGPparents, prefix, "noside_alt", sideTexture, topTexture);
 
         NonNullBiConsumer<DataGenContext<Block, ConnectedGlassPaneBlock>, RegistrateBlockstateProvider> stateProvider =
-                (c, p) -> p.paneBlock(c.get(), post.apply(p), side.apply(p), sideAlt.apply(p), noSide.apply(p), noSideAlt.apply(p));
+                (c, p) -> {}; // PORT-NOTE(26.1): datagen only
 
         return glassPane(name, parent, itemSideTexture, topTexture, ConnectedGlassPaneBlock::new, renderType, connectedTextures, stateProvider, colorless);
     }

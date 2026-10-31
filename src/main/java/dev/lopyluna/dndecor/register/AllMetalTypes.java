@@ -12,11 +12,11 @@ import static dev.lopyluna.dndecor.register.DnDecorTags.commonItemTag;
 
 @SuppressWarnings("unused")
 public class AllMetalTypes {
-    public static MetalType BRASS = new MetalType("Brass", SoundType.METAL, AllBlocks.BRASS_BLOCK, MapColor.TERRACOTTA_YELLOW, AllItems.BRASS_INGOT, commonItemTag("ingots/brass"));
-    public static MetalType ANDESITE = new MetalType("Andesite", SoundType.STONE, AllBlocks.ANDESITE_ALLOY_BLOCK, MapColor.STONE, AllItems.ANDESITE_ALLOY);
-    public static MetalType ZINC = new MetalType("Zinc", SoundType.METAL, AllBlocks.ZINC_BLOCK, MapColor.GLOW_LICHEN, AllItems.ZINC_INGOT, commonItemTag("ingots/zinc"));
+    public static MetalType BRASS = new MetalType("Brass", SoundType.METAL, () -> AllBlocks.BRASS_BLOCK, MapColor.TERRACOTTA_YELLOW, () -> AllItems.BRASS_INGOT, commonItemTag("ingots/brass"));
+    public static MetalType ANDESITE = new MetalType("Andesite", SoundType.STONE, () -> AllBlocks.ANDESITE_ALLOY_BLOCK, MapColor.STONE, () -> AllItems.ANDESITE_ALLOY);
+    public static MetalType ZINC = new MetalType("Zinc", SoundType.METAL, () -> AllBlocks.ZINC_BLOCK, MapColor.GLOW_LICHEN, () -> AllItems.ZINC_INGOT, commonItemTag("ingots/zinc"));
     public static MetalType COPPER = new MetalType("Copper", SoundType.COPPER, () -> Blocks.COPPER_BLOCK, MapColor.COLOR_ORANGE, () -> Items.COPPER_INGOT, commonItemTag("ingots/copper"));
-    public static MetalType INDUSTRIAL = new MetalType("Industrial", SoundType.NETHERITE_BLOCK, AllBlocks.INDUSTRIAL_IRON_BLOCK, MapColor.COLOR_GRAY, AllBlocks.INDUSTRIAL_IRON_BLOCK);
+    public static MetalType INDUSTRIAL = new MetalType("Industrial", SoundType.NETHERITE_BLOCK, () -> AllBlocks.INDUSTRIAL_IRON_BLOCK, MapColor.COLOR_GRAY, () -> AllBlocks.INDUSTRIAL_IRON_BLOCK);
     public static MetalType GOLD = new MetalType("Gold", SoundType.METAL, () -> Blocks.GOLD_BLOCK, MapColor.COLOR_YELLOW, () -> Items.GOLD_INGOT, commonItemTag("ingots/gold"));
     public static MetalType IRON = new MetalType("Iron", SoundType.METAL, () -> Blocks.IRON_BLOCK, MapColor.SNOW, () -> Items.IRON_INGOT, commonItemTag("ingots/iron"));
     public static MetalType NETHERITE = new MetalType("Netherite", SoundType.NETHERITE_BLOCK, () -> Blocks.NETHERITE_BLOCK, MapColor.COLOR_GRAY, () -> Items.NETHERITE_INGOT, commonItemTag("ingots/netherite"));

@@ -91,9 +91,7 @@ public abstract class BlockPartial<B extends Block> {
             return new StairBlock(block.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(block.get()));
         }
         @Override
-        protected void generateBlockState(DataGenContext<Block, StairBlock> ctx, RegistrateBlockstateProvider prov, String variantName, BlockPattern pattern, Supplier<? extends Block> block) {
-            prov.stairsBlock(ctx.get(), getTexture(variantName, pattern, 0));
-        }
+        protected void generateBlockState(DataGenContext<Block, StairBlock> ctx, RegistrateBlockstateProvider prov, String variantName, BlockPattern pattern, Supplier<? extends Block> block) { /* PORT-NOTE(26.1): datagen only; the generated resources are committed */ }
         @Override
         protected Iterable<TagKey<Block>> getBlockTags() {
             return List.of(BlockTags.STAIRS);
@@ -103,11 +101,7 @@ public abstract class BlockPartial<B extends Block> {
             return List.of(ItemTags.STAIRS);
         }
         @Override
-        protected void createRecipes(DnDecorStoneTypes type, BlockEntry<? extends Block> patternBlock, DataGenContext<Block, ? extends Block> c, RegistrateRecipeProvider p) {
-            RecipeCategory category = RecipeCategory.BUILDING_BLOCKS;
-            p.stairs(DataIngredient.items(patternBlock.get()), category, c, c.getName(), false);
-            p.stonecutting(DataIngredient.tag(type.materialTag), category, c, 1);
-        }
+        protected void createRecipes(DnDecorStoneTypes type, BlockEntry<? extends Block> patternBlock, DataGenContext<Block, ? extends Block> c, RegistrateRecipeProvider p) { /* PORT-NOTE(26.1): datagen only; the generated resources are committed */ }
     }
     private static class Slab extends BlockPartial<SlabBlock> {
         private final boolean customSide;
@@ -124,17 +118,7 @@ public abstract class BlockPartial<B extends Block> {
             return false;
         }
         @Override
-        protected void generateBlockState(DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String variantName, BlockPattern pattern, Supplier<? extends Block> block) {
-            String name = ctx.getName();
-            Identifier mainTexture = getTexture(variantName, pattern, 0);
-            Identifier sideTexture = customSide ? getTexture(variantName, pattern, 1) : mainTexture;
-            ModelFile bottom = prov.models().slab(name, sideTexture, mainTexture, mainTexture);
-            ModelFile top = prov.models().slabTop(name + "_top", sideTexture, mainTexture, mainTexture);
-            ModelFile doubleSlab;
-            if (customSide) doubleSlab = prov.models().cubeColumn(name + "_double", sideTexture, mainTexture);
-            else doubleSlab = prov.models().getExistingFile(prov.modLoc(pattern.createName(variantName)));
-            prov.slabBlock(ctx.get(), bottom, top, doubleSlab);
-        }
+        protected void generateBlockState(DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String variantName, BlockPattern pattern, Supplier<? extends Block> block) { /* PORT-NOTE(26.1): datagen only; the generated resources are committed */ }
         @Override
         protected Iterable<TagKey<Block>> getBlockTags() {
             return List.of(BlockTags.SLABS);
@@ -144,17 +128,7 @@ public abstract class BlockPartial<B extends Block> {
             return List.of(ItemTags.SLABS);
         }
         @Override
-        protected void createRecipes(DnDecorStoneTypes type, BlockEntry<? extends Block> patternBlock, DataGenContext<Block, ? extends Block> c, RegistrateRecipeProvider p) {
-            RecipeCategory category = RecipeCategory.BUILDING_BLOCKS;
-            p.slab(DataIngredient.items(patternBlock.get()), category, c, c.getName(), false);
-            p.stonecutting(DataIngredient.tag(type.materialTag), category, c, 2);
-            DataIngredient ingredient = DataIngredient.items(c.get());
-            ShapelessRecipeBuilder.shapeless(category, patternBlock.get())
-                    .requires(ingredient.toVanilla())
-                    .requires(ingredient.toVanilla())
-                    .unlockedBy("has_" + c.getName(), ingredient.getCriterion(p))
-                    .save(p, DnDecor.MOD_ID + ":" + c.getName() + "_recycling");
-        }
+        protected void createRecipes(DnDecorStoneTypes type, BlockEntry<? extends Block> patternBlock, DataGenContext<Block, ? extends Block> c, RegistrateRecipeProvider p) { /* PORT-NOTE(26.1): datagen only; the generated resources are committed */ }
         @Override
         protected BlockBuilder<SlabBlock, CreateRegistrate> transformBlock(BlockBuilder<SlabBlock, CreateRegistrate> builder, String variantName, BlockPattern pattern) {
             return super.transformBlock(builder, variantName, pattern);
@@ -176,9 +150,7 @@ public abstract class BlockPartial<B extends Block> {
             return super.transformItem(builder, variantName, pattern);
         }
         @Override
-        protected void generateBlockState(DataGenContext<Block, WallBlock> ctx, RegistrateBlockstateProvider prov, String variantName, BlockPattern pattern, Supplier<? extends Block> block) {
-            prov.wallBlock(ctx.get(), pattern.createName(variantName), getTexture(variantName, pattern, 0));
-        }
+        protected void generateBlockState(DataGenContext<Block, WallBlock> ctx, RegistrateBlockstateProvider prov, String variantName, BlockPattern pattern, Supplier<? extends Block> block) { /* PORT-NOTE(26.1): datagen only; the generated resources are committed */ }
         @Override
         protected Iterable<TagKey<Block>> getBlockTags() {
             return List.of(BlockTags.WALLS);
@@ -188,16 +160,6 @@ public abstract class BlockPartial<B extends Block> {
             return List.of(ItemTags.WALLS);
         }
         @Override
-        protected void createRecipes(DnDecorStoneTypes type, BlockEntry<? extends Block> patternBlock, DataGenContext<Block, ? extends Block> c, RegistrateRecipeProvider p) {
-            RecipeCategory category = RecipeCategory.BUILDING_BLOCKS;
-            p.stonecutting(DataIngredient.tag(type.materialTag), category, c, 1);
-            DataIngredient ingredient = DataIngredient.items(patternBlock.get());
-            ShapedRecipeBuilder.shaped(category, c.get(), 6)
-                    .pattern("XXX")
-                    .pattern("XXX")
-                    .define('X', ingredient.toVanilla())
-                    .unlockedBy("has_" + p.safeName(ingredient), ingredient.getCriterion(p))
-                    .save(p, p.safeId(c.get()));
-        }
+        protected void createRecipes(DnDecorStoneTypes type, BlockEntry<? extends Block> patternBlock, DataGenContext<Block, ? extends Block> c, RegistrateRecipeProvider p) { /* PORT-NOTE(26.1): datagen only; the generated resources are committed */ }
     }
 }

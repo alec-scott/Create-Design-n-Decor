@@ -1,5 +1,6 @@
 package dev.lopyluna.dndecor.register;
 
+import net.minecraft.core.registries.Registries;
 import com.zurrtum.create.Create;
 import dev.lopyluna.dndecor.DnDecor;
 import com.zurrtum.create.client.catnip.lang.Lang;
@@ -50,7 +51,7 @@ public class DnDecorTags {
     public enum NameSpace {
         MOD(MOD_ID, false, true),
         COMMON("c"),
-        CREATE(Create.ID);
+        CREATE("create");
 
         public final String id;
         public final boolean optionalDefault;
@@ -78,7 +79,7 @@ public class DnDecorTags {
         BlockTags(NameSpace namespace, String path, boolean optional, boolean alwaysDatagen) {
             Identifier id = Identifier.fromNamespaceAndPath(namespace.id, path == null ? Lang.asId(name()) : path);
             if (optional) tag = optionalTag(BuiltInRegistries.BLOCK, id);
-            else tag = net.minecraft.tags.BlockTags.create(id);
+            else tag = TagKey.create(Registries.BLOCK, id);
             this.alwaysDatagen = alwaysDatagen;
         }
         @SuppressWarnings("deprecation")
@@ -105,7 +106,7 @@ public class DnDecorTags {
         ItemTags(NameSpace namespace, String path, boolean optional, boolean alwaysDatagen) {
             Identifier id = Identifier.fromNamespaceAndPath(namespace.id, path == null ? Lang.asId(name()) : path);
             if (optional) tag = optionalTag(BuiltInRegistries.ITEM, id);
-            else tag = net.minecraft.tags.ItemTags.create(id);
+            else tag = TagKey.create(Registries.ITEM, id);
             this.alwaysDatagen = alwaysDatagen;
         }
         @SuppressWarnings("deprecation")
