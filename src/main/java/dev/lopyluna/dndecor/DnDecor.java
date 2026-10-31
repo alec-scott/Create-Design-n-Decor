@@ -58,6 +58,7 @@ public class DnDecor implements ModInitializer {
         dev.lopyluna.dndecor.port.create.foundation.block.CopperBlockSet.registerAll();
         DnDecorCommon.registerCapabilities();
         DnDecorServer.register();
+        dev.lopyluna.dndecor.port.create.ItemUseOverrides.init();
         DnDecorInventoryIdentifiers.registerDefaults();
     }
 
