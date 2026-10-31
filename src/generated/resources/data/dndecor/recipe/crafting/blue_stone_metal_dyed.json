@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "D": {
-      "tag": "c:dyes/blue"
-    },
-    "S": {
-      "tag": "dndecor:stone_metal_decor"
-    }
+    "D": "#c:dyes/blue",
+    "S": "#dndecor:stone_metal_decor"
   },
   "pattern": [
     "SSS",
@@ -17,5 +12,6 @@
   "result": {
     "count": 8,
     "id": "dndecor:blue_stone_metal"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

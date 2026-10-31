@@ -1,10 +1,8 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:stone_types/netherrack"
-  },
+  "ingredient": "#dndecor:stone_types/netherrack",
   "result": {
     "count": 2,
     "id": "dndecor:polished_cut_netherrack_slab"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

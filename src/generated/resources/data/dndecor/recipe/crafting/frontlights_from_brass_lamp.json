@@ -1,13 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "dndecor:brass_lamp"
-    }
+    "dndecor:brass_lamp"
   ],
   "result": {
     "count": 4,
     "id": "dndecor:brass_frontlight"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "dndecor:ornate_iron_glass"
-  },
+  "ingredient": "dndecor:ornate_iron_glass",
   "result": {
-    "count": 1,
     "id": "create:ornate_iron_window"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

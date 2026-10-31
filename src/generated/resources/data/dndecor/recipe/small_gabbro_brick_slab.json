@@ -1,11 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "group": "small_gabbro_brick_slab",
   "key": {
-    "X": {
-      "item": "dndecor:small_gabbro_bricks"
-    }
+    "X": "dndecor:small_gabbro_bricks"
   },
   "pattern": [
     "XXX"
@@ -13,5 +10,6 @@
   "result": {
     "count": 6,
     "id": "dndecor:small_gabbro_brick_slab"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

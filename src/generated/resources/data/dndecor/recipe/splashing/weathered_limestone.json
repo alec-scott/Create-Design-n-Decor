@@ -1,13 +1,9 @@
 {
-  "type": "create:splashing",
-  "ingredients": [
-    {
-      "item": "create:limestone"
-    }
-  ],
+  "ingredient": "create:limestone",
   "results": [
     {
       "id": "dndecor:weathered_limestone"
     }
-  ]
+  ],
+  "type": "create:splashing"
 }

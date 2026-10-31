@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "dndecor:cut_basalt_slab"
-    },
-    {
-      "item": "dndecor:cut_basalt_slab"
-    }
+    "dndecor:cut_basalt_slab",
+    "dndecor:cut_basalt_slab"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:cut_basalt"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

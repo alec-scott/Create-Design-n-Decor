@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": {
-      "item": "create:asurine"
-    },
-    "S": {
-      "tag": "c:plates/iron"
-    }
+    "A": "create:asurine",
+    "S": "#c:plates/iron"
   },
   "pattern": [
     "AS",
@@ -16,5 +11,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:stone_metal"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

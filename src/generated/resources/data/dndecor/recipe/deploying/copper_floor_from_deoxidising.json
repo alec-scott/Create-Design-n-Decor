@@ -1,17 +1,11 @@
 {
-  "type": "create:deploying",
-  "ingredients": [
-    {
-      "item": "dndecor:exposed_copper_floor"
-    },
-    {
-      "tag": "minecraft:axes"
-    }
-  ],
+  "ingredient": "#minecraft:axes",
   "keep_held_item": true,
   "results": [
     {
       "id": "dndecor:copper_floor"
     }
-  ]
+  ],
+  "target": "dndecor:exposed_copper_floor",
+  "type": "create:deploying"
 }

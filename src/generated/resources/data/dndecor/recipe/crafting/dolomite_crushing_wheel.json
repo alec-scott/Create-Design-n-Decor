@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "dndecor:dolomite"
-    },
-    {
-      "tag": "c:create/crushing_wheels"
-    }
+    "dndecor:dolomite",
+    "#c:create/crushing_wheels"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:dolomite_crushing_wheel"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

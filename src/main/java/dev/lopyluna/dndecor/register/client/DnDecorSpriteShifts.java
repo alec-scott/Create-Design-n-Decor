@@ -102,7 +102,13 @@ public class DnDecorSpriteShifts {
         final String prefixed;
         if (color == null || type.isEmpty()) prefixed = "block/container_" + name;
         else prefixed = "block/containers/" + type + "/" + color.getSerializedName() + "_" + name;
-        return Couple.createWithContext(medium -> CTSpriteShifter.getCT(AllCTTypes.RECTANGLE, DnDecor.loc(prefixed + "_small"), DnDecor.loc(medium ? prefixed + "_medium" : prefixed + "_large")));
+        // PORT-NOTE(26.1): Create Fly gives the item vault's faces their own CT types (and tile sets); the dyed
+        // containers are vault reskins, so they use the same ones (see porting-tools/SplitConnectedTextures.java)
+        boolean front = name.equals("front");
+        return Couple.createWithContext(medium -> CTSpriteShifter.getCT(
+                medium ? (front ? AllCTTypes.SQUARE : AllCTTypes.RECTANGLE_WITHOUT_VERTICAL_MIDDLE)
+                        : (front ? AllCTTypes.RECTANGLE_WITHOUT_SINGLE : AllCTTypes.RECTANGLE_WITHOUT_HORIZONTAL_SINGLE),
+                DnDecor.loc(prefixed + "_small"), DnDecor.loc(medium ? prefixed + "_medium" : prefixed + "_large")));
     }
 
     private static SpriteShiftEntry get(String originalLocation, String targetLocation) {

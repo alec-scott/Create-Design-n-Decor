@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:stone"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "minecraft:stone",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:stone_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

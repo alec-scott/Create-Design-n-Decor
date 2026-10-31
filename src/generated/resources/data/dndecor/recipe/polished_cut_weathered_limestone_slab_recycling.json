@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "dndecor:polished_cut_weathered_limestone_slab"
-    },
-    {
-      "item": "dndecor:polished_cut_weathered_limestone_slab"
-    }
+    "dndecor:polished_cut_weathered_limestone_slab",
+    "dndecor:polished_cut_weathered_limestone_slab"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:polished_cut_weathered_limestone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

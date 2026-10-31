@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "B": {
-      "tag": "c:plates/brass"
-    },
-    "L": {
-      "item": "minecraft:lever"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    }
+    "B": "#c:plates/brass",
+    "L": "minecraft:lever",
+    "R": "minecraft:redstone"
   },
   "pattern": [
     "L",
@@ -18,7 +11,7 @@
     "R"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:stepped_lever"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

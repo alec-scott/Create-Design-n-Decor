@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:netherrack"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "minecraft:netherrack",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:netherrack_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

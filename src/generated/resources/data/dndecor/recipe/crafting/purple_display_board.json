@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "tag": "c:dyes/purple"
-    },
-    "D": {
-      "tag": "c:create/display_boards"
-    }
+    "C": "#c:dyes/purple",
+    "D": "#c:create/display_boards"
   },
   "pattern": [
     "DDD",
@@ -17,5 +12,6 @@
   "result": {
     "count": 8,
     "id": "dndecor:purple_display_board"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "create:scoria"
-    },
-    {
-      "tag": "c:create/crushing_wheels"
-    }
+    "create:scoria",
+    "#c:create/crushing_wheels"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:scoria_crushing_wheel"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

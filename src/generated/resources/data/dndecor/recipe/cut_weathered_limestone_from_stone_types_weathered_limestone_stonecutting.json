@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:stone_types/weathered_limestone"
-  },
+  "ingredient": "#dndecor:stone_types/weathered_limestone",
   "result": {
-    "count": 1,
     "id": "dndecor:cut_weathered_limestone"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

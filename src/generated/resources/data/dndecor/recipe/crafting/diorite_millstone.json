@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:diorite"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "minecraft:diorite",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:diorite_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

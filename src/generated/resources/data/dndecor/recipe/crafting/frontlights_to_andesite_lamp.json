@@ -1,17 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "F": {
-      "item": "dndecor:andesite_frontlight"
-    }
+    "F": "dndecor:andesite_frontlight"
   },
   "pattern": [
     "FF",
     "FF"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:andesite_lamp"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

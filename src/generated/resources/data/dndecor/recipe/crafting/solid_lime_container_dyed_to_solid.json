@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "D": {
-      "tag": "c:dyes/lime"
-    },
-    "S": {
-      "tag": "dndecor:non_solid_containers_decor"
-    }
+    "D": "#c:dyes/lime",
+    "S": "#dndecor:non_solid_containers_decor"
   },
   "pattern": [
     " S ",
@@ -17,5 +12,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:solid_lime_container"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

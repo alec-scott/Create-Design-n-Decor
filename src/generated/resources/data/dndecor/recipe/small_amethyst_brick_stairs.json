@@ -1,11 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "group": "small_amethyst_brick_stairs",
   "key": {
-    "X": {
-      "item": "dndecor:small_amethyst_bricks"
-    }
+    "X": "dndecor:small_amethyst_bricks"
   },
   "pattern": [
     "X  ",
@@ -15,5 +12,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:small_amethyst_brick_stairs"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

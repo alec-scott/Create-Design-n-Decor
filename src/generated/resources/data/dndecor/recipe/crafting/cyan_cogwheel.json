@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "tag": "c:dyes/cyan"
-    },
-    "D": {
-      "tag": "dndecor:cogwheel"
-    }
+    "C": "#c:dyes/cyan",
+    "D": "#dndecor:cogwheel"
   },
   "pattern": [
     "DDD",
@@ -17,5 +12,6 @@
   "result": {
     "count": 8,
     "id": "dndecor:cyan_cogwheel"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:granite"
-    },
-    {
-      "tag": "c:create/crushing_wheels"
-    }
+    "minecraft:granite",
+    "#c:create/crushing_wheels"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:granite_crushing_wheel"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:dripstone_block"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "minecraft:dripstone_block",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:dripstone_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

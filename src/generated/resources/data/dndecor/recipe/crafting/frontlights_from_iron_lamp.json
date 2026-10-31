@@ -1,13 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "dndecor:iron_lamp"
-    }
+    "dndecor:iron_lamp"
   ],
   "result": {
     "count": 4,
     "id": "dndecor:iron_frontlight"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

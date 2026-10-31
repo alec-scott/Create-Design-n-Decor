@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "dndecor:polished_cut_gabbro_slab"
-    },
-    {
-      "item": "dndecor:polished_cut_gabbro_slab"
-    }
+    "dndecor:polished_cut_gabbro_slab",
+    "dndecor:polished_cut_gabbro_slab"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:polished_cut_gabbro"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

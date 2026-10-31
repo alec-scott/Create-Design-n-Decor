@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "B": {
-      "tag": "c:plates/iron"
-    },
-    "L": {
-      "item": "minecraft:lever"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    }
+    "B": "#c:plates/iron",
+    "L": "minecraft:lever",
+    "R": "minecraft:redstone"
   },
   "pattern": [
     "L",
@@ -18,7 +11,7 @@
     "R"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:breaker_switch"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

@@ -1,13 +1,9 @@
 {
-  "type": "create:splashing",
-  "ingredients": [
-    {
-      "tag": "c:create/dyed_display_boards"
-    }
-  ],
+  "ingredient": "#c:create/dyed_display_boards",
   "results": [
     {
       "id": "create:display_board"
     }
-  ]
+  ],
+  "type": "create:splashing"
 }

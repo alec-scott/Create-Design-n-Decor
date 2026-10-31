@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "tag": "c:dyes/cyan"
-    },
-    "D": {
-      "tag": "c:create/flywheels"
-    }
+    "C": "#c:dyes/cyan",
+    "D": "#c:create/flywheels"
   },
   "pattern": [
     "DDD",
@@ -17,5 +12,6 @@
   "result": {
     "count": 8,
     "id": "dndecor:cyan_flywheel"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

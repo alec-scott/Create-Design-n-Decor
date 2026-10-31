@@ -1,11 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "group": "cut_netherrack_stairs",
   "key": {
-    "X": {
-      "item": "dndecor:cut_netherrack"
-    }
+    "X": "dndecor:cut_netherrack"
   },
   "pattern": [
     "X  ",
@@ -15,5 +12,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:cut_netherrack_stairs"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

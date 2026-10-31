@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "create:crimsite"
-    },
-    {
-      "tag": "c:create/crushing_wheels"
-    }
+    "create:crimsite",
+    "#c:create/crushing_wheels"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:crimsite_crushing_wheel"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

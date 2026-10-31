@@ -1,11 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "group": "polished_cut_gabbro_stairs",
   "key": {
-    "X": {
-      "item": "dndecor:polished_cut_gabbro"
-    }
+    "X": "dndecor:polished_cut_gabbro"
   },
   "pattern": [
     "X  ",
@@ -15,5 +12,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:polished_cut_gabbro_stairs"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

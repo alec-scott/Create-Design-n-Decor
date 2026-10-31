@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "create:crimsite"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "create:crimsite",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:crimsite_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

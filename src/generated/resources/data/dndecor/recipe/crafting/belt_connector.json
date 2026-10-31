@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "create:belt_connector"
-    }
+    "C": "create:belt_connector"
   },
   "pattern": [
     "CC",
@@ -13,5 +10,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:belt_connector"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

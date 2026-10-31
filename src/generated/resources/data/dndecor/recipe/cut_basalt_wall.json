@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "X": {
-      "item": "dndecor:cut_basalt"
-    }
+    "X": "dndecor:cut_basalt"
   },
   "pattern": [
     "XXX",
@@ -13,5 +10,6 @@
   "result": {
     "count": 6,
     "id": "dndecor:cut_basalt_wall"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

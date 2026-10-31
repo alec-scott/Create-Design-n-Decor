@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "dndecor:exposed_copper_floor"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    }
+    "dndecor:exposed_copper_floor",
+    "minecraft:honeycomb"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:waxed_exposed_copper_floor"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

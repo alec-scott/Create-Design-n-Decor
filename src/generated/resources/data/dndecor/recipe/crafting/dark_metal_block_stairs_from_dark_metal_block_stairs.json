@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "X": {
-      "item": "dndecor:dark_metal_block"
-    }
+    "X": "dndecor:dark_metal_block"
   },
   "pattern": [
     "X  ",
@@ -14,5 +11,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:dark_metal_block_stairs"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

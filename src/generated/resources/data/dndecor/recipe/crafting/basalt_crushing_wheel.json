@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:basalt"
-    },
-    {
-      "tag": "c:create/crushing_wheels"
-    }
+    "minecraft:basalt",
+    "#c:create/crushing_wheels"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:basalt_crushing_wheel"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

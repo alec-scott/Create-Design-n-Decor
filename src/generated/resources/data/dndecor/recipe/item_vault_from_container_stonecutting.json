@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "dndecor:container"
-  },
+  "ingredient": "dndecor:container",
   "result": {
-    "count": 1,
     "id": "create:item_vault"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

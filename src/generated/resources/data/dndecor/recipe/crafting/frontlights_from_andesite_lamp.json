@@ -1,13 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "dndecor:andesite_lamp"
-    }
+    "dndecor:andesite_lamp"
   ],
   "result": {
     "count": 4,
     "id": "dndecor:andesite_frontlight"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "D": {
-      "tag": "c:dyes/pink"
-    },
-    "S": {
-      "tag": "dndecor:dark_metal_block_decor"
-    }
+    "D": "#c:dyes/pink",
+    "S": "#dndecor:dark_metal_block_decor"
   },
   "pattern": [
     "SSS",
@@ -17,5 +12,6 @@
   "result": {
     "count": 8,
     "id": "dndecor:pink_dark_metal_block"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

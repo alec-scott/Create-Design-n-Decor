@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:amethyst_block"
-    },
-    {
-      "tag": "c:create/crushing_wheels"
-    }
+    "minecraft:amethyst_block",
+    "#c:create/crushing_wheels"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:amethyst_crushing_wheel"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

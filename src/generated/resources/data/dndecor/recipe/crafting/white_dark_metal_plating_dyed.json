@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "D": {
-      "tag": "c:dyes/white"
-    },
-    "S": {
-      "tag": "dndecor:dark_metal_plating_decor"
-    }
+    "D": "#c:dyes/white",
+    "S": "#dndecor:dark_metal_plating_decor"
   },
   "pattern": [
     "SSS",
@@ -17,5 +12,6 @@
   "result": {
     "count": 8,
     "id": "dndecor:white_dark_metal_plating"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

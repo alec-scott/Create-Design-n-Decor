@@ -1,22 +1,14 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "c:ingots/iron"
-    },
-    {
-      "tag": "c:nuggets/iron"
-    },
-    {
-      "tag": "c:nuggets/iron"
-    },
-    {
-      "tag": "c:ingots/iron"
-    }
+    "#c:ingots/iron",
+    "#c:nuggets/iron",
+    "#c:nuggets/iron",
+    "#c:ingots/iron"
   ],
   "result": {
     "count": 4,
     "id": "dndecor:text_plate"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

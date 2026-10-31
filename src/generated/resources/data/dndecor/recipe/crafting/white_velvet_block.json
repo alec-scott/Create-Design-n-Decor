@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "B": {
-      "tag": "c:nuggets/brass"
-    },
-    "W": {
-      "item": "minecraft:white_wool"
-    }
+    "B": "#c:nuggets/brass",
+    "W": "minecraft:white_wool"
   },
   "pattern": [
     "WB",
@@ -16,5 +11,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:white_velvet_block"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

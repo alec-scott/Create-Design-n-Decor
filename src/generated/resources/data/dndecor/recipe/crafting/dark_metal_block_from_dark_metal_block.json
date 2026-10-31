@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "create:industrial_iron_block"
-    }
+    "C": "create:industrial_iron_block"
   },
   "pattern": [
     "CC",
@@ -13,5 +10,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:dark_metal_block"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

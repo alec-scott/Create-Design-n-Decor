@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "dndecor:gabbro"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "dndecor:gabbro",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:gabbro_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

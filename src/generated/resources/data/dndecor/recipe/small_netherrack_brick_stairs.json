@@ -1,11 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "group": "small_netherrack_brick_stairs",
   "key": {
-    "X": {
-      "item": "dndecor:small_netherrack_bricks"
-    }
+    "X": "dndecor:small_netherrack_bricks"
   },
   "pattern": [
     "X  ",
@@ -15,5 +12,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:small_netherrack_brick_stairs"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

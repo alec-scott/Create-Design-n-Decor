@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "D": {
-      "tag": "c:dyes/light_gray"
-    },
-    "S": {
-      "tag": "dndecor:non_solid_containers_decor"
-    }
+    "D": "#c:dyes/light_gray",
+    "S": "#dndecor:non_solid_containers_decor"
   },
   "pattern": [
     "SSS",
@@ -17,5 +12,6 @@
   "result": {
     "count": 8,
     "id": "dndecor:light_gray_container"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

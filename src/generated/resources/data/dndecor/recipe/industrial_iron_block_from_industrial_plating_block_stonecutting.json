@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "dndecor:industrial_plating_block"
-  },
+  "ingredient": "dndecor:industrial_plating_block",
   "result": {
-    "count": 1,
     "id": "create:industrial_iron_block"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

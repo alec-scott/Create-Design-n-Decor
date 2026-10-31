@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "create:ochrum"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "create:ochrum",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:ochrum_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

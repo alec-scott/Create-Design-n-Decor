@@ -1,10 +1,8 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:stone_types/dolomite"
-  },
+  "ingredient": "#dndecor:stone_types/dolomite",
   "result": {
     "count": 2,
     "id": "dndecor:cut_dolomite_brick_slab"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

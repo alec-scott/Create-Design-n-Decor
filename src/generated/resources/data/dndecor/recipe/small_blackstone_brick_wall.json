@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "X": {
-      "item": "dndecor:small_blackstone_bricks"
-    }
+    "X": "dndecor:small_blackstone_bricks"
   },
   "pattern": [
     "XXX",
@@ -13,5 +10,6 @@
   "result": {
     "count": 6,
     "id": "dndecor:small_blackstone_brick_wall"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

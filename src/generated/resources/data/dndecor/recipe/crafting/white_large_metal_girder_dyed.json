@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "D": {
-      "tag": "c:dyes/white"
-    },
-    "S": {
-      "tag": "dndecor:large_metal_girder_decor"
-    }
+    "D": "#c:dyes/white",
+    "S": "#dndecor:large_metal_girder_decor"
   },
   "pattern": [
     "SSS",
@@ -17,5 +12,6 @@
   "result": {
     "count": 8,
     "id": "dndecor:white_large_metal_girder"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

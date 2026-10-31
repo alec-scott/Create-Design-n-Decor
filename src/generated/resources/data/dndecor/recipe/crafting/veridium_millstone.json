@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "create:veridium"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "create:veridium",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:veridium_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

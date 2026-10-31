@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:dark_metal_decor"
-  },
+  "ingredient": "#dndecor:dark_metal_decor",
   "result": {
-    "count": 1,
     "id": "dndecor:diagonal_metal_support"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

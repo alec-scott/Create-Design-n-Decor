@@ -1,24 +1,13 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "B": {
-      "tag": "c:stones"
-    },
+    "B": "#c:stones",
     "G": [
-      {
-        "item": "minecraft:glowstone_dust"
-      },
-      {
-        "item": "minecraft:prismarine_crystals"
-      },
-      {
-        "item": "minecraft:blaze_rod"
-      }
+      "minecraft:glowstone_dust",
+      "minecraft:prismarine_crystals",
+      "minecraft:blaze_rod"
     ],
-    "M": {
-      "tag": "c:ingots/iron"
-    }
+    "M": "#c:ingots/iron"
   },
   "pattern": [
     "GM",
@@ -27,5 +16,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:iron_frontlight"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

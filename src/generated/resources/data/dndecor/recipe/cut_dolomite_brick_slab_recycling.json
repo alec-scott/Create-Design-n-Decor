@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "dndecor:cut_dolomite_brick_slab"
-    },
-    {
-      "item": "dndecor:cut_dolomite_brick_slab"
-    }
+    "dndecor:cut_dolomite_brick_slab",
+    "dndecor:cut_dolomite_brick_slab"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:cut_dolomite_bricks"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

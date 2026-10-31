@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "create:limestone"
-    },
-    {
-      "tag": "c:create/crushing_wheels"
-    }
+    "create:limestone",
+    "#c:create/crushing_wheels"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:limestone_crushing_wheel"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

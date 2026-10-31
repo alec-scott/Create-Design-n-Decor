@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:stone_types/netherrack"
-  },
+  "ingredient": "#dndecor:stone_types/netherrack",
   "result": {
-    "count": 1,
     "id": "dndecor:small_netherrack_brick_stairs"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

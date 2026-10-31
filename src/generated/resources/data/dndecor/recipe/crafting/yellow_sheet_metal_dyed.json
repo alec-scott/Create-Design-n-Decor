@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "D": {
-      "tag": "c:dyes/yellow"
-    },
-    "S": {
-      "tag": "dndecor:sheet_metal_decor"
-    }
+    "D": "#c:dyes/yellow",
+    "S": "#dndecor:sheet_metal_decor"
   },
   "pattern": [
     "SSS",
@@ -17,5 +12,6 @@
   "result": {
     "count": 8,
     "id": "dndecor:yellow_sheet_metal"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

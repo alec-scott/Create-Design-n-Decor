@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "dndecor:dark_metal_bricks"
-    }
+    "C": "dndecor:dark_metal_bricks"
   },
   "pattern": [
     "CCC"
@@ -12,5 +9,6 @@
   "result": {
     "count": 6,
     "id": "dndecor:dark_metal_brick_slab"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

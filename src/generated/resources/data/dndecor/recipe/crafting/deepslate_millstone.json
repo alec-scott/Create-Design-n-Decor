@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:deepslate"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "minecraft:deepslate",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:deepslate_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

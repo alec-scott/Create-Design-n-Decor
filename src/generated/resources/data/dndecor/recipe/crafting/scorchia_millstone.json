@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "create:scorchia"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "create:scorchia",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:scorchia_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

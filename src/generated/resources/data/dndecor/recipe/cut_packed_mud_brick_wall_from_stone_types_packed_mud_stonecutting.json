@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:stone_types/packed_mud"
-  },
+  "ingredient": "#dndecor:stone_types/packed_mud",
   "result": {
-    "count": 1,
     "id": "dndecor:cut_packed_mud_brick_wall"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

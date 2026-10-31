@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:stone_types/dolomite"
-  },
+  "ingredient": "#dndecor:stone_types/dolomite",
   "result": {
-    "count": 1,
     "id": "dndecor:dolomite_pillar"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "dndecor:cut_packed_mud_slab"
-    },
-    {
-      "item": "dndecor:cut_packed_mud_slab"
-    }
+    "dndecor:cut_packed_mud_slab",
+    "dndecor:cut_packed_mud_slab"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:cut_packed_mud"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

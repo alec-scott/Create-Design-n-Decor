@@ -1,17 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "create:metal_girder"
-    }
+    "C": "create:metal_girder"
   },
   "pattern": [
     "CC",
     "CC"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:large_metal_girder"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

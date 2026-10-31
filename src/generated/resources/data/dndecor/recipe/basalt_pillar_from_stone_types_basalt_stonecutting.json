@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:stone_types/basalt"
-  },
+  "ingredient": "#dndecor:stone_types/basalt",
   "result": {
-    "count": 1,
     "id": "dndecor:basalt_pillar"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

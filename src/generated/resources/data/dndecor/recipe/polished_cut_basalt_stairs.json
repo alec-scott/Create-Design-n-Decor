@@ -1,11 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "group": "polished_cut_basalt_stairs",
   "key": {
-    "X": {
-      "item": "dndecor:polished_cut_basalt"
-    }
+    "X": "dndecor:polished_cut_basalt"
   },
   "pattern": [
     "X  ",
@@ -15,5 +12,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:polished_cut_basalt_stairs"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

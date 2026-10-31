@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:stone_types/blackstone"
-  },
+  "ingredient": "#dndecor:stone_types/blackstone",
   "result": {
-    "count": 1,
     "id": "dndecor:cut_blackstone_wall"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

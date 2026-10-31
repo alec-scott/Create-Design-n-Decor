@@ -1,17 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "F": {
-      "item": "dndecor:industrial_frontlight"
-    }
+    "F": "dndecor:industrial_frontlight"
   },
   "pattern": [
     "FF",
     "FF"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:industrial_lamp"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

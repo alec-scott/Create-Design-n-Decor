@@ -1,11 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "group": "cut_weathered_limestone_stairs",
   "key": {
-    "X": {
-      "item": "dndecor:cut_weathered_limestone"
-    }
+    "X": "dndecor:cut_weathered_limestone"
   },
   "pattern": [
     "X  ",
@@ -15,5 +12,6 @@
   "result": {
     "count": 4,
     "id": "dndecor:cut_weathered_limestone_stairs"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

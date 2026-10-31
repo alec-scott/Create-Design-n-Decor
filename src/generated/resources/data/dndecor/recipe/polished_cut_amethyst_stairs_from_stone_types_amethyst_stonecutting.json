@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "dndecor:stone_types/amethyst"
-  },
+  "ingredient": "#dndecor:stone_types/amethyst",
   "result": {
-    "count": 1,
     "id": "dndecor:polished_cut_amethyst_stairs"
-  }
+  },
+  "type": "minecraft:stonecutting"
 }

@@ -1,16 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "create:scoria"
-    },
-    {
-      "tag": "c:create/millstones"
-    }
+    "create:scoria",
+    "#c:create/millstones"
   ],
   "result": {
-    "count": 1,
     "id": "dndecor:scoria_millstone"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }
