@@ -1,5 +1,8 @@
 package dev.lopyluna.dndecor.mixins.belts;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.InteractionResult;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -8,8 +11,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.zurrtum.create.AllBlocks;
 import com.zurrtum.create.AllItems;
 import com.zurrtum.create.content.kinetics.belt.BeltBlock;
-import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
-import dev.lopyluna.dndecor.port.registrate.util.entry.ItemEntry;
 import dev.lopyluna.dndecor.content.blocks.full_belt.FullBeltBlock;
 import dev.lopyluna.dndecor.register.DnDecorItems;
 import net.minecraft.world.item.ItemStack;
@@ -18,55 +19,54 @@ import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Debug(export=true)
 @Mixin(value = BeltBlock.class, remap = false)
 public abstract class BeltBlockMixin {
 
-    @WrapOperation(method = "updateEntityAfterFallOn(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;)V",
-            at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/BlockEntry;has(Lnet/minecraft/world/level/block/state/BlockState;)Z"))
-    public boolean updateEntityAfterFallOn(BlockEntry<?> instance, BlockState state, Operation<Boolean> original) {
-        return instance == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(instance, state);
+    @WrapOperation(method = "updateEntityAfterFallOn",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
+    public boolean updateEntityAfterFallOn(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+        return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
 
-    @WrapOperation(method = "canTransportObjects(Lnet/minecraft/world/level/block/state/BlockState;)Z",
-            at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/BlockEntry;has(Lnet/minecraft/world/level/block/state/BlockState;)Z"))
-    private static boolean canTransportObjects(BlockEntry<?> instance, BlockState state, Operation<Boolean> original) {
-        return instance == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(instance, state);
+    @WrapOperation(method = "canTransportObjects",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
+    private static boolean canTransportObjects(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+        return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
 
-    @WrapOperation(method = "initBelt(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V",
-            at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/BlockEntry;has(Lnet/minecraft/world/level/block/state/BlockState;)Z"))
-    private static boolean initBelt(BlockEntry<?> instance, BlockState state, Operation<Boolean> original) {
-        return instance == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(instance, state);
+    @WrapOperation(method = "initBelt",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
+    private static boolean initBelt(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+        return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
 
-    @WrapOperation(method = "onRemove(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Z)V",
-            at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/BlockEntry;has(Lnet/minecraft/world/level/block/state/BlockState;)Z"))
-    public boolean onRemove(BlockEntry<?> instance, BlockState state, Operation<Boolean> original) {
-        return instance == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(instance, state);
+    @WrapOperation(method = "onRemove",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
+    public boolean onRemove(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+        return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
 
-    @WrapOperation(method = "getBeltChain(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)Ljava/util/List;",
-            at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/BlockEntry;has(Lnet/minecraft/world/level/block/state/BlockState;)Z"))
-    private static boolean getBeltChain(BlockEntry<?> instance, BlockState state, Operation<Boolean> original) {
-        return instance == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(instance, state);
+    @WrapOperation(method = "getBeltChain",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;is(Lnet/minecraft/world/level/block/Block;)Z"))
+    private static boolean getBeltChain(BlockBehaviour.BlockStateBase state, Block block, Operation<Boolean> original) {
+        return block == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(state, block);
     }
 
-    @WrapOperation(method = "useItemOn(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/phys/BlockHitResult;)Lnet/minecraft/world/InteractionResult;",
-            at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/ItemEntry;isIn(Lnet/minecraft/world/item/ItemStack;)Z"))
-    private boolean useItemOnIsIn(ItemEntry<?> instance, ItemStack stack, Operation<Boolean> original, @Local(argsOnly = true) BlockState state) {
-        return instance == AllItems.BELT_CONNECTOR ? state.getBlock() instanceof FullBeltBlock ? original.call(DnDecorItems.BELT_CONNECTOR, stack) : original.call(instance, stack) : original.call(instance, stack);
+    @WrapOperation(method = "useItemOn",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"))
+    private boolean useItemOnIsIn(ItemStack stack, Item instance, Operation<Boolean> original, @Local(argsOnly = true) BlockState state) {
+        return instance == AllItems.BELT_CONNECTOR ? state.getBlock() instanceof FullBeltBlock ? original.call(stack, DnDecorItems.BELT_CONNECTOR.get()) : original.call(stack, instance) : original.call(stack, instance);
     }
 
-    @WrapOperation(method = "getRequiredItems(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/BlockEntity;)Lcom/simibubi/create/content/schematics/requirement/ItemRequirement;",
-            at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/ItemEntry;asStack()Lnet/minecraft/world/item/ItemStack;"))
-    private ItemStack getRequiredItemsAsStack(ItemEntry<?> instance, Operation<ItemStack> original, @Local(argsOnly = true) BlockState state) {
-        return instance == AllItems.BELT_CONNECTOR ? state.getBlock() instanceof FullBeltBlock ? original.call(DnDecorItems.BELT_CONNECTOR) : original.call(instance) : original.call(instance);
+    @WrapOperation(method = "getRequiredItems",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;getDefaultInstance()Lnet/minecraft/world/item/ItemStack;"))
+    private ItemStack getRequiredItemsAsStack(Item instance, Operation<ItemStack> original, @Local(argsOnly = true) BlockState state) {
+        return instance == AllItems.BELT_CONNECTOR ? state.getBlock() instanceof FullBeltBlock ? original.call(DnDecorItems.BELT_CONNECTOR.get()) : original.call(instance) : original.call(instance);
     }
 
-    @WrapOperation(method = "getCloneItemStack(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/phys/HitResult;Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/item/ItemStack;",
-            at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/ItemEntry;asStack()Lnet/minecraft/world/item/ItemStack;"))
-    private ItemStack getCloneItemStackAsStack(ItemEntry<?> instance, Operation<ItemStack> original, @Local(argsOnly = true) BlockState state) {
-        return instance == AllItems.BELT_CONNECTOR ? state.getBlock() instanceof FullBeltBlock ? original.call(DnDecorItems.BELT_CONNECTOR) : original.call(instance) : original.call(instance);
+    @WrapOperation(method = "getCloneItemStack",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;getDefaultInstance()Lnet/minecraft/world/item/ItemStack;"))
+    private ItemStack getCloneItemStackAsStack(Item instance, Operation<ItemStack> original, @Local(argsOnly = true) BlockState state) {
+        return instance == AllItems.BELT_CONNECTOR ? state.getBlock() instanceof FullBeltBlock ? original.call(DnDecorItems.BELT_CONNECTOR.get()) : original.call(instance) : original.call(instance);
     }
 }
