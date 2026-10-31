@@ -1,8 +1,8 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.api.contraption.storage.fluid.MountedFluidStorageType;
-import com.simibubi.create.api.contraption.storage.item.MountedItemStorageType;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.zurrtum.create.api.contraption.storage.fluid.MountedFluidStorageType;
+import com.zurrtum.create.api.contraption.storage.item.MountedItemStorageType;
+import dev.lopyluna.dndecor.port.registrate.util.entry.RegistryEntry;
 import dev.lopyluna.dndecor.content.blocks.container.DyedContainerStorageType;
 
 import java.util.function.Supplier;

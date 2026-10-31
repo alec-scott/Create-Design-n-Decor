@@ -1,13 +1,13 @@
 package dev.lopyluna.dndecor.content.blocks.diagonal_girder;
 
-import com.simibubi.create.foundation.data.SpecialBlockStateGen;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
+import dev.lopyluna.dndecor.port.create.foundation.data.SpecialBlockStateGen;
+import dev.lopyluna.dndecor.port.registrate.providers.DataGenContext;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateBlockstateProvider;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ModelFile;
 
-import static com.simibubi.create.foundation.data.AssetLookup.partialBaseModel;
+import static dev.lopyluna.dndecor.port.create.foundation.data.AssetLookup.partialBaseModel;
 
 public class DiagonalGirderGenerator extends SpecialBlockStateGen {
 

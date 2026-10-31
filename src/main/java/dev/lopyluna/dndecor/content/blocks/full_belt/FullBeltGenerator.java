@@ -1,17 +1,17 @@
 package dev.lopyluna.dndecor.content.blocks.full_belt;
 
-import com.simibubi.create.Create;
-import com.simibubi.create.content.kinetics.belt.BeltBlock;
+import com.zurrtum.create.Create;
+import com.zurrtum.create.content.kinetics.belt.BeltBlock;
 import com.simibubi.create.content.kinetics.belt.BeltGenerator;
-import com.simibubi.create.content.kinetics.belt.BeltPart;
-import com.simibubi.create.content.kinetics.belt.BeltSlope;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
+import com.zurrtum.create.content.kinetics.belt.BeltPart;
+import com.zurrtum.create.content.kinetics.belt.BeltSlope;
+import dev.lopyluna.dndecor.port.registrate.providers.DataGenContext;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateBlockstateProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ModelFile;
 
 public class FullBeltGenerator extends BeltGenerator {
 
@@ -46,8 +46,8 @@ public class FullBeltGenerator extends BeltGenerator {
 
         if (diagonal) slopeName = "diagonal";
 
-        //ResourceLocation location = prov.modLoc(path + slopeName + "_" + partName);
-        ResourceLocation location = Create.asResource(path + slopeName + "_" + partName);
+        //Identifier location = prov.modLoc(path + slopeName + "_" + partName);
+        Identifier location = Create.asResource(path + slopeName + "_" + partName);
         return prov.models().getExistingFile(location);
     }
 }

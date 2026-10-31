@@ -1,12 +1,12 @@
 package dev.lopyluna.dndecor.content.blocks.flywheel;
 
-import com.simibubi.create.content.kinetics.flywheel.FlywheelBlock;
-import com.simibubi.create.content.kinetics.flywheel.FlywheelBlockEntity;
+import com.zurrtum.create.content.kinetics.flywheel.FlywheelBlock;
+import com.zurrtum.create.content.kinetics.flywheel.FlywheelBlockEntity;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class FreeSpinBlock extends FlywheelBlock {
     @Nullable

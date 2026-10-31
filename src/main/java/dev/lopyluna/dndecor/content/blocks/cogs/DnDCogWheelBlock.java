@@ -1,17 +1,16 @@
 package dev.lopyluna.dndecor.content.blocks.cogs;
 
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllShapes;
-import com.simibubi.create.content.kinetics.base.IRotate;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
-import com.simibubi.create.content.kinetics.simpleRelays.CogWheelBlock;
-import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
-import com.simibubi.create.content.kinetics.speedController.SpeedControllerBlock;
-import com.simibubi.create.foundation.advancement.AllAdvancements;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.AllShapes;
+import com.zurrtum.create.content.kinetics.base.IRotate;
+import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
+import com.zurrtum.create.content.kinetics.simpleRelays.CogWheelBlock;
+import com.zurrtum.create.content.kinetics.simpleRelays.ICogWheel;
+import com.zurrtum.create.content.kinetics.speedController.SpeedControllerBlock;
+import com.zurrtum.create.AllAdvancements;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
-import net.createmod.catnip.data.Iterate;
-import net.minecraft.MethodsReturnNonnullByDefault;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,12 +29,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import static net.minecraft.core.Direction.Axis;
-
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class DnDCogWheelBlock extends CogWheelBlock {
     boolean isLarge;
     public DyeColor color;

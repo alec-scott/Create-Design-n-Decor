@@ -1,12 +1,14 @@
 package dev.lopyluna.dndecor.content.blocks.breaker_switch;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.simibubi.create.content.redstone.analogLever.AnalogLeverBlock;
+import com.zurrtum.create.content.redstone.analogLever.AnalogLeverBlock;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
 import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
-import net.createmod.catnip.math.AngleHelper;
-import net.createmod.catnip.render.CachedBuffers;
-import net.createmod.catnip.render.SuperByteBuffer;
+import com.zurrtum.create.catnip.math.AngleHelper;
+import com.zurrtum.create.client.catnip.render.CachedBuffers;
+import com.zurrtum.create.client.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -22,7 +24,7 @@ public class BreakerSwitchRenderer extends SafeBlockEntityRenderer<BreakerSwitch
     protected void renderSafe(BreakerSwitchBE be, float pt, PoseStack ms, MultiBufferSource bs, int light, int overlay) {
         var leverState = be.getBlockState();
         var state = be.clientState.getValue(pt);
-        var vb = bs.getBuffer(RenderType.cutoutMipped());
+        var vb = bs.getBuffer(RenderTypes.cutoutMipped());
         var handle = CachedBuffers.partial(DnDecorPartialModels.BREAKER_SWITCH_HANDLE, leverState);
         var added = 35f;
         var angle = (((state/2f * (90f+added))-(added/2f)) / 180f) * (float) Math.PI;

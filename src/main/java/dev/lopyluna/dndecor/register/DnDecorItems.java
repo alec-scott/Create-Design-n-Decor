@@ -1,7 +1,7 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.AllItems;
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.zurrtum.create.AllItems;
+import dev.lopyluna.dndecor.port.registrate.util.entry.ItemEntry;
 import dev.lopyluna.dndecor.DnDecor;
 import dev.lopyluna.dndecor.content.items.FullBeltConnectorItem;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -9,7 +9,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.level.ItemLike;
 
-import static com.tterrag.registrate.providers.RegistrateRecipeProvider.has;
+import static dev.lopyluna.dndecor.port.registrate.providers.RegistrateRecipeProvider.has;
 import static dev.lopyluna.dndecor.DnDecor.REG;
 
 

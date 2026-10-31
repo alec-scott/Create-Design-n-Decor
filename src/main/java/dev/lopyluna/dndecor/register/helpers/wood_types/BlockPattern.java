@@ -1,25 +1,23 @@
 package dev.lopyluna.dndecor.register.helpers.wood_types;
 
-import com.simibubi.create.content.decoration.palettes.ConnectedPillarBlock;
-import com.simibubi.create.foundation.block.connected.*;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
-import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import com.tterrag.registrate.util.nullness.NonNullFunction;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.zurrtum.create.content.decoration.palettes.ConnectedPillarBlock;
+import com.zurrtum.create.client.foundation.block.connected.*;
+import dev.lopyluna.dndecor.port.registrate.providers.DataGenContext;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateBlockstateProvider;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateRecipeProvider;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullBiConsumer;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullFunction;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.DnDecor;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ConfiguredModel;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -63,7 +61,6 @@ public class BlockPattern {
     private NonNullFunction<NonNullSupplier<Block>, NonNullBiConsumer<DataGenContext<Block, ? extends Block>, RegistrateRecipeProvider>> additionalRecipes;
     private BlockPartial<? extends Block>[] partials;
 
-    @OnlyIn(Dist.CLIENT)
     private RenderType renderType;
 
     private static BlockPattern create(String name, PatternNameType nameType,
@@ -140,24 +137,24 @@ public class BlockPattern {
 
     @SuppressWarnings("all")
     public IBlockStateProvider cubeAll(String variant) {
-        ResourceLocation all = toLocation(variant, textures[0]);
+        Identifier all = toLocation(variant, textures[0]);
         return (ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models()
                 .cubeAll(createName(variant), all));
     }
 
     @SuppressWarnings("all")
     public IBlockStateProvider cubeBottomTop(String variant) {
-        ResourceLocation side = toLocation(variant, textures[0]);
-        ResourceLocation bottom = toLocation(variant, textures[1]);
-        ResourceLocation top = toLocation(variant, textures[2]);
+        Identifier side = toLocation(variant, textures[0]);
+        Identifier bottom = toLocation(variant, textures[1]);
+        Identifier top = toLocation(variant, textures[2]);
         return (ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models()
                 .cubeBottomTop(createName(variant), side, bottom, top));
     }
 
     @SuppressWarnings("all")
     public IBlockStateProvider pillar(String variant) {
-        ResourceLocation side = toLocation(variant, textures[0]);
-        ResourceLocation end = toLocation(variant, textures[1]);
+        Identifier side = toLocation(variant, textures[0]);
+        Identifier end = toLocation(variant, textures[1]);
         return (ctx, prov) -> prov.getVariantBuilder(ctx.getEntry())
                 .forAllStatesExcept(state -> {
                     Direction.Axis axis = state.getValue(BlockStateProperties.AXIS);
@@ -179,8 +176,8 @@ public class BlockPattern {
 
     @SuppressWarnings("all")
     public IBlockStateProvider cubeColumn(String variant) {
-        ResourceLocation side = toLocation(variant, textures[0]);
-        ResourceLocation end = toLocation(variant, textures[1]);
+        Identifier side = toLocation(variant, textures[0]);
+        Identifier end = toLocation(variant, textures[1]);
         return (ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models()
                 .cubeColumn(createName(variant), side, end));
     }
@@ -195,13 +192,13 @@ public class BlockPattern {
         String formatString = "%s_%s";
         return nameType == PatternNameType.SUFFIX ? String.format(formatString, variant, id) : String.format(formatString, id, variant);
     }
-    protected static ResourceLocation toLocation(String variant, String texture) {
+    protected static Identifier toLocation(String variant, String texture) {
         return DnDecor.loc(String.format(TEXTURE_LOCATION, texture, variant + (texture.equals("cut") ? "_" : "_cut_") + texture));
     }
     protected static CTSpriteShiftEntry ct(String variant, CTs texture) {
-        ResourceLocation resLoc = texture.srcFactory.apply(variant);
-        ResourceLocation resLocTarget = texture.targetFactory.apply(variant);
-        return CTSpriteShifter.getCT(texture.type, resLoc, ResourceLocation.fromNamespaceAndPath(resLocTarget.getNamespace(), resLocTarget.getPath() + "_connected"));
+        Identifier resLoc = texture.srcFactory.apply(variant);
+        Identifier resLocTarget = texture.targetFactory.apply(variant);
+        return CTSpriteShifter.getCT(texture.type, resLoc, Identifier.fromNamespaceAndPath(resLocTarget.getNamespace(), resLocTarget.getPath() + "_connected"));
     }
     @FunctionalInterface
     interface IPatternBlockStateGenerator extends Function<BlockPattern, Function<String, IBlockStateProvider>> { }
@@ -216,13 +213,13 @@ public class BlockPattern {
         CAP(AllCTTypes.OMNIDIRECTIONAL, s -> toLocation(s, "cap")),
         LAYERED(AllCTTypes.HORIZONTAL_KRYPPERS, s -> toLocation(s, "layered"));
         public final CTType type;
-        private final Function<String, ResourceLocation> srcFactory;
-        private final Function<String, ResourceLocation> targetFactory;
-        CTs(CTType type, Function<String, ResourceLocation> factory) {
+        private final Function<String, Identifier> srcFactory;
+        private final Function<String, Identifier> targetFactory;
+        CTs(CTType type, Function<String, Identifier> factory) {
             this(type, factory, factory);
         }
-        CTs(CTType type, Function<String, ResourceLocation> srcFactory,
-            Function<String, ResourceLocation> targetFactory) {
+        CTs(CTType type, Function<String, Identifier> srcFactory,
+            Function<String, Identifier> targetFactory) {
             this.type = type;
             this.srcFactory = srcFactory;
             this.targetFactory = targetFactory;

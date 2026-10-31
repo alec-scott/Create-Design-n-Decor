@@ -1,22 +1,24 @@
 package dev.lopyluna.dndecor.content.blocks.full_belt;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.simibubi.create.AllPartialModels;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
-import com.simibubi.create.content.kinetics.belt.*;
-import dev.engine_room.flywheel.api.visualization.VisualizationManager;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import dev.engine_room.flywheel.lib.transform.TransformStack;
+import com.zurrtum.create.client.AllPartialModels;
+import com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer;
+import com.zurrtum.create.content.kinetics.belt.*;
+import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.client.flywheel.lib.transform.TransformStack;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
 import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
 import dev.lopyluna.dndecor.register.client.DnDecorSpriteShifts;
-import net.createmod.catnip.animation.AnimationTickHolder;
-import net.createmod.catnip.data.Iterate;
-import net.createmod.catnip.math.AngleHelper;
-import net.createmod.catnip.render.CachedBuffers;
-import net.createmod.catnip.render.SpriteShiftEntry;
-import net.createmod.catnip.render.SuperByteBuffer;
+import com.zurrtum.create.client.catnip.animation.AnimationTickHolder;
+import com.zurrtum.create.catnip.data.Iterate;
+import com.zurrtum.create.catnip.math.AngleHelper;
+import com.zurrtum.create.client.catnip.render.CachedBuffers;
+import com.zurrtum.create.client.catnip.render.SpriteShiftEntry;
+import com.zurrtum.create.client.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -53,7 +55,7 @@ public class FullBeltRenderer extends BeltRenderer {
 
 			PoseStack localTransforms = new PoseStack();
 			var msr = TransformStack.of(localTransforms);
-			VertexConsumer vb = buffer.getBuffer(RenderType.solid());
+			VertexConsumer vb = buffer.getBuffer(RenderTypes.solid());
 			float renderTick = AnimationTickHolder.getRenderTime(be.getLevel());
 
 			msr.center().rotateYDegrees(AngleHelper.horizontalAngle(facing) + (upward ? 180 : 0) + (sideways ? 270 : 0))

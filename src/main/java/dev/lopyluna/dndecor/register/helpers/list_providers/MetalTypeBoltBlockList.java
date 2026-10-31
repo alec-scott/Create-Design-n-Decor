@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.register.helpers.list_providers;
 
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.content.entries.BoltEntry;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;

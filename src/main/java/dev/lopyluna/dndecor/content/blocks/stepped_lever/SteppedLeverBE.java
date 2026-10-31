@@ -1,10 +1,10 @@
 package dev.lopyluna.dndecor.content.blocks.stepped_lever;
 
-import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-import com.simibubi.create.foundation.utility.CreateLang;
-import net.createmod.catnip.animation.LerpedFloat;
+import com.zurrtum.create.client.api.goggles.IHaveGoggleInformation;
+import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
+import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
+import com.zurrtum.create.catnip.animation.LerpedFloat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

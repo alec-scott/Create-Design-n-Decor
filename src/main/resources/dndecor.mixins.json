@@ -2,8 +2,9 @@
   "required": true,
   "package": "dev.lopyluna.dndecor.mixins",
   "compatibilityLevel": "JAVA_21",
-  "refmap": "dndecor.refmap.json",
   "mixins": [
+    "port.SmartBlockEntityMixin",
+    "port.SpawnPlacementsAccessor",
     "CrushingWheelBlockMixin",
     "CrushingWheelControllerBlockMixin",
     "FlapDisplayBlockEntityMixin",

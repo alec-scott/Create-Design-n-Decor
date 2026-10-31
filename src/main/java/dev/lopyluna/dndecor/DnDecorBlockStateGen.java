@@ -1,18 +1,18 @@
 package dev.lopyluna.dndecor;
 
-import com.simibubi.create.Create;
-import com.simibubi.create.foundation.data.AssetLookup;
-import com.simibubi.create.foundation.data.BlockStateGen;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.zurrtum.create.Create;
+import dev.lopyluna.dndecor.port.create.foundation.data.AssetLookup;
+import dev.lopyluna.dndecor.port.create.foundation.data.BlockStateGen;
+import dev.lopyluna.dndecor.port.registrate.providers.DataGenContext;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateBlockstateProvider;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullBiConsumer;
 import dev.lopyluna.dndecor.content.blocks.cogs.DnDCogWheelBlock;
 import dev.lopyluna.dndecor.content.blocks.metal_supports.MetalSupportBlock;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ConfiguredModel;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ModelFile;
 
 import static dev.lopyluna.dndecor.register.DnDecorBlocks.getBlockModel;
 
@@ -25,7 +25,7 @@ public class DnDecorBlockStateGen {
             p.models().withExistingParent("block/" + c.getName() + "/block_shaftless", Create.asResource(large ? "block/large_cogwheel_shaftless":"block/cogwheel_shaftless"))
                     .texture(large ? "4":"1_2", DnDecor.loc(location + c.getName()))
                     .texture("particle", DnDecor.loc(location + c.getName()));
-            p.models().withExistingParent("block/" + c.getName() + "/block", ResourceLocation.withDefaultNamespace("air"))
+            p.models().withExistingParent("block/" + c.getName() + "/block", Identifier.withDefaultNamespace("air"))
                     .texture("particle", DnDecor.loc(location + c.getName()));
             p.models().withExistingParent("block/" + c.getName() + "/item", Create.asResource(large ? "block/large_cogwheel" : "block/cogwheel"))
                     .texture(large ? "4":"1_2", DnDecor.loc(location + c.getName()))

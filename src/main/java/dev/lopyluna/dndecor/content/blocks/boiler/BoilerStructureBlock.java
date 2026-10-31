@@ -1,7 +1,7 @@
 package dev.lopyluna.dndecor.content.blocks.boiler;
 
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.render.MultiPosDestructionHandler;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.client.foundation.block.render.MultiPosDestructionHandler;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
 import dev.lopyluna.dndecor.register.DnDecorShapes;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
@@ -37,16 +37,14 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
 @SuppressWarnings("NullableProblems")
-@ParametersAreNonnullByDefault
 public class BoilerStructureBlock extends Block implements IWrenchable {
     public static final EnumProperty<BoilerBlock.BoilerSize> SIZE = BoilerBlock.SIZE;
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 
     public BoilerStructureBlock(Properties properties) {
         super(properties.noLootTable().noOcclusion().dynamicShape());

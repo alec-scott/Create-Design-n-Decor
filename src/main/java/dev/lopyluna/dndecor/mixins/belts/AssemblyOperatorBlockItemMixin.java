@@ -2,10 +2,10 @@ package dev.lopyluna.dndecor.mixins.belts;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.kinetics.belt.BeltBlock;
-import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.content.kinetics.belt.BeltBlock;
+import com.zurrtum.create.content.processing.AssemblyOperatorBlockItem;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

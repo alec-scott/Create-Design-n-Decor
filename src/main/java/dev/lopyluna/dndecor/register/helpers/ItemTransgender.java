@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.register.helpers;
 
-import com.tterrag.registrate.util.entry.ItemEntry;
+import dev.lopyluna.dndecor.port.registrate.util.entry.ItemEntry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 

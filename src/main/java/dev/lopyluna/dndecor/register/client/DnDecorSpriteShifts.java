@@ -1,13 +1,13 @@
 package dev.lopyluna.dndecor.register.client;
 
-import com.simibubi.create.foundation.block.connected.AllCTTypes;
-import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
-import com.simibubi.create.foundation.block.connected.CTSpriteShifter;
-import com.simibubi.create.foundation.block.connected.CTType;
+import com.zurrtum.create.client.foundation.block.connected.AllCTTypes;
+import com.zurrtum.create.client.foundation.block.connected.CTSpriteShiftEntry;
+import com.zurrtum.create.client.foundation.block.connected.CTSpriteShifter;
+import com.zurrtum.create.client.foundation.block.connected.CTType;
 import dev.lopyluna.dndecor.DnDecor;
-import net.createmod.catnip.data.Couple;
-import net.createmod.catnip.render.SpriteShiftEntry;
-import net.createmod.catnip.render.SpriteShifter;
+import com.zurrtum.create.catnip.data.Couple;
+import com.zurrtum.create.client.catnip.render.SpriteShiftEntry;
+import com.zurrtum.create.client.catnip.render.SpriteShifter;
 import net.minecraft.world.item.DyeColor;
 
 import java.util.EnumMap;

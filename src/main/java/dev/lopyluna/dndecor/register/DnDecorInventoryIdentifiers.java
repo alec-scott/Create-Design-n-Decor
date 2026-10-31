@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.api.packager.InventoryIdentifier;
+import com.zurrtum.create.api.packager.InventoryIdentifier;
 import dev.lopyluna.dndecor.content.blocks.container.DyedContainerBE;
 
 public class DnDecorInventoryIdentifiers {

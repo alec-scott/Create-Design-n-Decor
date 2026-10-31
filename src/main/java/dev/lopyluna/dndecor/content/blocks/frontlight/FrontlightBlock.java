@@ -1,8 +1,8 @@
 package dev.lopyluna.dndecor.content.blocks.frontlight;
 
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.zurrtum.create.AllSoundEvents;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
 import dev.lopyluna.dndecor.register.DnDecorShapes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,18 +22,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("NullableProblems")
-@ParametersAreNonnullByDefault
 public class FrontlightBlock extends Block implements IWrenchable {
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final EnumProperty<Frontlight> ADDITIVE = EnumProperty.create("additive", Frontlight.class);

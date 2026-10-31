@@ -1,17 +1,14 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.api.stress.BlockStressValues;
+import com.zurrtum.create.api.stress.BlockStressValues;
 import dev.lopyluna.dndecor.content.configs.DClient;
 import dev.lopyluna.dndecor.content.configs.DCommon;
 import dev.lopyluna.dndecor.content.configs.DServer;
 import dev.lopyluna.dndecor.content.configs.server.kinetics.DStress;
-import net.createmod.catnip.config.ConfigBase;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.ModLoadingContext;
-import net.neoforged.fml.common.EventBusSubscriber;
+import dev.lopyluna.dndecor.port.catnip.config.ConfigBase;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.config.ModConfigEvent;
+import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.v5.ModConfigEvents;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -22,7 +19,6 @@ import java.util.function.Supplier;
 import static dev.lopyluna.dndecor.DnDecor.MOD_ID;
 
 @SuppressWarnings("unused")
-@EventBusSubscriber(modid = MOD_ID)
 public class DnDecorConfigs {
 
     private static final Map<ModConfig.Type, ConfigBase> CONFIGS = new EnumMap<>(ModConfig.Type.class);
@@ -52,26 +48,26 @@ public class DnDecorConfigs {
         return config;
     }
 
-    public static void register(ModLoadingContext context, ModContainer container) {
+    public static void register() {
         client = register(DClient::new, ModConfig.Type.CLIENT);
         common = register(DCommon::new, ModConfig.Type.COMMON);
         server = register(DServer::new, ModConfig.Type.SERVER);
 
-        for (Map.Entry<ModConfig.Type, ConfigBase> pair : CONFIGS.entrySet()) container.registerConfig(pair.getKey(), pair.getValue().specification);
+        for (Map.Entry<ModConfig.Type, ConfigBase> pair : CONFIGS.entrySet()) ConfigRegistry.INSTANCE.register(MOD_ID, pair.getKey(), pair.getValue().specification);
+        ModConfigEvents.loading(MOD_ID).register(DnDecorConfigs::onLoad);
+        ModConfigEvents.reloading(MOD_ID).register(DnDecorConfigs::onReload);
 
         DStress stress = server().kinetics.stressValues;
         BlockStressValues.IMPACTS.registerProvider(stress::getImpact);
         BlockStressValues.CAPACITIES.registerProvider(stress::getCapacity);
     }
 
-    @SubscribeEvent
-    public static void onLoad(ModConfigEvent.Loading event) {
-        for (ConfigBase config : CONFIGS.values()) if (config.specification == event.getConfig().getSpec()) config.onLoad();
+    public static void onLoad(ModConfig modConfig) {
+        for (ConfigBase config : CONFIGS.values()) if (config.specification == modConfig.getSpec()) config.onLoad();
     }
 
-    @SubscribeEvent
-    public static void onReload(ModConfigEvent.Reloading event) {
-        for (ConfigBase config : CONFIGS.values()) if (config.specification == event.getConfig().getSpec()) config.onReload();
+    public static void onReload(ModConfig modConfig) {
+        for (ConfigBase config : CONFIGS.values()) if (config.specification == modConfig.getSpec()) config.onReload();
     }
 
 }

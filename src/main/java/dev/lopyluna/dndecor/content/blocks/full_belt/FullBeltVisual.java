@@ -1,29 +1,29 @@
 package dev.lopyluna.dndecor.content.blocks.full_belt;
 
-import com.simibubi.create.AllPartialModels;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntityVisual;
-import com.simibubi.create.content.kinetics.base.RotatingInstance;
-import com.simibubi.create.content.kinetics.belt.BeltBlock;
-import com.simibubi.create.content.kinetics.belt.BeltBlockEntity;
-import com.simibubi.create.content.kinetics.belt.BeltPart;
-import com.simibubi.create.content.kinetics.belt.BeltSlope;
-import com.simibubi.create.content.processing.burner.ScrollInstance;
-import com.simibubi.create.foundation.render.AllInstanceTypes;
-import dev.engine_room.flywheel.api.instance.Instance;
-import dev.engine_room.flywheel.api.instance.Instancer;
-import dev.engine_room.flywheel.api.model.Model;
-import dev.engine_room.flywheel.api.visualization.VisualizationContext;
-import dev.engine_room.flywheel.lib.model.Models;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import dev.engine_room.flywheel.lib.transform.TransformStack;
-import net.createmod.catnip.data.Iterate;
-import net.createmod.catnip.render.SpriteShiftEntry;
+import com.zurrtum.create.client.AllPartialModels;
+import com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityVisual;
+import com.zurrtum.create.client.content.kinetics.base.RotatingInstance;
+import com.zurrtum.create.content.kinetics.belt.BeltBlock;
+import com.zurrtum.create.content.kinetics.belt.BeltBlockEntity;
+import com.zurrtum.create.content.kinetics.belt.BeltPart;
+import com.zurrtum.create.content.kinetics.belt.BeltSlope;
+import com.zurrtum.create.client.content.processing.burner.ScrollInstance;
+import com.zurrtum.create.client.foundation.render.AllInstanceTypes;
+import com.zurrtum.create.client.flywheel.api.instance.Instance;
+import com.zurrtum.create.client.flywheel.api.instance.Instancer;
+import com.zurrtum.create.client.flywheel.api.model.Model;
+import com.zurrtum.create.client.flywheel.api.visualization.VisualizationContext;
+import com.zurrtum.create.client.flywheel.lib.model.Models;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.client.flywheel.lib.transform.TransformStack;
+import com.zurrtum.create.catnip.data.Iterate;
+import com.zurrtum.create.client.catnip.render.SpriteShiftEntry;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.DyeColor;
 import org.joml.Quaternionf;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class FullBeltVisual extends KineticBlockEntityVisual<BeltBlockEntity> {

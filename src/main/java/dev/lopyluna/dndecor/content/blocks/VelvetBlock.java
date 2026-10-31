@@ -1,13 +1,14 @@
 package dev.lopyluna.dndecor.content.blocks;
 
-import com.simibubi.create.foundation.utility.BlockHelper;
+import net.minecraft.world.InteractionResult;
+
+import com.zurrtum.create.foundation.utility.BlockHelper;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -19,14 +20,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-@ParametersAreNonnullByDefault
 public class VelvetBlock extends Block {
     protected final DyeColor color;
 
@@ -37,17 +35,17 @@ public class VelvetBlock extends Block {
 
     @SuppressWarnings("NullableProblems")
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         DyeColor color = DyeColor.getColor(stack);
         if (color != null) {
             if (!level.isClientSide) level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
             applyDye(state, level, pos, color);
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else if (stack.is(Items.SPONGE) || stack.is(Items.WET_SPONGE) || stack.is(Items.WHITE_WOOL) || stack.is(Items.WATER_BUCKET)) {
             if (!level.isClientSide) level.playSound(null, pos, SoundEvents.SPONGE_ABSORB, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
             applyDye(state, level, pos, null);
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     public void applyDye(BlockState state, Level world, BlockPos pos, @Nullable DyeColor color) {

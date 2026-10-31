@@ -1,11 +1,11 @@
 package dev.lopyluna.dndecor.content.blocks.flywheel;
 
-import com.simibubi.create.content.kinetics.flywheel.FlywheelBlockEntity;
-import com.simibubi.create.content.kinetics.flywheel.FlywheelVisual;
-import dev.engine_room.flywheel.api.visualization.VisualizationContext;
-import dev.engine_room.flywheel.lib.instance.InstanceTypes;
-import dev.engine_room.flywheel.lib.model.Models;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.content.kinetics.flywheel.FlywheelBlockEntity;
+import com.zurrtum.create.client.content.kinetics.flywheel.FlywheelVisual;
+import com.zurrtum.create.client.flywheel.api.visualization.VisualizationContext;
+import com.zurrtum.create.client.flywheel.lib.instance.InstanceTypes;
+import com.zurrtum.create.client.flywheel.lib.model.Models;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
 
 public class FlywheelTypeVisual extends FlywheelVisual {
 

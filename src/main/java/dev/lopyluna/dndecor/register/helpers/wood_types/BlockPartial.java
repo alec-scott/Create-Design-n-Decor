@@ -1,21 +1,21 @@
 package dev.lopyluna.dndecor.register.helpers.wood_types;
 
-import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.builders.ItemBuilder;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
-import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import com.tterrag.registrate.util.DataIngredient;
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonnullType;
+import dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate;
+import dev.lopyluna.dndecor.port.registrate.builders.BlockBuilder;
+import dev.lopyluna.dndecor.port.registrate.builders.ItemBuilder;
+import dev.lopyluna.dndecor.port.registrate.providers.DataGenContext;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateBlockstateProvider;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateRecipeProvider;
+import dev.lopyluna.dndecor.port.registrate.util.DataIngredient;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonnullType;
 import dev.lopyluna.dndecor.DnDecor;
 import dev.lopyluna.dndecor.register.DnDecorStoneTypes;
-import net.createmod.catnip.lang.Lang;
+import com.zurrtum.create.client.catnip.lang.Lang;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -26,12 +26,12 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ModelFile;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
+import static dev.lopyluna.dndecor.port.create.foundation.data.TagGen.pickaxeOnly;
 import static dev.lopyluna.dndecor.register.DnDecorTags.ItemTags.PALETTE_BLOCKS;
 
 @SuppressWarnings("all")
@@ -64,7 +64,7 @@ public abstract class BlockPartial<B extends Block> {
         itemBuilder.tag(PALETTE_BLOCKS.tag);
         return itemBuilder.build();
     }
-    protected ResourceLocation getTexture(String variantName, BlockPattern pattern, int index) {
+    protected Identifier getTexture(String variantName, BlockPattern pattern, int index) {
         return BlockPattern.toLocation(variantName, pattern.getTexture(index));
     }
     protected BlockBuilder<B, CreateRegistrate> transformBlock(BlockBuilder<B, CreateRegistrate> builder, String variantName, BlockPattern pattern) {
@@ -128,8 +128,8 @@ public abstract class BlockPartial<B extends Block> {
         @Override
         protected void generateBlockState(DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String variantName, BlockPattern pattern, Supplier<? extends Block> block) {
             String name = ctx.getName();
-            ResourceLocation mainTexture = getTexture(variantName, pattern, 0);
-            ResourceLocation sideTexture = customSide ? getTexture(variantName, pattern, 1) : mainTexture;
+            Identifier mainTexture = getTexture(variantName, pattern, 0);
+            Identifier sideTexture = customSide ? getTexture(variantName, pattern, 1) : mainTexture;
             ModelFile bottom = prov.models().slab(name, sideTexture, mainTexture, mainTexture);
             ModelFile top = prov.models().slabTop(name + "_top", sideTexture, mainTexture, mainTexture);
             ModelFile doubleSlab;

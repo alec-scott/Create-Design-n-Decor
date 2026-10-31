@@ -1,12 +1,12 @@
 package dev.lopyluna.dndecor.events;
 
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.kinetics.crusher.CrushingWheelBlock;
-import com.simibubi.create.content.kinetics.flywheel.FlywheelBlock;
-import com.simibubi.create.content.kinetics.millstone.MillstoneBlock;
-import com.simibubi.create.content.trains.display.FlapDisplayBlock;
-import com.simibubi.create.foundation.utility.BlockHelper;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.content.kinetics.crusher.CrushingWheelBlock;
+import com.zurrtum.create.content.kinetics.flywheel.FlywheelBlock;
+import com.zurrtum.create.content.kinetics.millstone.MillstoneBlock;
+import com.zurrtum.create.content.trains.display.FlapDisplayBlock;
+import com.zurrtum.create.foundation.utility.BlockHelper;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.DnDecorUtils;
 import dev.lopyluna.dndecor.content.blocks.flywheel.FreeSpinBlock;
 import dev.lopyluna.dndecor.content.blocks.text_plate.TextPlateBlock;
@@ -27,43 +27,44 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent;
+import net.minecraft.world.phys.BlockHitResult;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import static dev.lopyluna.dndecor.DnDecor.MOD_ID;
 
 @SuppressWarnings("unused")
-@EventBusSubscriber(modid = MOD_ID)
 public class DnDecorServer {
 
-    @SubscribeEvent
-    public static void onItemUseOnBlock(UseItemOnBlockEvent event) {
-        var level = event.getLevel();
-        var player = event.getPlayer();
-        var blockPos = event.getPos();
+    // PORT-NOTE(26.1): was NeoForge's UseItemOnBlockEvent (ITEM_BEFORE_BLOCK phase); Fabric's UseBlockCallback runs at
+    // the same point, before the block's own use handling
+    public static void register() {
+        UseBlockCallback.EVENT.register(DnDecorServer::onItemUseOnBlock);
+    }
+
+    public static InteractionResult onItemUseOnBlock(Player player, Level level, InteractionHand hand, BlockHitResult hit) {
+        if (player.isSpectator()) return InteractionResult.PASS;
+        var blockPos = hit.getBlockPos();
         var state = level.getBlockState(blockPos);
-        var face = event.getFace();
-        var hand = event.getHand();
-        var stack = event.getItemStack();
-        var context = event.getUseOnContext();
-        if (event.getUsePhase() == UseItemOnBlockEvent.UsePhase.ITEM_BEFORE_BLOCK) {
+        var face = hit.getDirection();
+        var stack = player.getItemInHand(hand);
+        var context = new UseOnContext(player, hand, hit);
 
-            if (stack.is(Tags.Items.DYES) || stack.is(Items.SPONGE) || stack.is(Items.WET_SPONGE) || stack.is(Items.WHITE_WOOL) || stack.is(Items.WATER_BUCKET)) {
-                var dye = dyeUseOn(level, player, state, blockPos, face, hand, stack, context);
-                if (dye.consumesAction()) event.cancelWithResult(DnDecorUtils.itemResult(dye));
-            }
+        if (stack.is(ConventionalItemTags.DYES) || stack.is(Items.SPONGE) || stack.is(Items.WET_SPONGE) || stack.is(Items.WHITE_WOOL) || stack.is(Items.WATER_BUCKET)) {
+            var dye = dyeUseOn(level, player, state, blockPos, face, hand, stack, context);
+            if (dye.consumesAction()) return dye;
+        }
 
-            var item = stack.getItem();
-            for (var type : MaterialTypeProvider.stoneTypes) {
-                if (item.equals(type.get().asItem())) {
-                    var stone = stoneUseOn(type, level, player, state, blockPos, face, hand, stack, context);
-                    if (stone.consumesAction()) event.cancelWithResult(DnDecorUtils.itemResult(stone));
-                    break;
-                }
+        var item = stack.getItem();
+        for (var type : MaterialTypeProvider.stoneTypes) {
+            if (item.equals(type.get().asItem())) {
+                var stone = stoneUseOn(type, level, player, state, blockPos, face, hand, stack, context);
+                if (stone.consumesAction()) return stone;
+                break;
             }
         }
+        return InteractionResult.PASS;
     }
     public static InteractionResult changeBlock(Level pLevel, BlockPos pPos, BlockState pFrom, BlockState pTo, SoundEvent pSound) {
         return changeBlock(pLevel, pPos, pFrom, pTo, pSound, null, false, null);

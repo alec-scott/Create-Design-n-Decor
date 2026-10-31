@@ -1,19 +1,21 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.AllBlockEntityTypes;
-import com.simibubi.create.AllPartialModels;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
-import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
-import com.simibubi.create.content.kinetics.belt.BeltBlockEntity;
-import com.simibubi.create.content.kinetics.crusher.CrushingWheelBlockEntity;
-import com.simibubi.create.content.kinetics.flywheel.FlywheelBlockEntity;
-import com.simibubi.create.content.kinetics.flywheel.FlywheelRenderer;
-import com.simibubi.create.content.kinetics.millstone.MillstoneBlockEntity;
-import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
-import com.simibubi.create.content.trains.display.FlapDisplayBlockEntity;
-import com.simibubi.create.content.trains.display.FlapDisplayRenderer;
-import com.tterrag.registrate.util.entry.BlockEntityEntry;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import dev.lopyluna.dndecor.port.create.BETypeOverride;
+
+import com.zurrtum.create.AllBlockEntityTypes;
+import com.zurrtum.create.client.AllPartialModels;
+import com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer;
+import com.zurrtum.create.client.content.kinetics.base.SingleAxisRotatingVisual;
+import com.zurrtum.create.content.kinetics.belt.BeltBlockEntity;
+import com.zurrtum.create.content.kinetics.crusher.CrushingWheelBlockEntity;
+import com.zurrtum.create.content.kinetics.flywheel.FlywheelBlockEntity;
+import com.zurrtum.create.client.content.kinetics.flywheel.FlywheelRenderer;
+import com.zurrtum.create.content.kinetics.millstone.MillstoneBlockEntity;
+import com.zurrtum.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
+import com.zurrtum.create.content.trains.display.FlapDisplayBlockEntity;
+import com.zurrtum.create.client.content.trains.display.FlapDisplayRenderer;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntityEntry;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
 import dev.lopyluna.dndecor.DnDecor;
 import dev.lopyluna.dndecor.content.blocks.MillstoneTypeRenderer;
 import dev.lopyluna.dndecor.content.blocks.boiler.BoilerBlockEntity;
@@ -44,19 +46,19 @@ public class DnDecorBETypes {
             .validBlock(DnDecorBlocks.TEXT_PLATE)
             .register();
 
-    public static BlockEntityEntry<DyedContainerBE> DYED_CONTAINER = REG.blockEntity("dyed_container", DyedContainerBE::new)
+    public static BlockEntityEntry<DyedContainerBE> DYED_CONTAINER = REG.blockEntity("dyed_container", BETypeOverride.of(DyedContainerBE::new))
             .validBlock(DnDecorBlocks.CONTAINER)
             .validBlocks(DnDecorBlocks.DYED_CONTAINERS.toArray())
             .validBlocks(DnDecorBlocks.DYED_SOLID_CONTAINERS.toArray())
             .register();
 
-    public static final BlockEntityEntry<FlapDisplayBlockEntity> FLAP_DISPLAYS = REG.blockEntity("flap_display", FlapDisplayBlockEntity::new)
+    public static final BlockEntityEntry<FlapDisplayBlockEntity> FLAP_DISPLAYS = REG.blockEntity("flap_display", BETypeOverride.of(FlapDisplayBlockEntity::new))
             .visual(() -> SingleAxisRotatingVisual.of(AllPartialModels.SHAFTLESS_COGWHEEL))
             .renderer(() -> FlapDisplayRenderer::new)
             .validBlocks(DnDecorBlocks.DYED_DISPLAY_BOARDS.toArray())
             .register();
 
-    public static final BlockEntityEntry<BeltBlockEntity> BELT = REG.blockEntity("belt", BeltBlockEntity::new)
+    public static final BlockEntityEntry<BeltBlockEntity> BELT = REG.blockEntity("belt", BETypeOverride.of(BeltBlockEntity::new))
             .visual(() -> FullBeltVisual::new, BeltBlockEntity::shouldRenderNormally)
             .validBlocks(DnDecorBlocks.BELT)
             .renderer(() -> FullBeltRenderer::new)
@@ -77,7 +79,7 @@ public class DnDecorBETypes {
             .renderer(() -> BoilerRenderer::new)
             .register();
 
-    public static final BlockEntityEntry<FlywheelBlockEntity> COLORED_FLYWHEELS = REG.blockEntity("flywheel", FlywheelBlockEntity::new)
+    public static final BlockEntityEntry<FlywheelBlockEntity> COLORED_FLYWHEELS = REG.blockEntity("flywheel", BETypeOverride.of(FlywheelBlockEntity::new))
             .visual(() -> (c, b, p) -> {
                 var color = DyeColor.WHITE;
                 var type = FreeSpinBlock.Type.FLYWHEEL;
@@ -98,7 +100,7 @@ public class DnDecorBETypes {
             .register();
 
 
-    public static final BlockEntityEntry<BracketedKineticBlockEntity> COLORED_COGWHEELS = REG.blockEntity("cogwheel", BracketedKineticBlockEntity::new)
+    public static final BlockEntityEntry<BracketedKineticBlockEntity> COLORED_COGWHEELS = REG.blockEntity("cogwheel", BETypeOverride.of(BracketedKineticBlockEntity::new))
             .visual(() -> DnDCogwheelVisual::create, false)
             .validBlocks(DnDecorBlocks.DYED_COGWHEELS.toArray())
             .validBlocks(DnDecorBlocks.DYED_LARGE_COGWHEELS.toArray())
@@ -109,8 +111,8 @@ public class DnDecorBETypes {
             .register();
 
     public static final StoneTypeBEList<CrushingWheelBlockEntity> STONE_TYPE_CRUSHING_WHEELS = new StoneTypeBEList<>((block, id) -> {
-        if (id.equals("andesite")) return AllBlockEntityTypes.CRUSHING_WHEEL;
-        return REG.blockEntity(id + "_crushing_wheel", CrushingWheelBlockEntity::new)
+        if (id.equals("andesite")) return () -> AllBlockEntityTypes.CRUSHING_WHEEL;
+        return REG.blockEntity(id + "_crushing_wheel", BETypeOverride.of(CrushingWheelBlockEntity::new))
                 .visual(() -> SingleAxisRotatingVisual.of(PartialModel.of(DnDecor.loc("block/" + id + "_crushing_wheel/block"))), false)
                 .validBlock(DnDecorBlocks.STONE_TYPE_CRUSHING_WHEELS.get(block))
                 .renderer(() -> KineticBlockEntityRenderer::new)
@@ -118,8 +120,8 @@ public class DnDecorBETypes {
     });
 
     public static final StoneTypeBEList<MillstoneBlockEntity> STONE_TYPE_MILLSTONES = new StoneTypeBEList<>((block, id) -> {
-        if (id.equals("andesite")) return AllBlockEntityTypes.MILLSTONE;
-        return REG.blockEntity(id + "_millstone", MillstoneBlockEntity::new)
+        if (id.equals("andesite")) return () -> AllBlockEntityTypes.MILLSTONE;
+        return REG.blockEntity(id + "_millstone", BETypeOverride.of(MillstoneBlockEntity::new))
                 .visual(() -> SingleAxisRotatingVisual.of(PartialModel.of(DnDecor.loc("block/" + id + "_millstone/inner"))), false)
                 .validBlock(DnDecorBlocks.STONE_TYPE_MILLSTONE.get(block))
                 .renderer(() -> MillstoneTypeRenderer::new)

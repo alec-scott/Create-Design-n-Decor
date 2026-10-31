@@ -1,7 +1,7 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllItems;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.AllItems;
 import dev.lopyluna.dndecor.register.helpers.list_providers.MaterialTypeProvider.MetalType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;

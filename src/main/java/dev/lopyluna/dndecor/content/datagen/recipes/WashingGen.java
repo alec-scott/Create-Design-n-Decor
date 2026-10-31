@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.content.datagen.recipes;
 
-import com.simibubi.create.AllBlocks;
+import com.zurrtum.create.AllBlocks;
 import com.simibubi.create.api.data.recipe.WashingRecipeGen;
 import com.simibubi.create.content.decoration.palettes.AllPaletteStoneTypes;
 import dev.lopyluna.dndecor.DnDecor;

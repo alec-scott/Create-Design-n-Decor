@@ -1,16 +1,15 @@
 package dev.lopyluna.dndecor.content.blocks.cogs;
 
-import com.simibubi.create.AllShapes;
-import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
-import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
-import com.simibubi.create.content.kinetics.base.IRotate;
-import com.simibubi.create.content.kinetics.base.RotatedPillarKineticBlock;
-import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
-import net.createmod.catnip.data.Iterate;
-import net.createmod.catnip.placement.IPlacementHelper;
-import net.createmod.catnip.placement.PlacementHelpers;
-import net.createmod.catnip.placement.PlacementOffset;
-import net.minecraft.MethodsReturnNonnullByDefault;
+import com.zurrtum.create.AllShapes;
+import com.zurrtum.create.content.kinetics.base.DirectionalKineticBlock;
+import com.zurrtum.create.content.kinetics.base.HorizontalKineticBlock;
+import com.zurrtum.create.content.kinetics.base.IRotate;
+import com.zurrtum.create.content.kinetics.base.RotatedPillarKineticBlock;
+import com.zurrtum.create.content.kinetics.simpleRelays.ICogWheel;
+import com.zurrtum.create.catnip.data.Iterate;
+import com.zurrtum.create.catnip.placement.IPlacementHelper;
+import com.zurrtum.create.catnip.placement.PlacementHelpers;
+import com.zurrtum.create.catnip.placement.PlacementOffset;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -26,7 +25,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static com.simibubi.create.content.kinetics.base.RotatedPillarKineticBlock.AXIS;
+import static com.zurrtum.create.content.kinetics.base.RotatedPillarKineticBlock.AXIS;
 
 public class DnDCogwheelBlockItem extends BlockItem {
 
@@ -69,8 +68,6 @@ public class DnDCogwheelBlockItem extends BlockItem {
 
         return super.onItemUseFirst(stack, context);
     }
-
-    @MethodsReturnNonnullByDefault
     private static class SmallCogHelper extends DiagonalCogHelper {
 
         @Override
@@ -108,8 +105,6 @@ public class DnDCogwheelBlockItem extends BlockItem {
             return super.getOffset(player, world, state, pos, ray);
         }
     }
-
-    @MethodsReturnNonnullByDefault
     private static class LargeCogHelper extends DiagonalCogHelper {
 
         @Override
@@ -148,8 +143,6 @@ public class DnDCogwheelBlockItem extends BlockItem {
             return super.getOffset(player, world, state, pos, ray);
         }
     }
-
-    @MethodsReturnNonnullByDefault
     public abstract static class DiagonalCogHelper implements IPlacementHelper {
 
         @Override
@@ -192,8 +185,6 @@ public class DnDCogwheelBlockItem extends BlockItem {
                                     .align(Iterate.axisSet)));
         }
     }
-
-    @MethodsReturnNonnullByDefault
     public static class IntegratedLargeCogHelper implements IPlacementHelper {
 
         @Override
@@ -247,8 +238,6 @@ public class DnDCogwheelBlockItem extends BlockItem {
         }
 
     }
-
-    @MethodsReturnNonnullByDefault
     public static class IntegratedSmallCogHelper implements IPlacementHelper {
 
         @Override

@@ -1,12 +1,12 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.tterrag.registrate.util.DataIngredient;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate;
+import dev.lopyluna.dndecor.port.registrate.util.DataIngredient;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.DnDecor;
 import dev.lopyluna.dndecor.register.helpers.wood_types.BlockPattern;
 import dev.lopyluna.dndecor.register.helpers.wood_types.VariantEntry;
-import net.createmod.catnip.lang.Lang;
+import com.zurrtum.create.client.catnip.lang.Lang;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.tags.TagKey;

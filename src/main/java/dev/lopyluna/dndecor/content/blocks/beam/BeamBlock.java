@@ -1,8 +1,8 @@
 package dev.lopyluna.dndecor.content.blocks.beam;
 
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.zurrtum.create.AllSoundEvents;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;

@@ -1,23 +1,34 @@
 package dev.lopyluna.dndecor;
 
+import com.zurrtum.create.client.catnip.lang.FontHelper;
+import com.zurrtum.create.client.foundation.item.ItemDescription;
+import com.zurrtum.create.client.foundation.item.KineticStats;
+import com.zurrtum.create.client.foundation.item.TooltipModifier;
+import dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate;
+import dev.lopyluna.dndecor.port.registrate.util.entry.RegistryEntry;
 import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
 import dev.lopyluna.dndecor.register.client.DnDecorSpriteShifts;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.Item;
 
-import static dev.lopyluna.dndecor.DnDecor.MOD_ID;
+public class DnDecorClient implements ClientModInitializer {
 
-@Mod(value = MOD_ID, dist = Dist.CLIENT)
-public class DnDecorClient {
-
-    public DnDecorClient(IEventBus modEventBus) {
-        modEventBus.addListener(DnDecorClient::clientInit);
-    }
-
-    public static void clientInit(final FMLClientSetupEvent event) {
+    @Override
+    public void onInitializeClient() {
         DnDecorPartialModels.init();
         DnDecorSpriteShifts.init();
+        CreateRegistrate.registerBlockModels();
+        registerTooltips();
+    }
+
+    // PORT-NOTE(26.1): was REG.setTooltipModifierFactory in common code; Create Fly's tooltip classes are client only
+    private static void registerTooltips() {
+        for (RegistryEntry<Item, Item> entry : DnDecor.REG.<Item, Item>getAll(Registries.ITEM)) {
+            Item item = entry.get();
+            if (TooltipModifier.REGISTRY.get(item) != null) continue;
+            TooltipModifier.REGISTRY.register(item, new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
+                    .andThen(TooltipModifier.mapNull(KineticStats.create(item))));
+        }
     }
 }

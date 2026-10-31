@@ -1,10 +1,10 @@
 package dev.lopyluna.dndecor.content.blocks.container;
 
-import com.simibubi.create.api.connectivity.ConnectivityHandler;
-import com.simibubi.create.content.equipment.symmetryWand.SymmetryWandItem;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.api.connectivity.ConnectivityHandler;
+import com.zurrtum.create.content.equipment.symmetryWand.SymmetryWandItem;
+import com.zurrtum.create.foundation.block.IBE;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
-import net.createmod.catnip.math.VecHelper;
+import com.zurrtum.create.catnip.math.VecHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;

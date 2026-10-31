@@ -1,7 +1,7 @@
 package dev.lopyluna.dndecor.content.configs.server;
 
 import dev.lopyluna.dndecor.content.configs.server.kinetics.DStress;
-import net.createmod.catnip.config.ConfigBase;
+import dev.lopyluna.dndecor.port.catnip.config.ConfigBase;
 
 public class DKinetics extends ConfigBase {
 

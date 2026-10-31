@@ -1,13 +1,15 @@
 package dev.lopyluna.dndecor.mixins.belts;
 
+import net.minecraft.world.InteractionResult;
+
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllItems;
-import com.simibubi.create.content.kinetics.belt.BeltBlock;
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.AllItems;
+import com.zurrtum.create.content.kinetics.belt.BeltBlock;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
+import dev.lopyluna.dndecor.port.registrate.util.entry.ItemEntry;
 import dev.lopyluna.dndecor.content.blocks.full_belt.FullBeltBlock;
 import dev.lopyluna.dndecor.register.DnDecorItems;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +52,7 @@ public abstract class BeltBlockMixin {
         return instance == AllBlocks.BELT ? state.getBlock() instanceof BeltBlock : original.call(instance, state);
     }
 
-    @WrapOperation(method = "useItemOn(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/phys/BlockHitResult;)Lnet/minecraft/world/ItemInteractionResult;",
+    @WrapOperation(method = "useItemOn(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/phys/BlockHitResult;)Lnet/minecraft/world/InteractionResult;",
             at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/ItemEntry;isIn(Lnet/minecraft/world/item/ItemStack;)Z"))
     private boolean useItemOnIsIn(ItemEntry<?> instance, ItemStack stack, Operation<Boolean> original, @Local(argsOnly = true) BlockState state) {
         return instance == AllItems.BELT_CONNECTOR ? state.getBlock() instanceof FullBeltBlock ? original.call(DnDecorItems.BELT_CONNECTOR, stack) : original.call(instance, stack) : original.call(instance, stack);

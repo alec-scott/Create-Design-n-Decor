@@ -1,11 +1,9 @@
 package dev.lopyluna.dndecor.content.blocks.container;
 
-import com.simibubi.create.api.connectivity.ConnectivityHandler;
-import com.simibubi.create.api.packager.InventoryIdentifier;
-import com.simibubi.create.content.logistics.vault.ItemVaultBlockEntity;
-import com.simibubi.create.foundation.ICapabilityProvider;
-import com.simibubi.create.foundation.blockEntity.behaviour.inventory.VersionedInventoryWrapper;
-import com.simibubi.create.foundation.utility.BlockHelper;
+import com.zurrtum.create.api.connectivity.ConnectivityHandler;
+import com.zurrtum.create.api.packager.InventoryIdentifier;
+import com.zurrtum.create.content.logistics.vault.ItemVaultBlockEntity;
+import com.zurrtum.create.foundation.utility.BlockHelper;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
 import net.minecraft.core.BlockPos;
@@ -19,11 +17,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.Objects;
 
@@ -32,17 +25,9 @@ public class DyedContainerBE extends ItemVaultBlockEntity {
     public boolean solidColor;
     public DyeColor color;
 
-    public DyedContainerBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public DyedContainerBE(BlockPos pos, BlockState state) {
+        super(pos, state);
         checkColor(state);
-    }
-
-    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, DnDecorBETypes.DYED_CONTAINER.get(), (be, context) -> {
-            be.initCapability();
-            if (be.itemCapability == null) return null;
-            return be.itemCapability.getCapability();
-        });
     }
 
     public void checkColor(BlockState state) {
@@ -99,32 +84,41 @@ public class DyedContainerBE extends ItemVaultBlockEntity {
         return null;
     }
 
-    private void initCapability() {
+    // PORT-NOTE(26.1): Create Fly's vault initCapability, with the dyed container BE type
+    @Override
+    public void initCapability() {
         if (level == null) return;
-        if (itemCapability != null && itemCapability.getCapability() != null) return;
-        var state = getBlockState();
-        checkColor(state);
+        checkColor(getBlockState());
         if (!isController()) {
             var be = getControllerBE();
             if (be == null) return;
-            be.initCapability();
-            itemCapability = ICapabilityProvider.of(() -> {
+            if (be.itemCapability == null || be.itemCapability.get() == null) be.initCapability();
+            itemCapability = () -> {
                 if (be.isRemoved()) return null;
                 if (be.itemCapability == null) return null;
-                return be.itemCapability.getCapability();
-            });
+                return be.itemCapability.get();
+            };
             invId = be.invId;
             return;
         }
 
-        boolean alongZ = DyedContainerBlock.getBlockAxis(state) == Direction.Axis.Z;
-        IItemHandlerModifiable[] invs = new IItemHandlerModifiable[length * radius * radius];
+        boolean alongZ = DyedContainerBlock.getBlockAxis(getBlockState()) == Direction.Axis.Z;
+        ItemVaultHandler[] invs = new ItemVaultHandler[length * radius * radius];
+        Find:
         for (int yOffset = 0; yOffset < length; yOffset++) for (int xOffset = 0; xOffset < radius; xOffset++) for (int zOffset = 0; zOffset < radius; zOffset++) {
             BlockPos bePos = alongZ ? worldPosition.offset(xOffset, zOffset, yOffset) : worldPosition.offset(yOffset, xOffset, zOffset);
             DyedContainerBE beAt = ConnectivityHandler.partAt(DnDecorBETypes.DYED_CONTAINER.get(), level, bePos);
-            invs[yOffset * radius * radius + xOffset * radius + zOffset] = beAt != null ? beAt.getInventoryOfBlock() : new ItemStackHandler();
+            if (beAt == null) {
+                invs = null;
+                break Find;
+            }
+            invs[yOffset * radius * radius + xOffset * radius + zOffset] = beAt.inventory;
         }
-        itemCapability = ICapabilityProvider.of(new VersionedInventoryWrapper(new CombinedInvWrapper(invs)));
+        if (invs == null) itemCapability = null;
+        else {
+            ConnectedItemVaultHandler capability = new ConnectedItemVaultHandler(invs);
+            itemCapability = () -> capability;
+        }
         invId = new InventoryIdentifier.Bounds(BoundingBox.fromCorners(this.worldPosition, alongZ ? worldPosition.offset(radius, radius, length) : worldPosition.offset(length, radius, radius)));
     }
 
@@ -143,7 +137,6 @@ public class DyedContainerBE extends ItemVaultBlockEntity {
         checkColor(state);
         if (DyedContainerBlock.isContainer(state)) level.setBlock(getBlockPos(), state.setValue(DyedContainerBlock.LARGE, radius > 2), Block.UPDATE_CLIENTS | Block.UPDATE_INVISIBLE);
         itemCapability = null;
-        invalidateCapabilities();
         setChanged();
     }
 
@@ -162,7 +155,6 @@ public class DyedContainerBE extends ItemVaultBlockEntity {
             level.setBlock(worldPosition, state, Block.UPDATE_CLIENTS | Block.UPDATE_INVISIBLE | Block.UPDATE_KNOWN_SHAPE);
         }
         itemCapability = null;
-        invalidateCapabilities();
         setChanged();
         sendData();
     }

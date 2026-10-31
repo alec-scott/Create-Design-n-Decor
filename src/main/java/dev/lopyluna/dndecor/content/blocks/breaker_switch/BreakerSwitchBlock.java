@@ -1,8 +1,8 @@
 package dev.lopyluna.dndecor.content.blocks.breaker_switch;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.content.redstone.analogLever.AnalogLeverBlock;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.content.redstone.analogLever.AnalogLeverBlock;
+import com.zurrtum.create.foundation.block.IBE;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,16 +25,12 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import static dev.lopyluna.dndecor.register.DnDecorShapes.shape;
 
 @SuppressWarnings("NullableProblems")
-@ParametersAreNonnullByDefault
 public class BreakerSwitchBlock extends FaceAttachedHorizontalDirectionalBlock implements IBE<BreakerSwitchBE> {
     public BreakerSwitchBlock(Properties properties) {
         super(properties);
@@ -76,7 +72,6 @@ public class BreakerSwitchBlock extends FaceAttachedHorizontalDirectionalBlock i
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         withBlockEntityDo(worldIn, pos, be -> {
             if (be.state != 0 && rand.nextFloat() < 0.25F) addParticles(stateIn, worldIn, pos, 0.5F);

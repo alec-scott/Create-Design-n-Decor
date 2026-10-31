@@ -1,17 +1,19 @@
 package dev.lopyluna.dndecor.content.blocks.cogs;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.simibubi.create.AllPartialModels;
-import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
-import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockEntityRenderer;
-import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
-import com.simibubi.create.content.kinetics.simpleRelays.SimpleKineticBlockEntity;
-import dev.engine_room.flywheel.api.visualization.VisualizationManager;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.client.AllPartialModels;
+import com.zurrtum.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
+import com.zurrtum.create.client.content.kinetics.simpleRelays.BracketedKineticBlockEntityRenderer;
+import com.zurrtum.create.content.kinetics.simpleRelays.ICogWheel;
+import com.zurrtum.create.content.kinetics.simpleRelays.SimpleKineticBlockEntity;
+import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
 import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
-import net.createmod.catnip.animation.AnimationTickHolder;
-import net.createmod.catnip.render.CachedBuffers;
-import net.createmod.catnip.render.SuperByteBuffer;
+import com.zurrtum.create.client.catnip.animation.AnimationTickHolder;
+import com.zurrtum.create.client.catnip.render.CachedBuffers;
+import com.zurrtum.create.client.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
@@ -44,13 +46,13 @@ public class DnDCogwheelRenderer extends BracketedKineticBlockEntityRenderer {
 
 		renderRotatingBuffer(be,
 			CachedBuffers.partialFacingVertical(model, be.getBlockState(), facing),
-			ms, buffer.getBuffer(RenderType.cutoutMipped()), light);
+			ms, buffer.getBuffer(RenderTypes.cutoutMipped()), light);
 
 		float angle = getAngleForLargeCogShaft(be, axis);
 		SuperByteBuffer shaft =
 			CachedBuffers.partialFacingVertical(AllPartialModels.COGWHEEL_SHAFT, be.getBlockState(), facing);
 		kineticRotationTransform(shaft, be, axis, angle, light);
-		shaft.renderInto(ms, buffer.getBuffer(RenderType.solid()));
+		shaft.renderInto(ms, buffer.getBuffer(RenderTypes.solid()));
 	}
 
 	public static float getAngleForLargeCogShaft(SimpleKineticBlockEntity be, Axis axis) {

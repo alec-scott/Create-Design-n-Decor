@@ -1,7 +1,7 @@
 package dev.lopyluna.dndecor.content.configs;
 
 import dev.lopyluna.dndecor.content.configs.server.DKinetics;
-import net.createmod.catnip.config.ConfigBase;
+import dev.lopyluna.dndecor.port.catnip.config.ConfigBase;
 
 @SuppressWarnings("NullableProblems")
 public class DServer extends ConfigBase {

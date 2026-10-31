@@ -1,22 +1,24 @@
 package dev.lopyluna.dndecor.content.blocks.text_plate;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
-import dev.engine_room.flywheel.lib.transform.PoseTransformStack;
-import dev.engine_room.flywheel.lib.transform.TransformStack;
+import com.zurrtum.create.client.flywheel.lib.transform.PoseTransformStack;
+import com.zurrtum.create.client.flywheel.lib.transform.TransformStack;
 import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
-import net.createmod.catnip.math.AngleHelper;
-import net.createmod.catnip.render.CachedBuffers;
+import com.zurrtum.create.catnip.math.AngleHelper;
+import com.zurrtum.create.client.catnip.render.CachedBuffers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Style;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 
@@ -36,7 +38,7 @@ public class TextPlateRenderer extends SafeBlockEntityRenderer<TextPlateBE> {
         msr = transform(msr.center(), be).uncenter();
 
         ms.pushPose();
-        var vb = bs.getBuffer(RenderType.cutoutMipped());
+        var vb = bs.getBuffer(RenderTypes.cutoutMipped());
         var model = CachedBuffers.partial(DnDecorPartialModels.getTextPlateModel(be.metalBase, be.colorBase, be.extended), be.getBlockState());
 
         model.rotateCenteredDegrees(90, Axis.XP).translate(0, -0.01/16f, 0).light(l).overlay(o).renderInto(ms, vb);
@@ -56,13 +58,13 @@ public class TextPlateRenderer extends SafeBlockEntityRenderer<TextPlateBE> {
         var hex = col;
         var hexBg = col;
         var shade = mc.level == null ? 1f : be.face == AttachFace.WALL ? mc.level.getShade(be.facing, true) : be.face == AttachFace.CEILING ? mc.level.getShade(Direction.DOWN, true) : mc.level.getShade(Direction.UP, true);
-        if (!be.glowing) hex = FastColor.ARGB32.color(FastColor.ARGB32.alpha(hex),
-                (int)(FastColor.ARGB32.red(hex) * shade), (int)(FastColor.ARGB32.green(hex) * shade), (int)(FastColor.ARGB32.blue(hex) * shade));
+        if (!be.glowing) hex = ARGB.color(ARGB.alpha(hex),
+                (int)(ARGB.red(hex) * shade), (int)(ARGB.green(hex) * shade), (int)(ARGB.blue(hex) * shade));
 
         double m = be.glowing ? 0.4 : 0.2;
-        int r = (int)((double)FastColor.ARGB32.red(hexBg) * m);
-        int g = (int)((double)FastColor.ARGB32.green(hexBg) * m);
-        int b = (int)((double)FastColor.ARGB32.blue(hexBg) * m);
+        int r = (int)((double)ARGB.red(hexBg) * m);
+        int g = (int)((double)ARGB.green(hexBg) * m);
+        int b = (int)((double)ARGB.blue(hexBg) * m);
         int t = (int) (36 * (be.glowing ? 1 : m/0.4));
         if (r < t && g < t && b < t) {
             float[] hsv = Color.RGBtoHSB(r, g, b, null);
@@ -76,12 +78,12 @@ public class TextPlateRenderer extends SafeBlockEntityRenderer<TextPlateBE> {
             g = 255 - g*2;
             b = 255 - b*2;
         }
-        hexBg = FastColor.ARGB32.color(0, r, g, b);
-        if (!be.glowing) hexBg = FastColor.ARGB32.color(FastColor.ARGB32.alpha(hexBg),
-                (int)(FastColor.ARGB32.red(hexBg) * shade), (int)(FastColor.ARGB32.green(hexBg) * shade), (int)(FastColor.ARGB32.blue(hexBg) * shade));
+        hexBg = ARGB.color(0, r, g, b);
+        if (!be.glowing) hexBg = ARGB.color(ARGB.alpha(hexBg),
+                (int)(ARGB.red(hexBg) * shade), (int)(ARGB.green(hexBg) * shade), (int)(ARGB.blue(hexBg) * shade));
 
         ms.translate((charWidth) / -2f, -4, 0);
-        var light = be.glowing ? LightTexture.FULL_BRIGHT : l;
+        var light = be.glowing ? LightCoordsUtil.FULL_BRIGHT : l;
         drawInWorldString(ms, bs, text, light, hex);
         mc.font.drawInBatch8xOutline(FormattedCharSequence.forward(text, Style.EMPTY.withColor(hex)), 0, 0, hex, hexBg, ms.last().pose(), bs, light);
         ms.popPose();

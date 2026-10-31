@@ -1,19 +1,20 @@
 package dev.lopyluna.dndecor.content.blocks.text_plate;
 
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.equipment.clipboard.ClipboardEntry;
-import com.simibubi.create.foundation.block.IBE;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.infrastructure.component.ClipboardEntry;
+import com.zurrtum.create.foundation.block.IBE;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import dev.lopyluna.dndecor.register.DnDecorShapes;
 import dev.lopyluna.dndecor.register.helpers.list_providers.MaterialTypeProvider;
-import net.createmod.catnip.math.VoxelShaper;
+import com.zurrtum.create.catnip.math.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -40,13 +41,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("NullableProblems")
 public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty EXTENDED = BlockStateProperties.EXTENDED;
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<AttachFace> FACE = BlockStateProperties.ATTACH_FACE;
 
     public static final VoxelShaper SHAPE_FLOOR = DnDecorShapes.shape(2.5, 0, 2, 13.5, 2, 14).forHorizontal(Direction.NORTH);
@@ -84,8 +85,8 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (stack.isEmpty()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (stack.isEmpty()) return InteractionResult.TRY_WITH_EMPTY_HAND;
         var item = stack.getItem();
         if (item instanceof DyeItem dyeItem) {
             var flag = true;
@@ -99,7 +100,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
             }
             if (flag) {
                 level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         } else if (stack.is(Items.GLOW_INK_SAC)) {
             var flag = true;
@@ -109,7 +110,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
             }
             if (flag) {
                 level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         } else for (var type : MaterialTypeProvider.metalTypes) {
             var metal = type.get();
@@ -126,7 +127,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
                     level.playSound(null, pos, metal.sound.getHitSound(), SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
                     level.playSound(null, pos, metal.sound.getPlaceSound(), SoundSource.BLOCKS, 0.5f, 1.4f - level.random.nextFloat() * .2f);
                     level.playSound(null, pos, metal.sound.getBreakSound(), SoundSource.BLOCKS, 0.5f, 1.1f - level.random.nextFloat() * .2f);
-                    return ItemInteractionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
@@ -138,7 +139,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
         }
 
         var text = component.getString();
-        if (!(level.getBlockEntity(pos) instanceof TextPlateBE be)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (!(level.getBlockEntity(pos) instanceof TextPlateBE be)) return InteractionResult.TRY_WITH_EMPTY_HAND;
         var leftDir = be.face == AttachFace.WALL ? be.facing.getClockWise() : be.facing.getCounterClockWise();
         var rightDir = leftDir.getOpposite();
 
@@ -177,7 +178,7 @@ public class TextPlateBlock extends Block implements IBE<TextPlateBE>, SimpleWat
             idx++;
             curPos = curPos.relative(rightDir);
         }
-        return suc > 0 ? ItemInteractionResult.SUCCESS : ItemInteractionResult.FAIL;
+        return suc > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
     }
 
     @Override

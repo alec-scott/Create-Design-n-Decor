@@ -1,13 +1,13 @@
 package dev.lopyluna.dndecor.register.helpers.list_providers;
 
 import com.simibubi.create.content.decoration.palettes.AllPaletteStoneTypes;
-import com.tterrag.registrate.util.DataIngredient;
-import com.tterrag.registrate.util.entry.ItemProviderEntry;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import dev.lopyluna.dndecor.port.registrate.util.DataIngredient;
+import dev.lopyluna.dndecor.port.registrate.util.entry.ItemProviderEntry;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.register.DnDecorStoneTypes;
-import net.createmod.catnip.lang.Lang;
+import com.zurrtum.create.client.catnip.lang.Lang;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -53,7 +53,7 @@ public class MaterialTypeProvider {
         return Optional.empty();
     }
 
-    public static Item getResolvedItem(ResourceLocation loc) {
+    public static Item getResolvedItem(Identifier loc) {
         var item = BuiltInRegistries.ITEM.get(loc);
         if (item == Items.AIR) System.out.println("⚠ Item not yet registered: " + loc + " is " + item);
         return item;

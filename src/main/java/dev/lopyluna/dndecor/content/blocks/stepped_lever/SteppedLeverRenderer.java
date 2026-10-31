@@ -1,12 +1,14 @@
 package dev.lopyluna.dndecor.content.blocks.stepped_lever;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.simibubi.create.content.redstone.analogLever.AnalogLeverBlock;
+import com.zurrtum.create.content.redstone.analogLever.AnalogLeverBlock;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
 import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
-import net.createmod.catnip.math.AngleHelper;
-import net.createmod.catnip.render.CachedBuffers;
-import net.createmod.catnip.render.SuperByteBuffer;
+import com.zurrtum.create.catnip.math.AngleHelper;
+import com.zurrtum.create.client.catnip.render.CachedBuffers;
+import com.zurrtum.create.client.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -22,7 +24,7 @@ public class SteppedLeverRenderer extends SafeBlockEntityRenderer<SteppedLeverBE
     protected void renderSafe(SteppedLeverBE be, float pt, PoseStack ms, MultiBufferSource bs, int light, int overlay) {
         var leverState = be.getBlockState();
         var state = be.clientState.getValue(pt);
-        var vb = bs.getBuffer(RenderType.cutoutMipped());
+        var vb = bs.getBuffer(RenderTypes.cutoutMipped());
         var handle = CachedBuffers.partial(DnDecorPartialModels.STEPPED_LEVER_HANDLE, leverState);
         var angle = (((state / 15f * 135f) - 22.5f) / 180f) * (float) Math.PI;
 

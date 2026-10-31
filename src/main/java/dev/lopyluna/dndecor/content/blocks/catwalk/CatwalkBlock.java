@@ -1,15 +1,15 @@
 package dev.lopyluna.dndecor.content.blocks.catwalk;
 
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import net.createmod.catnip.placement.IPlacementHelper;
-import net.createmod.catnip.placement.PlacementHelpers;
-import net.createmod.catnip.placement.PlacementOffset;
-import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.world.InteractionResult;
+
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.catnip.placement.IPlacementHelper;
+import com.zurrtum.create.catnip.placement.PlacementHelpers;
+import com.zurrtum.create.catnip.placement.PlacementOffset;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +33,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -54,13 +54,13 @@ public class CatwalkBlock extends Block implements SimpleWaterloggedBlock, IWren
         registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false).setValue(LAYER, 8));
     }
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         IPlacementHelper placementHelper = PlacementHelpers.get(placementHelperId);
         if (!player.isShiftKeyDown() && player.mayBuild() && placementHelper.matchesItem(stack)) {
             placementHelper.getOffset(player, level, state, pos, hitResult).placeInWorld(level, (BlockItem) stack.getItem(), player, hand, hitResult);
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Override
@@ -120,8 +120,6 @@ public class CatwalkBlock extends Block implements SimpleWaterloggedBlock, IWren
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
-
-    @MethodsReturnNonnullByDefault
     private static class PlacementHelper implements IPlacementHelper {
         @Override
         public Predicate<ItemStack> getItemPredicate() {

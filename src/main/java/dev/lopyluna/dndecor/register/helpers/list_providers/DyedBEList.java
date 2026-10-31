@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.register.helpers.list_providers;
 
-import com.tterrag.registrate.util.entry.BlockEntityEntry;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntityEntry;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;

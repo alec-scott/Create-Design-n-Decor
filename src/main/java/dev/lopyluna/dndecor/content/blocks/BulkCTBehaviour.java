@@ -1,12 +1,12 @@
 package dev.lopyluna.dndecor.content.blocks;
 
-import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
-import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
+import com.zurrtum.create.client.foundation.block.connected.CTSpriteShiftEntry;
+import com.zurrtum.create.client.foundation.block.connected.ConnectedTextureBehaviour;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 

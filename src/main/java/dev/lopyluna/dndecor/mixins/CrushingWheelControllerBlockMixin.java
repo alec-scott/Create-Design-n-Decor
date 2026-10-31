@@ -2,10 +2,10 @@ package dev.lopyluna.dndecor.mixins;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.kinetics.crusher.CrushingWheelBlock;
-import com.simibubi.create.content.kinetics.crusher.CrushingWheelControllerBlock;
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.content.kinetics.crusher.CrushingWheelBlock;
+import com.zurrtum.create.content.kinetics.crusher.CrushingWheelControllerBlock;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;

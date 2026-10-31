@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "dndecor",
+  "version": "${version}",
+  "name": "Design n' Decor",
+  "description": "A mod of QoL decor for Create.\n\nUnofficial Fabric 26.1.2 port on Create Fly, for private server use with the authors' permission.",
+  "authors": ["LopyLuna", "DrMangoTea"],
+  "contact": {
+    "sources": "https://github.com/DrMango14/Create-Design-n-Decor"
+  },
+  "license": ["MIT", "ARR"],
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.lopyluna.dndecor.DnDecor"],
+    "client": ["dev.lopyluna.dndecor.DnDecorClient"]
+  },
+  "accessWidener": "dndecor.accesswidener",
+  "mixins": ["dndecor.mixins.json"],
+  "depends": {
+    "minecraft": "${minecraft_version}",
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "forgeconfigapiport": ">=${forgeconfigapiport_version}",
+    "create": "${create_fly_version_range}",
+    "java": ">=25"
+  }
+}

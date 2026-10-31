@@ -1,11 +1,11 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.Create;
+import com.zurrtum.create.Create;
 import dev.lopyluna.dndecor.DnDecor;
-import net.createmod.catnip.lang.Lang;
+import com.zurrtum.create.client.catnip.lang.Lang;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -19,11 +19,11 @@ import static dev.lopyluna.dndecor.DnDecor.MOD_ID;
 
 @SuppressWarnings("unused")
 public class DnDecorTags {
-    public static <T> TagKey<T> optionalTag(Registry<T> registry, ResourceLocation id) {
+    public static <T> TagKey<T> optionalTag(Registry<T> registry, Identifier id) {
         return TagKey.create(registry.key(), id);
     }
     public static <T> TagKey<T> commonTag(Registry<T> registry, String path) {
-        return optionalTag(registry, ResourceLocation.fromNamespaceAndPath("c", path));
+        return optionalTag(registry, Identifier.fromNamespaceAndPath("c", path));
     }
     public static <T> TagKey<T> modTag(Registry<T> registry, String path) {
         return optionalTag(registry, DnDecor.loc(path));
@@ -76,7 +76,7 @@ public class DnDecorTags {
         BlockTags(NameSpace namespace, String path) { this(namespace, path, namespace.optionalDefault, namespace.alwaysDatagenDefault); }
         BlockTags(NameSpace namespace, boolean optional, boolean alwaysDatagen) { this(namespace, null, optional, alwaysDatagen); }
         BlockTags(NameSpace namespace, String path, boolean optional, boolean alwaysDatagen) {
-            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(namespace.id, path == null ? Lang.asId(name()) : path);
+            Identifier id = Identifier.fromNamespaceAndPath(namespace.id, path == null ? Lang.asId(name()) : path);
             if (optional) tag = optionalTag(BuiltInRegistries.BLOCK, id);
             else tag = net.minecraft.tags.BlockTags.create(id);
             this.alwaysDatagen = alwaysDatagen;
@@ -103,7 +103,7 @@ public class DnDecorTags {
         ItemTags(NameSpace namespace, String path) { this(namespace, path, namespace.optionalDefault, namespace.alwaysDatagenDefault); }
         ItemTags(NameSpace namespace, boolean optional, boolean alwaysDatagen) { this(namespace, null, optional, alwaysDatagen); }
         ItemTags(NameSpace namespace, String path, boolean optional, boolean alwaysDatagen) {
-            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(namespace.id, path == null ? Lang.asId(name()) : path);
+            Identifier id = Identifier.fromNamespaceAndPath(namespace.id, path == null ? Lang.asId(name()) : path);
             if (optional) tag = optionalTag(BuiltInRegistries.ITEM, id);
             else tag = net.minecraft.tags.ItemTags.create(id);
             this.alwaysDatagen = alwaysDatagen;

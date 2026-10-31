@@ -1,9 +1,9 @@
 package dev.lopyluna.dndecor.content.datagen;
 
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.foundation.data.TagGen;
-import com.tterrag.registrate.providers.ProviderType;
-import com.tterrag.registrate.providers.RegistrateTagsProvider;
+import com.zurrtum.create.AllBlocks;
+import dev.lopyluna.dndecor.port.create.foundation.data.TagGen;
+import dev.lopyluna.dndecor.port.registrate.providers.ProviderType;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateTagsProvider;
 import dev.lopyluna.dndecor.register.DnDecorTags;
 import dev.lopyluna.dndecor.register.helpers.MetalTypeHelper;
 import net.minecraft.tags.BlockTags;

@@ -1,129 +1,70 @@
 plugins {
-    id 'java-library'
-    id 'eclipse'
-    id 'idea'
-    id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.170'
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
 }
 
-tasks.named('wrapper', Wrapper).configure {
-    distributionType = Wrapper.DistributionType.BIN
-}
-
-base {
-    archivesName = "Design-n-Decor-$minecraft_version"
-    group = mod_group_id
-    version = mod_version
-}
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-runs {
-    configureEach {
-        systemProperty 'forge.logging.markers', 'REGISTRIES'
-        systemProperty 'forge.logging.console.level', 'debug'
-
-        modSource project.sourceSets.main
-    }
-    client {
-        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
-    }
-    server {
-        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
-        programArgument '--nogui'
-    }
-    gameTestServer {
-        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
-    }
-    data {
-        workingDirectory project.file('run-data')
-
-        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath(), '--existing-mod', 'create'
-    }
-}
-
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
-}
+version = "${mod_version}+fabric-mc${minecraft_version}"
+group = maven_group
+base { archivesName = archives_base_name }
 
 repositories {
-    maven { url = "https://maven.createmod.net" } // Ponder, Flywheel
-    maven { url = "https://mvn.devos.one/snapshots" } // Registrate
-    maven { url = "https://maven.blamejared.com" } // JEI, Vazkii's Mods
-    maven { url = "https://www.cursemaven.com" }
-    maven { url = "https://api.modrinth.com/maven" }
-    maven { url = "https://modmaven.dev" }
-    maven { url = "https://maven.architectury.dev" } // Arch API
-    maven { url = "https://registry.somethingcatchy.net/repository/maven-releases/" }
-    maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven" } // NeoForge config api port, needed by ponder
-    mavenLocal()
+    mavenCentral()
+    maven { url = 'https://maven.fabricmc.net/' }
+    maven { url = 'https://raw.githubusercontent.com/Fuzss/modresources/main/maven/' }
+}
+
+loom {
+    accessWidenerPath = file('src/main/resources/dndecor.accesswidener')
+}
+
+sourceSets {
+    main {
+        resources.srcDir 'src/generated/resources'
+        java {
+            // Datagen is stubbed (the committed src/generated/resources are used); see PORTING-26.1.md.
+            exclude 'dev/lopyluna/dndecor/DnDecorDatagen.java'
+            exclude 'dev/lopyluna/dndecor/content/datagen/**'
+        }
+    }
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:${neo_version}"
+    // 26.1 is unobfuscated: no mappings, and Loom no longer remaps (non-remap "fabric-loom" plugin).
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    implementation "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forgeconfigapiport_version}"
 
-    implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
-    implementation("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}")
-    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${flywheel_minecraft_version}:${flywheel_version}")
-    runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${flywheel_minecraft_version}:${flywheel_version}")
-    implementation("com.tterrag.registrate:Registrate:${registrate_version}")
+    implementation files(create_fly_jar)
 
-    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
-    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
-    implementation("mezz.jei:jei-${jei_minecraft_version}-neoforge:${jei_version}")
-
-    implementation("com.ninni.dye_depot:dye_depot:$minecraft_version-$dye_depot_version-neoforge")
-
-    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${curios_minecraft_version}:api")
-    runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${curios_minecraft_version}")
-
-    //compileOnly("maven.modrinth:sodium:mc${minecraft_version}-${sodium_version}-neoforge")
-    implementation("maven.modrinth:jade:jBPaSUDN")
+    // Used by the relocated Registrate port (dev.lopyluna.dndecor.port.registrate)
+    compileOnly "org.projectlombok:lombok:1.18.42"
+    annotationProcessor "org.projectlombok:lombok:1.18.42"
 }
 
-tasks.withType(ProcessResources).configureEach {
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            neo_version_range      : neo_version_range,
-            loader_version_range   : loader_version_range,
-            flywheel_version_range   : flywheel_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
+processResources {
+    def props = [
+            version                   : project.version,
+            minecraft_version         : minecraft_version,
+            fabric_loader_version     : fabric_loader_version,
+            fabric_api_version        : fabric_api_version,
+            forgeconfigapiport_version: forgeconfigapiport_version,
+            create_fly_version_range  : create_fly_version_range
     ]
-    inputs.properties replaceProperties
-
-    filesMatching(['META-INF/neoforge.mods.toml']) {
-        expand replaceProperties
-    }
+    inputs.properties(props)
+    filesMatching('fabric.mod.json') { expand props }
 }
 
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/repo"
-        }
-    }
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(java_version as int)
+    withSourcesJar()
 }
 
 tasks.withType(JavaCompile).configureEach {
+    options.release = java_version as int
     options.encoding = 'UTF-8'
+    options.compilerArgs.addAll(['-Xmaxerrs', '10000'])
 }
 
-idea {
-    module {
-        downloadSources = true
-        downloadJavadoc = true
-    }
+jar {
+    from('LICENSE') { rename { "LICENSE_dndecor" } }
 }

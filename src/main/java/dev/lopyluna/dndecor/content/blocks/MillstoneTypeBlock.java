@@ -1,8 +1,8 @@
 package dev.lopyluna.dndecor.content.blocks;
 
-import com.simibubi.create.content.kinetics.millstone.MillstoneBlock;
-import com.simibubi.create.content.kinetics.millstone.MillstoneBlockEntity;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.zurrtum.create.content.kinetics.millstone.MillstoneBlock;
+import com.zurrtum.create.content.kinetics.millstone.MillstoneBlockEntity;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;

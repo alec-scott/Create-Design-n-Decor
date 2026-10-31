@@ -1,33 +1,33 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.*;
-import com.simibubi.create.content.decoration.encasing.EncasedCTBehaviour;
+import com.zurrtum.create.*;
+import com.zurrtum.create.client.content.decoration.encasing.EncasedCTBehaviour;
 import com.simibubi.create.content.decoration.palettes.AllPaletteBlocks;
 import com.simibubi.create.content.decoration.palettes.AllPaletteStoneTypes;
-import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
-import com.simibubi.create.content.decoration.palettes.WindowBlock;
-import com.simibubi.create.content.kinetics.belt.BeltBlock;
-import com.simibubi.create.content.kinetics.belt.BeltModel;
-import com.simibubi.create.content.kinetics.crusher.CrushingWheelBlock;
-import com.simibubi.create.content.kinetics.flywheel.FlywheelBlock;
-import com.simibubi.create.content.kinetics.millstone.MillstoneBlock;
-import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockModel;
-import com.simibubi.create.content.logistics.vault.ItemVaultBlock;
-import com.simibubi.create.content.trains.display.FlapDisplayBlock;
+import com.zurrtum.create.content.decoration.palettes.ConnectedGlassPaneBlock;
+import com.zurrtum.create.content.decoration.palettes.WindowBlock;
+import com.zurrtum.create.content.kinetics.belt.BeltBlock;
+import com.zurrtum.create.client.infrastructure.model.BeltModel;
+import com.zurrtum.create.content.kinetics.crusher.CrushingWheelBlock;
+import com.zurrtum.create.content.kinetics.flywheel.FlywheelBlock;
+import com.zurrtum.create.content.kinetics.millstone.MillstoneBlock;
+import com.zurrtum.create.client.infrastructure.model.BracketedKineticBlockModel;
+import com.zurrtum.create.content.logistics.vault.ItemVaultBlock;
+import com.zurrtum.create.content.trains.display.FlapDisplayBlock;
 import com.simibubi.create.foundation.block.CopperBlockSet;
 import com.simibubi.create.foundation.block.DyedBlockList;
-import com.simibubi.create.foundation.block.ItemUseOverrides;
-import com.simibubi.create.foundation.block.connected.*;
-import com.simibubi.create.foundation.data.AssetLookup;
-import com.simibubi.create.foundation.data.BlockStateGen;
-import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.foundation.data.SharedProperties;
+import dev.lopyluna.dndecor.port.create.ItemUseOverrides;
+import com.zurrtum.create.client.foundation.block.connected.*;
+import dev.lopyluna.dndecor.port.create.foundation.data.AssetLookup;
+import dev.lopyluna.dndecor.port.create.foundation.data.BlockStateGen;
+import dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate;
+import dev.lopyluna.dndecor.port.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.data.recipe.CommonMetal;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
-import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import com.tterrag.registrate.util.DataIngredient;
-import com.tterrag.registrate.util.entry.BlockEntry;
+import dev.lopyluna.dndecor.port.registrate.providers.DataGenContext;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateBlockstateProvider;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateRecipeProvider;
+import dev.lopyluna.dndecor.port.registrate.util.DataIngredient;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
 import dev.lopyluna.dndecor.DnDecor;
 import dev.lopyluna.dndecor.DnDecorBlockStateGen;
 import dev.lopyluna.dndecor.content.blocks.*;
@@ -64,7 +64,7 @@ import dev.lopyluna.dndecor.register.helpers.list_providers.MaterialTypeProvider
 import dev.lopyluna.dndecor.register.helpers.list_providers.MetalTypeBlockList;
 import dev.lopyluna.dndecor.register.helpers.list_providers.MetalTypeBoltBlockList;
 import dev.lopyluna.dndecor.register.helpers.list_providers.StoneTypeBlockList;
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -72,7 +72,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
@@ -84,24 +84,24 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ConfiguredModel;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ModelFile;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Function;
 
-import static com.simibubi.create.api.behaviour.display.DisplaySource.displaySource;
-import static com.simibubi.create.api.behaviour.display.DisplayTarget.displayTarget;
-import static com.simibubi.create.api.contraption.storage.item.MountedItemStorageType.mountedItemStorage;
-import static com.simibubi.create.foundation.data.CreateRegistrate.casingConnectivity;
-import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
-import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
-import static com.simibubi.create.foundation.data.TagGen.axeOrPickaxe;
-import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
-import static com.tterrag.registrate.providers.RegistrateRecipeProvider.has;
+import static com.zurrtum.create.api.behaviour.display.DisplaySource.displaySource;
+import static com.zurrtum.create.api.behaviour.display.DisplayTarget.displayTarget;
+import static com.zurrtum.create.api.contraption.storage.item.MountedItemStorageType.mountedItemStorage;
+import static dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate.casingConnectivity;
+import static dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate.connectedTextures;
+import static dev.lopyluna.dndecor.port.create.foundation.data.ModelGen.customItemModel;
+import static dev.lopyluna.dndecor.port.create.foundation.data.TagGen.axeOrPickaxe;
+import static dev.lopyluna.dndecor.port.create.foundation.data.TagGen.pickaxeOnly;
+import static dev.lopyluna.dndecor.port.registrate.providers.RegistrateRecipeProvider.has;
 import static dev.lopyluna.dndecor.DnDecor.DYE_DEPOT;
 import static dev.lopyluna.dndecor.DnDecor.REG;
 import static dev.lopyluna.dndecor.register.DnDecorTags.commonItemTag;
@@ -148,7 +148,7 @@ public class DnDecorBlocks {
     public static final BlockEntry<TextPlateBlock> TEXT_PLATE = REG.block("text_plate", TextPlateBlock::new)
             .initialProperties(() -> Blocks.LEVER)
             .transform(axeOrPickaxe())
-            .tag(AllTags.AllBlockTags.SAFE_NBT.tag)
+            .tag(AllBlockTags.SAFE_NBT)
             .recipe((c, p) -> {
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, c.get(), 4)
                         .requires(commonItemTag("ingots/zinc")).requires(commonItemTag("nuggets/zinc"))
@@ -184,7 +184,7 @@ public class DnDecorBlocks {
     public static final BlockEntry<BreakerSwitchBlock> BREAKER_SWITCH = REG.block("breaker_switch", BreakerSwitchBlock::new)
             .initialProperties(() -> Blocks.LEVER)
             .transform(axeOrPickaxe())
-            .tag(AllTags.AllBlockTags.SAFE_NBT.tag)
+            .tag(AllBlockTags.SAFE_NBT)
             .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
                     .pattern("L").pattern("B").pattern("R")
                     .define('L', Items.LEVER)
@@ -202,7 +202,7 @@ public class DnDecorBlocks {
     public static final BlockEntry<SteppedLeverBlock> STEPPED_LEVER = REG.block("stepped_lever", SteppedLeverBlock::new)
             .initialProperties(() -> Blocks.LEVER)
             .transform(axeOrPickaxe())
-            .tag(AllTags.AllBlockTags.SAFE_NBT.tag)
+            .tag(AllBlockTags.SAFE_NBT)
             .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
                     .pattern("L").pattern("B").pattern("R")
                     .define('L', Items.LEVER)
@@ -447,7 +447,7 @@ public class DnDecorBlocks {
                 .addLayer(() -> RenderType::cutoutMipped)
                 .transform(axeOrPickaxe()).asOptional()
                 .transform(DStress.setNoImpact()).blockstate((c, p) -> {
-                    p.models().withExistingParent("block/" + c.getName() + "/block", ResourceLocation.withDefaultNamespace("air"))
+                    p.models().withExistingParent("block/" + c.getName() + "/block", Identifier.withDefaultNamespace("air"))
                             .texture("particle", DnDecor.loc("block/large_girders/" + colorName));
                     p.models().withExistingParent("block/" + c.getName() + "/block_shaftless", DnDecor.loc("block/industrial_cogwheel/block_shaftless"))
                             .texture("1_2", DnDecor.loc("block/industrial_cogwheel/" + colorName))
@@ -475,7 +475,7 @@ public class DnDecorBlocks {
                 .transform(axeOrPickaxe()).asOptional()
                 .transform(DStress.setNoImpact())
                 .blockstate((c, p) -> {
-                    p.models().withExistingParent("block/" + c.getName() + "/block", ResourceLocation.withDefaultNamespace("air"))
+                    p.models().withExistingParent("block/" + c.getName() + "/block", Identifier.withDefaultNamespace("air"))
                             .texture("particle", DnDecor.loc("block/large_girders/" + colorName));
                     p.models().withExistingParent("block/" + c.getName() + "/block_shaftless", DnDecor.loc("block/large_industrial_cogwheel/block_shaftless"))
                             .texture("4", DnDecor.loc("block/large_industrial_cogwheel/" + colorName))
@@ -505,7 +505,7 @@ public class DnDecorBlocks {
                     p.models().withExistingParent("block/" + c.getName() + "/block_shaftless", Create.asResource("block/cogwheel_shaftless"))
                             .texture("1_2", DnDecor.loc("block/dark_metal_cogwheel/" + colorName))
                             .texture("particle", DnDecor.loc("block/dark_metal_cogwheel/" + colorName));
-                    p.models().withExistingParent("block/" + c.getName() + "/block", ResourceLocation.withDefaultNamespace("air"))
+                    p.models().withExistingParent("block/" + c.getName() + "/block", Identifier.withDefaultNamespace("air"))
                             .texture("particle", DnDecor.loc("block/dark_metal_cogwheel/" + colorName));
                     p.models().withExistingParent("block/" + c.getName() + "/item", Create.asResource("block/cogwheel"))
                             .texture("1_2", DnDecor.loc("block/dark_metal_cogwheel/" + colorName))
@@ -536,7 +536,7 @@ public class DnDecorBlocks {
                     p.models().withExistingParent("block/" + c.getName() + "/block_shaftless", Create.asResource("block/large_cogwheel_shaftless"))
                             .texture("4", DnDecor.loc("block/large_dark_metal_cogwheel/" + colorName))
                             .texture("particle", DnDecor.loc("block/large_dark_metal_cogwheel/" + colorName));
-                    p.models().withExistingParent("block/" + c.getName() + "/block", ResourceLocation.withDefaultNamespace("air"))
+                    p.models().withExistingParent("block/" + c.getName() + "/block", Identifier.withDefaultNamespace("air"))
                             .texture("particle", DnDecor.loc("block/large_dark_metal_cogwheel/" + colorName));
                     p.models().withExistingParent("block/" + c.getName() + "/item", Create.asResource("block/large_cogwheel"))
                             .texture("4", DnDecor.loc("block/large_dark_metal_cogwheel/" + colorName))
@@ -562,11 +562,11 @@ public class DnDecorBlocks {
                     .pattern("ISI")
                     .pattern("S S")
                     .pattern("ISI")
-                    .define('S', Tags.Items.RODS_WOODEN)
-                    .define('I', Tags.Items.INGOTS_IRON)
+                    .define('S', ConventionalItemTags.WOODEN_RODS)
+                    .define('I', ConventionalItemTags.IRON_INGOTS)
                     .unlockedBy("has_" + c.getName(), has(c.get())).save(p, DnDecor.loc("crafting/" + c.getName()))
             ).transform(axeOrPickaxe())
-            .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
+            .tag(AllBlockTags.FAN_TRANSPARENT)
             .lang("Ornate Grate")
             .addLayer(() -> RenderType::cutoutMipped)
             .item()
@@ -653,10 +653,10 @@ public class DnDecorBlocks {
             .recipe((c, p) -> {
                 p.stonecutting(DataIngredient.items(AllBlocks.INDUSTRIAL_IRON_BLOCK.get()), RecipeCategory.BUILDING_BLOCKS, c, 1);
                 p.stonecutting(DataIngredient.items(c), RecipeCategory.BUILDING_BLOCKS, AllBlocks.INDUSTRIAL_IRON_BLOCK, 1);
-                p.stonecutting(DataIngredient.tag(Tags.Items.INGOTS_IRON), RecipeCategory.BUILDING_BLOCKS, c, 2);
+                p.stonecutting(DataIngredient.tag(ConventionalItemTags.IRON_INGOTS), RecipeCategory.BUILDING_BLOCKS, c, 2);
             })
             .transform(pickaxeOnly())
-            .tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+            .tag(AllBlockTags.WRENCH_PICKUP)
             .simpleItem()
             .lang("Block of Industrial Plating")
             .register();
@@ -759,7 +759,7 @@ public class DnDecorBlocks {
             }))
             .onRegister(connectedTextures(() -> new BeamCTBehaviour(horizontalKryppers("beam/beam"), vertical("beam/beam_top_z"), horizontalKryppers("beam/beam_top_x"))))
             .recipe((c, p) -> {
-                p.stonecutting(DataIngredient.tag(Tags.Items.INGOTS_IRON), RecipeCategory.BUILDING_BLOCKS, c, 2);
+                p.stonecutting(DataIngredient.tag(ConventionalItemTags.IRON_INGOTS), RecipeCategory.BUILDING_BLOCKS, c, 2);
                 p.stonecutting(DataIngredient.items(LARGE_METAL_GIRDER.get()), RecipeCategory.BUILDING_BLOCKS, c, 2);
                 p.stonecutting(DataIngredient.items(AllBlocks.INDUSTRIAL_IRON_BLOCK.get(), INDUSTRIAL_PLATING_BLOCK.get()), RecipeCategory.BUILDING_BLOCKS, c, 1);
             })
@@ -788,7 +788,7 @@ public class DnDecorBlocks {
                         .define('C', AllBlocks.METAL_GIRDER)
                         .unlockedBy("has_" + c.getName(), has(c.get())).save(p, DnDecor.loc("crafting/mirrored_" + c.getName()));
             }).transform(axeOrPickaxe())
-            .tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+            .tag(AllBlockTags.WRENCH_PICKUP)
             .blockstate(new DiagonalGirderGenerator()::generate)
             .lang("Diagonal Girder")
             .item()
@@ -987,10 +987,10 @@ public class DnDecorBlocks {
                 .register();
     }
 
-    public static TagKey<Block> stairsBlockTag = optionalTag(BuiltInRegistries.BLOCK, ResourceLocation.withDefaultNamespace("stairs"));
-    public static TagKey<Item> stairsItemTag = optionalTag(BuiltInRegistries.ITEM, ResourceLocation.withDefaultNamespace("stairs"));
-    public static TagKey<Block> slabsBlockTag = optionalTag(BuiltInRegistries.BLOCK, ResourceLocation.withDefaultNamespace("slabs"));
-    public static TagKey<Item> slabsItemTag = optionalTag(BuiltInRegistries.ITEM, ResourceLocation.withDefaultNamespace("slabs"));
+    public static TagKey<Block> stairsBlockTag = optionalTag(BuiltInRegistries.BLOCK, Identifier.withDefaultNamespace("stairs"));
+    public static TagKey<Item> stairsItemTag = optionalTag(BuiltInRegistries.ITEM, Identifier.withDefaultNamespace("stairs"));
+    public static TagKey<Block> slabsBlockTag = optionalTag(BuiltInRegistries.BLOCK, Identifier.withDefaultNamespace("slabs"));
+    public static TagKey<Item> slabsItemTag = optionalTag(BuiltInRegistries.ITEM, Identifier.withDefaultNamespace("slabs"));
 
     public static final BlockEntry<Block> DARK_METAL_BLOCK = REG.block("dark_metal_block", Block::new)
             .properties(p -> p.mapColor(MapColor.COLOR_BLACK).sound(SoundType.NETHERITE_BLOCK).strength(0.5f,1.5f))
@@ -1006,7 +1006,7 @@ public class DnDecorBlocks {
                         .unlockedBy("has_" + c.getName(), has(c.get()))
                         .save(p, DnDecor.loc("crafting/" + c.getName() + "_from_" + c.getName()));
             })
-            .tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+            .tag(AllBlockTags.WRENCH_PICKUP)
             .item()
             .tag(darkMetalDecorTag, DnDecorTags.modItemTag("dark_metal_block_decor"))
             .build()
@@ -1051,7 +1051,7 @@ public class DnDecorBlocks {
                         .unlockedBy("has_" + c.getName(), has(c.get()))
                         .save(p, DnDecor.loc("crafting/" + c.getName() + "_from_" + c.getName()));
             })
-            .tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+            .tag(AllBlockTags.WRENCH_PICKUP)
             .item()
             .tag(darkMetalDecorTag, DnDecorTags.modItemTag("dark_metal_plating_decor"))
             .build()
@@ -1095,7 +1095,7 @@ public class DnDecorBlocks {
                         .unlockedBy("has_" + c.getName(), has(c.get()))
                         .save(p, DnDecor.loc("crafting/" + c.getName() + "_from_" + c.getName()));
             })
-            .tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+            .tag(AllBlockTags.WRENCH_PICKUP)
             .item()
             .tag(slabsItemTag)
             .build()
@@ -1134,7 +1134,7 @@ public class DnDecorBlocks {
                         .unlockedBy("has_" + c.getName(), has(c.get()))
                         .save(p, DnDecor.loc("crafting/" + c.getName() + "_from_" + c.getName()));
             })
-            .tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+            .tag(AllBlockTags.WRENCH_PICKUP)
             .item()
             .tag(darkMetalDecorTag)
             .build()
@@ -1155,7 +1155,7 @@ public class DnDecorBlocks {
                         .unlockedBy("has_" + c.getName(), has(c.get()))
                         .save(p, DnDecor.loc("crafting/" + c.getName() + "_from_" + c.getName()));
             })
-            .tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+            .tag(AllBlockTags.WRENCH_PICKUP)
             .item()
             .tag(slabsItemTag)
             .build()
@@ -1209,7 +1209,7 @@ public class DnDecorBlocks {
                     .pattern("GM").pattern("MB")
                     .define('G', Ingredient.of(Items.GLOWSTONE_DUST, Items.PRISMARINE_CRYSTALS, Items.BLAZE_ROD))
                     .define('M', commonItemTag("ingots/brass"))
-                    .define('B', Tags.Items.STONES)
+                    .define('B', ConventionalItemTags.STONES)
                     .unlockedBy("has_" + c.getName(), has(c.get()))
                     .save(p, DnDecor.loc("crafting/" + c.getName())))
             .simpleItem()
@@ -1258,7 +1258,7 @@ public class DnDecorBlocks {
                         .pattern("MB")
                         .define('G', Ingredient.of(Items.GLOWSTONE_DUST, Items.PRISMARINE_CRYSTALS, Items.BLAZE_ROD))
                         .define('M', ingredient.toVanilla())
-                        .define('B', Tags.Items.STONES)
+                        .define('B', ConventionalItemTags.STONES)
                         .unlockedBy("has_" + c.getName(), has(c.get()))
                         .save(p, DnDecor.loc("crafting/" + c.getName()));
             }
@@ -1438,7 +1438,7 @@ public class DnDecorBlocks {
                     p.models().withExistingParent("block/" + c.getName() + "/block", DnDecor.loc("block/large_chain")).texture("0", textLoc);
                     p.models().withExistingParent("block/" + c.getName() + "/item", DnDecor.loc("block/large_chain")).texture("0", textLoc);
                     BlockStateGen.axisBlock(c, p, getBlockModel(true, c, p));
-                }).tag(AllTags.AllBlockTags.BRITTLE.tag, BlockTags.CLIMBABLE);
+                }).tag(AllBlockTags.BRITTLE, BlockTags.CLIMBABLE);
         builder = builder.recipe((c, p) -> {
             var ingredient = metal.getIngredient();
             if (ingredient != null) p.stonecutting(ingredient, RecipeCategory.BUILDING_BLOCKS, c, 4);
@@ -1520,14 +1520,13 @@ public class DnDecorBlocks {
     public static ArrayList<String> DD_DYES = null;
 
     public static boolean isDyeDepotColor(DyeColor color) {
-        if (!DYE_DEPOT) return false;
-        if (DD_DYES == null || DD_DYES.isEmpty()) DD_DYES = new ArrayList<>(Arrays.stream(com.ninni.dye_depot.registry.DDDyes.values()).map(com.ninni.dye_depot.registry.DDDyes::getName).toList());
-        return DD_DYES.contains(color.getName());
+        // PORT-NOTE(26.1): Dye Depot has no 26.1 Fabric build, so its extra colours are never present.
+        return false;
     }
 
     public static RecipeOutput doesRequireDyeDepot(RegistrateRecipeProvider p, DyeColor dye) {
         var requireDyeDepot = DnDecorBlocks.isDyeDepotColor(dye);
-        return requireDyeDepot ? p.withConditions(new ModLoadedCondition("dye_depot")) : p;
+        return p;
     }
 
     public static void register() {

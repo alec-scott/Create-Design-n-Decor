@@ -1,8 +1,10 @@
 package dev.lopyluna.dndecor.content.blocks.boiler;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.createmod.catnip.render.CachedBuffers;
-import net.minecraft.client.renderer.LightTexture;
+import com.zurrtum.create.client.catnip.render.CachedBuffers;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -23,7 +25,7 @@ public class BoilerRenderer implements BlockEntityRenderer<BoilerBlockEntity> {
         var pos = be.getBlockPos();
         var axis = state.getValue(BoilerBlock.AXIS);
 
-        var vb = bs.getBuffer(RenderType.cutout());
+        var vb = bs.getBuffer(RenderTypes.cutout());
         var block = CachedBuffers.block(state);
 
 
@@ -42,7 +44,7 @@ public class BoilerRenderer implements BlockEntityRenderer<BoilerBlockEntity> {
         }
 
         int avgBlock = totalBlock / samples;
-        int avgLight = LightTexture.pack(avgBlock, bestSky);
+        int avgLight = LightCoordsUtil.pack(avgBlock, bestSky);
 
         block.light(avgLight).overlay(o).renderInto(ps, vb);
     }

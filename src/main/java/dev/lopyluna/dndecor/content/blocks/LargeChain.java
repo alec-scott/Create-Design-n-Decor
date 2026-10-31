@@ -1,16 +1,16 @@
 package dev.lopyluna.dndecor.content.blocks;
 
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.foundation.placement.PoleHelper;
+import net.minecraft.world.InteractionResult;
+
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.foundation.placement.PoleHelper;
 import dev.lopyluna.dndecor.register.DnDecorSoundTypes;
-import net.createmod.catnip.placement.IPlacementHelper;
-import net.createmod.catnip.placement.PlacementHelpers;
-import net.createmod.catnip.placement.PlacementOffset;
-import net.minecraft.MethodsReturnNonnullByDefault;
+import com.zurrtum.create.catnip.placement.IPlacementHelper;
+import com.zurrtum.create.catnip.placement.PlacementHelpers;
+import com.zurrtum.create.catnip.placement.PlacementOffset;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -31,13 +31,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 @SuppressWarnings("NullableProblems")
-@ParametersAreNonnullByDefault
 public class LargeChain extends ChainBlock implements SimpleWaterloggedBlock, IWrenchable {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -80,8 +78,6 @@ public class LargeChain extends ChainBlock implements SimpleWaterloggedBlock, IW
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
-
-    @MethodsReturnNonnullByDefault
     private static class PlacementHelper extends PoleHelper<Direction.Axis> {
 
         private PlacementHelper() {
@@ -109,7 +105,7 @@ public class LargeChain extends ChainBlock implements SimpleWaterloggedBlock, IW
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         IPlacementHelper helper = PlacementHelpers.get(placementHelperId);
         if (helper.matchesItem(pStack)) return helper.getOffset(pPlayer, pLevel, pState, pPos, pHit).placeInWorld(pLevel, (BlockItem) pStack.getItem(), pPlayer, pHand, pHit);
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHit);

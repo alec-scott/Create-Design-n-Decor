@@ -1,11 +1,11 @@
 package dev.lopyluna.dndecor.content.entries;
 
-import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.foundation.data.SharedProperties;
-import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
-import com.tterrag.registrate.util.entry.BlockEntry;
+import dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate;
+import dev.lopyluna.dndecor.port.create.foundation.data.SharedProperties;
+import dev.lopyluna.dndecor.port.registrate.builders.BlockBuilder;
+import dev.lopyluna.dndecor.port.registrate.providers.DataGenContext;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateBlockstateProvider;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
 import dev.lopyluna.dndecor.DnDecor;
 import dev.lopyluna.dndecor.content.blocks.bolt.BoltBlock;
 import dev.lopyluna.dndecor.register.AllMetalTypes;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ConfiguredModel;
 
 import java.util.function.Function;
 

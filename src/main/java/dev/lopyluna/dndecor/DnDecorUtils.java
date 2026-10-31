@@ -1,10 +1,9 @@
 package dev.lopyluna.dndecor;
 
-import com.simibubi.create.foundation.utility.DyeHelper;
+import com.zurrtum.create.client.foundation.utility.DyeHelper;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -13,20 +12,19 @@ import net.minecraft.world.level.block.Blocks;
 @SuppressWarnings("unused")
 public class DnDecorUtils {
 
-    public static ItemInteractionResult itemResult(InteractionResult result) {
+    public static InteractionResult itemResult(InteractionResult result) {
         return switch (result) {
-            case SUCCESS -> ItemInteractionResult.SUCCESS;
-            case CONSUME -> ItemInteractionResult.CONSUME;
-            case CONSUME_PARTIAL -> ItemInteractionResult.CONSUME_PARTIAL;
-            case SUCCESS_NO_ITEM_USED -> ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-            case PASS -> ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
-            case FAIL -> ItemInteractionResult.FAIL;
+            case SUCCESS -> InteractionResult.SUCCESS;
+            case CONSUME -> InteractionResult.CONSUME;
+            case CONSUME_PARTIAL -> InteractionResult.CONSUME_PARTIAL;
+            case SUCCESS_NO_ITEM_USED -> InteractionResult.TRY_WITH_EMPTY_HAND;
+            case PASS -> InteractionResult.PASS;
+            case FAIL -> InteractionResult.FAIL;
         };
     }
 
     public static ItemLike getWool(DyeColor color) {
         var depot = DnDecorBlocks.isDyeDepotColor(color);
-        if (depot) return com.ninni.dye_depot.registry.DDBlocks.WOOL.get(color).orElse(Blocks.WHITE_WOOL);
         return DyeHelper.getWoolOfDye(color);
     }
 

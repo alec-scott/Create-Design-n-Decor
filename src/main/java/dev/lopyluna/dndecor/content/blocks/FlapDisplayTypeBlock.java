@@ -1,7 +1,7 @@
 package dev.lopyluna.dndecor.content.blocks;
 
-import com.simibubi.create.content.trains.display.FlapDisplayBlock;
-import com.simibubi.create.content.trains.display.FlapDisplayBlockEntity;
+import com.zurrtum.create.content.trains.display.FlapDisplayBlock;
+import com.zurrtum.create.content.trains.display.FlapDisplayBlockEntity;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 

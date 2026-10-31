@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.mixins;
 
-import com.simibubi.create.content.trains.display.FlapDisplayBlock;
+import com.zurrtum.create.content.trains.display.FlapDisplayBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Predicate;
 
-@Mixin(targets = "com.simibubi.create.content.trains.display.FlapDisplayBlock$PlacementHelper", remap = false)
+@Mixin(targets = "com.zurrtum.create.content.trains.display.FlapDisplayBlock$PlacementHelper", remap = false)
 public class FlapDisplayPlacementHelperMixin {
     @Inject(method = "getItemPredicate()Ljava/util/function/Predicate;", at = @At(value = "HEAD"), cancellable = true)
     public void getItemPredicate(CallbackInfoReturnable<Predicate<ItemStack>> cir) {

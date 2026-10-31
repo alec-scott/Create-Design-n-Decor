@@ -1,13 +1,13 @@
 package dev.lopyluna.dndecor.register.helpers.wood_types;
 
 import com.google.common.collect.ImmutableList;
-import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.builders.ItemBuilder;
-import com.tterrag.registrate.providers.ProviderType;
-import com.tterrag.registrate.util.DataIngredient;
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate;
+import dev.lopyluna.dndecor.port.registrate.builders.BlockBuilder;
+import dev.lopyluna.dndecor.port.registrate.builders.ItemBuilder;
+import dev.lopyluna.dndecor.port.registrate.providers.ProviderType;
+import dev.lopyluna.dndecor.port.registrate.util.DataIngredient;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullSupplier;
 import dev.lopyluna.dndecor.register.DnDecorStoneTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -16,8 +16,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
-import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
-import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
+import static dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate.connectedTextures;
+import static dev.lopyluna.dndecor.port.create.foundation.data.TagGen.pickaxeOnly;
 import static dev.lopyluna.dndecor.DnDecor.REG;
 import static dev.lopyluna.dndecor.register.DnDecorTags.ItemTags.PALETTE_BLOCKS;
 

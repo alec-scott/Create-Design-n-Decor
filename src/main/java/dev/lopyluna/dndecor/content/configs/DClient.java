@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.content.configs;
 
-import net.createmod.catnip.config.ConfigBase;
+import dev.lopyluna.dndecor.port.catnip.config.ConfigBase;
 
 @SuppressWarnings({"unused", "NullableProblems"})
 public class DClient extends ConfigBase {

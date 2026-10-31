@@ -2,8 +2,8 @@ package dev.lopyluna.dndecor;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.simibubi.create.foundation.utility.FilesHelper;
-import com.tterrag.registrate.providers.ProviderType;
+import com.zurrtum.create.foundation.utility.FilesHelper;
+import dev.lopyluna.dndecor.port.registrate.providers.ProviderType;
 import dev.lopyluna.dndecor.content.datagen.DatagenTags;
 import dev.lopyluna.dndecor.content.datagen.DnDecorDatamapProvider;
 import dev.lopyluna.dndecor.content.datagen.DnDecorRecipeProvider;

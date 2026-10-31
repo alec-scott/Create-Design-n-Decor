@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.content.blocks.lamp;
 
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("NullableProblems")
 public class LampBlock extends Block implements IWrenchable {

@@ -12,11 +12,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("NullableProblems")
-@ParametersAreNonnullByDefault
 public class DiagonalMetalSupportBlock extends HorizontalDirectionalBlock {
     public static final MapCodec<DiagonalMetalSupportBlock> CODEC = simpleCodec(DiagonalMetalSupportBlock::new);
 

@@ -1,6 +1,6 @@
 package dev.lopyluna.dndecor.content.configs;
 
-import net.createmod.catnip.config.ConfigBase;
+import dev.lopyluna.dndecor.port.catnip.config.ConfigBase;
 
 @SuppressWarnings("NullableProblems")
 public class DCommon extends ConfigBase {

@@ -1,38 +1,40 @@
 package dev.lopyluna.dndecor.register;
 
-import com.simibubi.create.AllCreativeModeTabs;
-import com.tterrag.registrate.util.entry.BlockEntry;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
 import dev.lopyluna.dndecor.register.helpers.list_providers.MaterialTypeProvider;
 import net.minecraft.core.HolderLookup;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTabOutput;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import dev.lopyluna.dndecor.DnDecor;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static dev.lopyluna.dndecor.DnDecor.MOD_ID;
 
 @SuppressWarnings("all")
 public class DnDecorCreativeTabs {
-    private static final DeferredRegister<CreativeModeTab> REGI = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+    public static final ResourceKey<CreativeModeTab> BASE_CREATIVE_TAB = ResourceKey.create(Registries.CREATIVE_MODE_TAB, DnDecor.loc("base"));
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> BASE_CREATIVE_TAB = REGI.register("base", () -> CreativeModeTab.builder()
-            .title(DnDecorLangPartial.TITLE)
-            .withTabsBefore(AllCreativeModeTabs.PALETTES_CREATIVE_TAB.getKey())
-            .icon(DnDecorBlocks.BRASS_FRONTLIGHT::asStack).build());
-
-    public static void register(IEventBus modEventBus) {
-        REGI.register(modEventBus);
+    // PORT-NOTE(26.1): Fabric tab registration; tab ordering (was withTabsBefore Create's palettes tab) is Fabric's default
+    public static void register() {
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, BASE_CREATIVE_TAB, FabricCreativeModeTab.builder()
+                .title(DnDecorLangPartial.TITLE)
+                .icon(DnDecorBlocks.BRASS_FRONTLIGHT::asStack)
+                .displayItems((params, output) -> DnDecor.addCreative(output))
+                .build());
+        CreativeModeTabEvents.modifyOutputEvent(BASE_CREATIVE_TAB).register(DnDecorCreativeTabs::addCreative);
     }
 
 
-    public static void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (!event.getTabKey().equals(BASE_CREATIVE_TAB.getKey())) return;
-        var holders = event.getParameters().holders();
+    public static void addCreative(FabricCreativeModeTabOutput event) {
+        var holders = event.getContext().holders();
 
         for (var supplier : MaterialTypeProvider.metalTypes) {
             var metal = supplier.get();
@@ -52,10 +54,11 @@ public class DnDecorCreativeTabs {
     }
 
 
-    private static void removeEverywhere(BuildCreativeModeTabContentsEvent event, BlockEntry<? extends Block> like) {
+    private static void removeEverywhere(FabricCreativeModeTabOutput event, BlockEntry<? extends Block> like) {
         if (like == null) return;
         var item = like.asItem();
-        event.remove(item.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        event.getDisplayStacks().removeIf(s -> s.is(item));
+        event.getSearchTabStacks().removeIf(s -> s.is(item));
     }
 
     private static boolean tagHasAny(HolderLookup.Provider holders, TagKey<Item> tag) {

@@ -4,26 +4,24 @@ import com.mojang.datafixers.util.Pair;
 import dev.lopyluna.dndecor.DnDecor;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
+import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.DyeColor;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.*;
 import java.util.function.Function;
 
 @SuppressWarnings({"unchecked", "unused"})
-@EventBusSubscriber
 public class DnDecorRemapHelper { //container
     private static final List<ResourceKey<Registry<?>>> BLOCK_ITEM = asRegistryList(Registries.BLOCK, Registries.ITEM);
     private static final List<ResourceKey<Registry<?>>> BE_BLOCK_ITEM = asRegistryList(Registries.BLOCK_ENTITY_TYPE, Registries.BLOCK, Registries.ITEM);
     private static final List<ResourceKey<Registry<?>>> BE_TYPE = asRegistryList(Registries.BLOCK_ENTITY_TYPE);
 
-    private static final Map<String, Pair<List<ResourceKey<Registry<?>>>, Function<Registry<?>, ResourceLocation>>> reMap = new HashMap<>();
+    private static final Map<String, Pair<List<ResourceKey<Registry<?>>>, Function<Registry<?>, Identifier>>> reMap = new HashMap<>();
 
     static {
         reMap.put("colored_storage_container", Pair.of(BE_BLOCK_ITEM,
@@ -33,12 +31,14 @@ public class DnDecorRemapHelper { //container
     }
 
 
-    @SubscribeEvent
-    public static void remap(RegisterEvent event) {
-        var registry = event.getRegistry();
-        reMap.forEach((key, pair) -> {
-            if (pair.getFirst().contains(registry.key())) registry.addAlias(DnDecor.loc(key), pair.getSecond().apply(registry));
-        });
+    // PORT-NOTE(26.1): was a NeoForge RegisterEvent listener; vanilla registries take aliases directly. Call after
+    // registration.
+    public static void remap() {
+        for (var registry : List.of(BuiltInRegistries.BLOCK, BuiltInRegistries.ITEM, BuiltInRegistries.BLOCK_ENTITY_TYPE)) {
+            reMap.forEach((key, pair) -> {
+                if (pair.getFirst().contains(registry.key())) ((MappedRegistry<?>) registry).addAlias(DnDecor.loc(key), pair.getSecond().apply(registry));
+            });
+        }
     }
 
     @SafeVarargs

@@ -1,7 +1,7 @@
 package dev.lopyluna.dndecor.content.blocks.full_belt;
 
-import com.simibubi.create.content.kinetics.belt.BeltBlock;
-import com.simibubi.create.content.kinetics.belt.BeltBlockEntity;
+import com.zurrtum.create.content.kinetics.belt.BeltBlock;
+import com.zurrtum.create.content.kinetics.belt.BeltBlockEntity;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 

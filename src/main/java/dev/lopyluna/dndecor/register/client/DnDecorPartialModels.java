@@ -1,12 +1,12 @@
 package dev.lopyluna.dndecor.register.client;
 
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
 import dev.lopyluna.dndecor.DnDecor;
 import dev.lopyluna.dndecor.register.helpers.list_providers.MaterialTypeProvider;
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.world.item.DyeColor;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;

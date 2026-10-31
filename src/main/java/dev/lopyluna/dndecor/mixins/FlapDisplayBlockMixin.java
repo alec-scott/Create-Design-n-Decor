@@ -2,9 +2,9 @@ package dev.lopyluna.dndecor.mixins;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.trains.display.FlapDisplayBlock;
-import com.simibubi.create.foundation.utility.BlockHelper;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.content.trains.display.FlapDisplayBlock;
+import com.zurrtum.create.foundation.utility.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static com.simibubi.create.content.kinetics.base.HorizontalKineticBlock.HORIZONTAL_FACING;
+import static com.zurrtum.create.content.kinetics.base.HorizontalKineticBlock.HORIZONTAL_FACING;
 
 @Debug(export=true)
 @Mixin(value = FlapDisplayBlock.class, remap = false)

@@ -1,32 +1,32 @@
 package dev.lopyluna.dndecor.register.helpers;
 
-import com.simibubi.create.AllTags;
-import com.simibubi.create.Create;
-import com.simibubi.create.content.decoration.encasing.EncasedCTBehaviour;
-import com.simibubi.create.content.decoration.palettes.ConnectedGlassBlock;
-import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
-import com.simibubi.create.content.decoration.palettes.GlassPaneBlock;
-import com.simibubi.create.content.decoration.palettes.WindowBlock;
-import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
-import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
-import com.simibubi.create.foundation.block.connected.GlassPaneCTBehaviour;
-import com.simibubi.create.foundation.block.connected.HorizontalCTBehaviour;
-import com.simibubi.create.foundation.data.AssetLookup;
-import com.simibubi.create.foundation.data.BlockStateGen;
-import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.foundation.data.SharedProperties;
-import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.builders.ItemBuilder;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
-import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables;
-import com.tterrag.registrate.util.DataIngredient;
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import com.tterrag.registrate.util.nullness.NonNullConsumer;
-import com.tterrag.registrate.util.nullness.NonNullFunction;
-import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
+import com.zurrtum.create.AllBlockTags;
+import com.zurrtum.create.Create;
+import com.zurrtum.create.client.content.decoration.encasing.EncasedCTBehaviour;
+import com.zurrtum.create.content.decoration.palettes.ConnectedGlassBlock;
+import com.zurrtum.create.content.decoration.palettes.ConnectedGlassPaneBlock;
+import com.zurrtum.create.content.decoration.palettes.GlassPaneBlock;
+import com.zurrtum.create.content.decoration.palettes.WindowBlock;
+import com.zurrtum.create.client.foundation.block.connected.CTSpriteShiftEntry;
+import com.zurrtum.create.client.foundation.block.connected.ConnectedTextureBehaviour;
+import com.zurrtum.create.client.foundation.block.connected.GlassPaneCTBehaviour;
+import com.zurrtum.create.client.foundation.block.connected.HorizontalCTBehaviour;
+import dev.lopyluna.dndecor.port.create.foundation.data.AssetLookup;
+import dev.lopyluna.dndecor.port.create.foundation.data.BlockStateGen;
+import dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate;
+import dev.lopyluna.dndecor.port.create.foundation.data.SharedProperties;
+import dev.lopyluna.dndecor.port.registrate.builders.BlockBuilder;
+import dev.lopyluna.dndecor.port.registrate.builders.ItemBuilder;
+import dev.lopyluna.dndecor.port.registrate.providers.DataGenContext;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateBlockstateProvider;
+import dev.lopyluna.dndecor.port.registrate.providers.RegistrateRecipeProvider;
+import dev.lopyluna.dndecor.port.registrate.providers.loot.RegistrateBlockLootTables;
+import dev.lopyluna.dndecor.port.registrate.util.DataIngredient;
+import dev.lopyluna.dndecor.port.registrate.util.entry.BlockEntry;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullBiConsumer;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullConsumer;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullFunction;
+import dev.lopyluna.dndecor.port.registrate.util.nullness.NonNullUnaryOperator;
 import dev.lopyluna.dndecor.DnDecor;
 import dev.lopyluna.dndecor.DnDecorUtils;
 import dev.lopyluna.dndecor.content.blocks.OrnateGrateBlock;
@@ -37,7 +37,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
@@ -49,15 +49,16 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.Tags;
+import dev.lopyluna.dndecor.port.porting_lib.models.generators.ModelFile;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static com.simibubi.create.foundation.data.CreateRegistrate.casingConnectivity;
-import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
-import static com.tterrag.registrate.providers.RegistrateRecipeProvider.has;
+import static dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate.casingConnectivity;
+import static dev.lopyluna.dndecor.port.create.foundation.data.CreateRegistrate.connectedTextures;
+import static dev.lopyluna.dndecor.port.registrate.providers.RegistrateRecipeProvider.has;
 import static dev.lopyluna.dndecor.DnDecor.REG;
 
 @SuppressWarnings({"removal", "unused"})
@@ -78,7 +79,7 @@ public class BlockTransgender {
                                 .save(DnDecorBlocks.doesRequireDyeDepot(p, dye), DnDecor.loc("crafting/" + c.getName()))
                 )
                 .blockstate((c, p) -> p.simpleBlock(c.get(), p.models().cubeAll(c.getName(), Create.asResource("block/seat/top_" + colorId))))
-                .tag(AllTags.AllBlockTags.WINDMILL_SAILS.tag).asOptional()
+                .tag(AllBlockTags.WINDMILL_SAILS).asOptional()
                 .item()
                 .tag(DnDecorTags.modItemTag("dyed_velvet_block")).asOptional()
                 .build()
@@ -138,21 +139,21 @@ public class BlockTransgender {
 
     public static BlockBuilder<WindowBlock, CreateRegistrate> customWindowBlock(String name, Supplier<CTSpriteShiftEntry> ct,
                                                             Supplier<Supplier<RenderType>> renderType, boolean translucent, Supplier<MapColor> color) {
-        NonNullFunction<String, ResourceLocation> end_texture = n -> DnDecor.loc(palettesDir() + name + "_end");
-        NonNullFunction<String, ResourceLocation> side_texture = n -> DnDecor.loc(palettesDir() + n);
+        NonNullFunction<String, Identifier> end_texture = n -> DnDecor.loc(palettesDir() + name + "_end");
+        NonNullFunction<String, Identifier> side_texture = n -> DnDecor.loc(palettesDir() + n);
         return windowBlock(name, ct, null, renderType, translucent, end_texture, side_texture, color);
     }
 
     public static BlockBuilder<WindowBlock, CreateRegistrate> customWindowBlock(String name, Supplier<CTSpriteShiftEntry> ct, Supplier<CTSpriteShiftEntry> ct2,
                     Supplier<Supplier<RenderType>> renderType, boolean translucent, Supplier<MapColor> color) {
-        NonNullFunction<String, ResourceLocation> end_texture = n -> DnDecor.loc(palettesDir() + name + "_end");
-        NonNullFunction<String, ResourceLocation> side_texture = n -> DnDecor.loc(palettesDir() + n);
+        NonNullFunction<String, Identifier> end_texture = n -> DnDecor.loc(palettesDir() + name + "_end");
+        NonNullFunction<String, Identifier> side_texture = n -> DnDecor.loc(palettesDir() + n);
         return windowBlock(name, ct, ct2, renderType, translucent, end_texture, side_texture, color);
     }
 
     public static BlockBuilder<WindowBlock, CreateRegistrate> windowBlock(String name,
                     Supplier<CTSpriteShiftEntry> ct, Supplier<CTSpriteShiftEntry> ct2, Supplier<Supplier<RenderType>> renderType, boolean translucent,
-                    NonNullFunction<String, ResourceLocation> endTexture, NonNullFunction<String, ResourceLocation> sideTexture, Supplier<MapColor> color) {
+                    NonNullFunction<String, Identifier> endTexture, NonNullFunction<String, Identifier> sideTexture, Supplier<MapColor> color) {
         return REG.block(name, p -> new WindowBlock(p, translucent))
                 .onRegister(ct == null ? $ -> {
                 } : connectedTextures(() -> ct2 != null ? new HorizontalCTBehaviour(ct.get(), ct2.get()) : new HorizontalCTBehaviour(ct.get())))
@@ -174,12 +175,12 @@ public class BlockTransgender {
                 .initialProperties(() -> Blocks.GLASS)
                 .properties(BlockTransgender::glassProperties)
                 .loot(RegistrateBlockLootTables::dropWhenSilkTouch)
-                .recipe((c, p) -> p.stonecutting(DataIngredient.tag(net.neoforged.neoforge.common.Tags.Items.GLASS_BLOCKS_COLORLESS),
+                .recipe((c, p) -> p.stonecutting(DataIngredient.tag(net.neoforged.neoforge.common.ConventionalItemTags.GLASS_BLOCKS_COLORLESS),
                         RecipeCategory.BUILDING_BLOCKS, c))
                 .blockstate((c, p) -> BlockStateGen.cubeAll(c, p, "palettes/", name))
-                .tag(net.neoforged.neoforge.common.Tags.Blocks.GLASS_BLOCKS_COLORLESS, BlockTags.IMPERMEABLE)
+                .tag(net.neoforged.neoforge.common.ConventionalBlockTags.GLASS_BLOCKS_COLORLESS, BlockTags.IMPERMEABLE)
                 .item()
-                .tag(net.neoforged.neoforge.common.Tags.Items.GLASS_BLOCKS_COLORLESS)
+                .tag(net.neoforged.neoforge.common.ConventionalItemTags.GLASS_BLOCKS_COLORLESS)
                 .model((c, p) -> p.cubeColumn(c.getName(), p.modLoc(palettesDir() + c.getName()),
                         p.modLoc("block/palettes/" + name)))
                 .build()
@@ -201,7 +202,7 @@ public class BlockTransgender {
     }
 
     private static BlockBuilder<ConnectedGlassPaneBlock, CreateRegistrate> connectedGlassPane(String name, Supplier<? extends Block> parent, Supplier<CTSpriteShiftEntry> ctshift,
-        ResourceLocation sideTexture, ResourceLocation itemSideTexture, ResourceLocation topTexture, Supplier<Supplier<RenderType>> renderType, boolean colorless) {
+        Identifier sideTexture, Identifier itemSideTexture, Identifier topTexture, Supplier<Supplier<RenderType>> renderType, boolean colorless) {
         NonNullConsumer<? super ConnectedGlassPaneBlock> connectedTextures = ctshift == null ? $ -> {
         } : connectedTextures(() -> new GlassPaneCTBehaviour(ctshift.get()));
         String CGPparents = "block/connected_glass_pane/";
@@ -220,13 +221,13 @@ public class BlockTransgender {
         return glassPane(name, parent, itemSideTexture, topTexture, ConnectedGlassPaneBlock::new, renderType, connectedTextures, stateProvider, colorless);
     }
 
-    private static Function<RegistrateBlockstateProvider, ModelFile> getPaneModelProvider(String CGPparents, String prefix, String partial, ResourceLocation sideTexture, ResourceLocation topTexture) {
+    private static Function<RegistrateBlockstateProvider, ModelFile> getPaneModelProvider(String CGPparents, String prefix, String partial, Identifier sideTexture, Identifier topTexture) {
         return p -> p.models().withExistingParent(prefix + partial, Create.asResource(CGPparents + partial))
                 .texture("pane", sideTexture).texture("edge", topTexture);
     }
 
-    private static <G extends GlassPaneBlock> BlockBuilder<G, CreateRegistrate> glassPane(String name, Supplier<? extends Block> parent, ResourceLocation sideTexture,
-        ResourceLocation topTexture, NonNullFunction<BlockBehaviour.Properties, G> factory, Supplier<Supplier<RenderType>> renderType,
+    private static <G extends GlassPaneBlock> BlockBuilder<G, CreateRegistrate> glassPane(String name, Supplier<? extends Block> parent, Identifier sideTexture,
+        Identifier topTexture, NonNullFunction<BlockBehaviour.Properties, G> factory, Supplier<Supplier<RenderType>> renderType,
         NonNullConsumer<? super G> connectedTextures, NonNullBiConsumer<DataGenContext<Block, G>, RegistrateBlockstateProvider> stateProvider, boolean colorless) {
         name += "_pane";
         ItemBuilder<BlockItem, BlockBuilder<G, CreateRegistrate>> itemBuilder = REG.block(name, factory)
@@ -239,15 +240,15 @@ public class BlockTransgender {
                     ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 16)
                             .pattern("###").pattern("###").define('#', parent.get())
                             .unlockedBy("has_ingredient", RegistrateRecipeProvider.has(parent.get())).save(p);
-                    if (colorless) p.stonecutting(DataIngredient.tag(Tags.Items.GLASS_PANES_COLORLESS), RecipeCategory.BUILDING_BLOCKS, c);
+                    if (colorless) p.stonecutting(DataIngredient.tag(ConventionalItemTags.GLASS_PANES_COLORLESS), RecipeCategory.BUILDING_BLOCKS, c);
                 })
                 .loot(RegistrateBlockLootTables::dropWhenSilkTouch)
                 .item();
-        if (colorless) itemBuilder.tag(Tags.Items.GLASS_PANES, Tags.Items.GLASS_PANES_COLORLESS);
-        else itemBuilder.tag(Tags.Items.GLASS_PANES);
+        if (colorless) itemBuilder.tag(ConventionalItemTags.GLASS_PANES, ConventionalItemTags.GLASS_PANES_COLORLESS);
+        else itemBuilder.tag(ConventionalItemTags.GLASS_PANES);
         BlockBuilder<G, CreateRegistrate> blockBuilder = itemBuilder.model((c, p) -> p.generated(c, sideTexture)).build();
-        if (colorless) blockBuilder.tag(Tags.Blocks.GLASS_PANES, Tags.Blocks.GLASS_PANES_COLORLESS);
-        else blockBuilder.tag(Tags.Blocks.GLASS_PANES);
+        if (colorless) blockBuilder.tag(ConventionalBlockTags.GLASS_PANES, ConventionalBlockTags.GLASS_PANES_COLORLESS);
+        else blockBuilder.tag(ConventionalBlockTags.GLASS_PANES);
         return blockBuilder;
     }
 

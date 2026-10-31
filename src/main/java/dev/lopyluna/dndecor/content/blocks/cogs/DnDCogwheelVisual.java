@@ -1,20 +1,20 @@
 package dev.lopyluna.dndecor.content.blocks.cogs;
 
 
-import com.simibubi.create.AllPartialModels;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
-import com.simibubi.create.content.kinetics.base.RotatingInstance;
-import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
-import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
-import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockEntityRenderer;
-import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
-import com.simibubi.create.foundation.render.AllInstanceTypes;
-import dev.engine_room.flywheel.api.instance.Instance;
-import dev.engine_room.flywheel.api.model.Model;
-import dev.engine_room.flywheel.api.visual.BlockEntityVisual;
-import dev.engine_room.flywheel.api.visualization.VisualizationContext;
-import dev.engine_room.flywheel.lib.model.Models;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.client.AllPartialModels;
+import com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer;
+import com.zurrtum.create.client.content.kinetics.base.RotatingInstance;
+import com.zurrtum.create.client.content.kinetics.base.SingleAxisRotatingVisual;
+import com.zurrtum.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
+import com.zurrtum.create.client.content.kinetics.simpleRelays.BracketedKineticBlockEntityRenderer;
+import com.zurrtum.create.content.kinetics.simpleRelays.ICogWheel;
+import com.zurrtum.create.client.foundation.render.AllInstanceTypes;
+import com.zurrtum.create.client.flywheel.api.instance.Instance;
+import com.zurrtum.create.client.flywheel.api.model.Model;
+import com.zurrtum.create.client.flywheel.api.visual.BlockEntityVisual;
+import com.zurrtum.create.client.flywheel.api.visualization.VisualizationContext;
+import com.zurrtum.create.client.flywheel.lib.model.Models;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
 import dev.lopyluna.dndecor.register.client.DnDecorPartialModels;
 import net.minecraft.core.Direction;
 

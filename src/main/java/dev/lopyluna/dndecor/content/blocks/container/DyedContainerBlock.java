@@ -1,20 +1,23 @@
 package dev.lopyluna.dndecor.content.blocks.container;
 
-import com.simibubi.create.AllItems;
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.api.connectivity.ConnectivityHandler;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.IBE;
-import com.simibubi.create.foundation.item.ItemHelper;
+import com.zurrtum.create.AllItems;
+import com.zurrtum.create.AllSoundEvents;
+import com.zurrtum.create.api.connectivity.ConnectivityHandler;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.foundation.block.IBE;
+import com.zurrtum.create.foundation.item.ItemHelper;
 import dev.lopyluna.dndecor.register.DnDecorBETypes;
 import dev.lopyluna.dndecor.register.DnDecorBlocks;
+import com.zurrtum.create.infrastructure.items.ItemInventoryProvider;
+import net.minecraft.world.Container;
+import net.minecraft.world.level.LevelAccessor;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -37,13 +40,24 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.BlockHitResult;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.simibubi.create.content.logistics.vault.ItemVaultBlock.SILENCED_METAL;
+import static com.zurrtum.create.content.logistics.vault.ItemVaultBlock.SILENCED_METAL;
 
 @SuppressWarnings({"NullableProblems", "unused"})
-public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedContainerBE> {
+public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedContainerBE>, ItemInventoryProvider<DyedContainerBE> {
+
+    // PORT-NOTE(26.1): Create Fly exposes block inventories through ItemInventoryProvider (was a NeoForge capability)
+    @Override
+    public @Nullable Container getInventory(LevelAccessor world, BlockPos pos, BlockState state, DyedContainerBE blockEntity, @Nullable Direction context) {
+        if (blockEntity.itemCapability != null) {
+            Container inventory = blockEntity.itemCapability.get();
+            if (inventory != null) return inventory;
+        }
+        blockEntity.initCapability();
+        return blockEntity.itemCapability != null ? blockEntity.itemCapability.get() : null;
+    }
     public static final Property<Direction.Axis> HORIZONTAL_AXIS = BlockStateProperties.HORIZONTAL_AXIS;
     public static final BooleanProperty LARGE = BooleanProperty.create("large");
 
@@ -81,7 +95,7 @@ public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedCo
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         var i = stack.getItem();
         if (i instanceof DyeItem dyeItem) {
             var flag = new AtomicBoolean(false);
@@ -89,7 +103,7 @@ public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedCo
             withBlockEntityDo(level, pos, be -> flag.set(be.setColor(color, false)));
             if (flag.get()) {
                 level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.1f - level.random.nextFloat() * .2f);
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         } else if (stack.is(AllItems.SAND_PAPER)) {
             var flag = new AtomicBoolean(false);
@@ -97,14 +111,14 @@ public class DyedContainerBlock extends Block implements IWrenchable, IBE<DyedCo
             if (flag.get()) {
                 level.playSound(null, pos, AllSoundEvents.SANDING_SHORT.getMainEvent(), SoundSource.BLOCKS, 0.8f, 1.1f - level.random.nextFloat() * .2f);
                 level.playSound(null, pos, SoundEvents.NETHERITE_BLOCK_BREAK, SoundSource.BLOCKS, 0.1f, 0.7f - level.random.nextFloat() * .2f);
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         } else if (stack.is(Items.WATER_BUCKET) || stack.is(Items.WET_SPONGE)) {
             var flag = new AtomicBoolean(false);
             withBlockEntityDo(level, pos, be -> flag.set(be.setColor(null, true)));
             if (flag.get()) {
                 level.playSound(null, pos, SoundEvents.AXOLOTL_SPLASH, SoundSource.BLOCKS, 0.8f, 1.5f - level.random.nextFloat() * .25f);
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
 
