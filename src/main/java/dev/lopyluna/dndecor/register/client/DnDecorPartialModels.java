@@ -61,5 +61,13 @@ public class DnDecorPartialModels {
         return PartialModel.of(DnDecor.loc("block/" + path));
     }
 
-    public static void init() {}
+    public static void init() {
+        // PORT-NOTE(26.1): partials must exist before models bake; the stone-type millstone and crushing wheel renderers and
+        // visuals looked theirs up at render time, which leaves them unbaked (empty) on Create Fly
+        for (String id : MaterialTypeProvider.stoneTypesRegister.values()) {
+            if (id.equals("andesite")) continue;
+            PartialModel.of(DnDecor.loc("block/" + id + "_millstone/inner"));
+            PartialModel.of(DnDecor.loc("block/" + id + "_crushing_wheel/block"));
+        }
+    }
 }

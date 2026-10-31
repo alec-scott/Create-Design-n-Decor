@@ -84,14 +84,33 @@ Create Fly comes from the local checkout's jar (`create_fly_jar` in `gradle.prop
   (130 by path, 6 moved, 29 handled by hand or shims).
 - Entry points, creative tab, configs, events, capabilities, sound types, registry aliases ported.
 - First compile: 1656 error lines (symbol pass). After stripping datagen calls and the shims: 279 errors.
+- **`compileJava` succeeds.** Block/BE APIs (override signatures, `ValueInput`/`ValueOutput`, removal side effects in
+  `preRemoveSideEffects`/`affectNeighborsAfterRemoval`), BE renderers on extract/submit (levers, switch, text plate,
+  boiler, millstone, cogwheel; `FullBeltRenderer` extends Create Fly's `BeltRenderer` and only swaps the belt surfaces),
+  Registrate shim additions (`paletteStoneBlock`, `visual(..., renderNormally)`, `DataIngredient.test`), multi-block
+  break overlays via Create Fly's `AllExtensions.MULTI_POS`, cogwheel placement helpers via `UseBlockCallback`.
+- **Mixins**: Create Fly checks belts with `state.is(AllBlocks.BELT)` / `stack.is(AllItems.BELT_CONNECTOR)`, which
+  26.1 compiles to the generic `BlockState.is(Object)` / `ItemStack.is(Object)`; all belt and crushing wheel mixins wrap
+  those. Method descriptors dropped (matched by name). The andesite tunnel's inventory lookup is Create Fly's
+  `AllTransfer` `lambda$register$6`. The client `BeltSlicer.tickHoveringInformation` mixin is gone (Create Fly removed
+  the hover preview). `porting-tools/check_mixin_targets.pl` is clean apart from false positives on `is(Object)` (the
+  checker doesn't see the generic interface method).
+- **Resources**: 846 item definitions (`porting-tools/gen_item_definitions.sh`); 821 recipes converted
+  (`porting-tools/convert_data_26.pl`); Dye Depot recipes, unlock advancements and loot tables removed; 413 CT sheets
+  and 520 container sheets split (`porting-tools/SplitConnectedTextures.java`). The dyed containers use Create Fly's
+  item vault CT types (`SQUARE`, `RECTANGLE_WITHOUT_*`); tile tables derived from those types' flag maps.
+- **Dedicated server boots clean** (Create Fly + Steam 'n' Rails + D&D, `../railways-test-server`): no errors.
+  Startup fixes: CT sprite shifts built lazily (client only); palette stairs/slabs/walls take Registrate's properties
+  (26.1 requires the block id); D&D registered some metal block items twice (upstream Registrate overwrote silently).
 
 ## TODO
 
-- [ ] Finish compile: BE renderers (extract/submit), `SmartBlockEntity` read/write on `ValueInput`/`ValueOutput`,
-      block method signatures, belt and flap display mixins retargeted at Create Fly.
-- [ ] Convert `src/generated/resources` to 26.1 formats (Steam 'n' Rails' `porting-tools/convert_data_26.pl`:
-      recipes, loot tables, advancements, tags) and generate `assets/dndecor/items/*.json` item definitions.
-- [ ] Split connected-texture sheets into Create Fly's per-tile sprites (`SplitConnectedTextures.java`).
-- [ ] Dyed recipes for Dye Depot colours carry `neoforge:conditions`; drop them or convert to `fabric:load_conditions`.
+- [x] Finish compile.
+- [x] Convert `src/generated/resources` and item definitions.
+- [x] Split connected-texture sheets.
+- [x] Dye Depot recipes/loot removed.
+- [ ] Client test: connected textures (especially containers), renderers, belts, PartialModel.of at render time in
+      `MillstoneTypeRenderer` (may need registering up front).
+- [ ] Dye Depot: restore as optional compat if a 26.1 Fabric build appears.
 - [ ] In-game test: placement, belts, containers, cogwheels, flywheels, display boards, crushing wheels, millstones,
       text plates, levers, contraptions.

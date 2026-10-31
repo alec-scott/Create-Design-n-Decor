@@ -455,11 +455,12 @@ public class DnDecorBlocks {
         var baseID = "stone_metal";
         var colorID = color.getSerializedName();
         var blockID = colorID + "_" + baseID;
-        var ct = omni(baseID + "/" + colorID);
+        // PORT-NOTE(26.1): lazy, CT sprite shifts are client only (built eagerly this crashed dedicated servers)
+        com.google.common.base.Supplier<CTSpriteShiftEntry> ct = com.google.common.base.Suppliers.memoize(() -> omni(baseID + "/" + colorID));
         return REG.block(blockID, Block::new)
                 .properties(p -> p.mapColor(color.getMapColor()).sound(DnDecorSoundTypes.METAL_HEAVY).strength(1.5f,2f))
-                .onRegister(connectedTextures(() -> new EncasedCTBehaviour(ct)))
-                .onRegister(casingConnectivity((block, cc) -> cc.makeCasing(block, ct)))
+                .onRegister(connectedTextures(() -> new EncasedCTBehaviour(ct.get())))
+                .onRegister(casingConnectivity((block, cc) -> cc.makeCasing(block, ct.get())))
                 .transform(pickaxeOnly()).asOptional()
                 .item().tag(DnDecorTags.modItemTag("stone_metal_decor"), DnDecorTags.modItemTag("dyed_stone_metal_decor")).asOptional().build()
                 .register();
@@ -478,12 +479,13 @@ public class DnDecorBlocks {
         var baseID = "small_deepslate_tiles";
         var colorID = color.getSerializedName();
         var blockID = colorID + "_" + baseID;
-        var ct = omni(baseID + "/" + colorID);
+        // PORT-NOTE(26.1): lazy, CT sprite shifts are client only (built eagerly this crashed dedicated servers)
+        com.google.common.base.Supplier<CTSpriteShiftEntry> ct = com.google.common.base.Suppliers.memoize(() -> omni(baseID + "/" + colorID));
         return REG.block(blockID, Block::new)
                 .initialProperties(SharedProperties::stone)
                 .properties(p -> p.mapColor(color.getMapColor()).sound(SoundType.POLISHED_DEEPSLATE))
-                .onRegister(connectedTextures(() -> new EncasedCTBehaviour(ct)))
-                .onRegister(casingConnectivity((block, cc) -> cc.makeCasing(block, ct)))
+                .onRegister(connectedTextures(() -> new EncasedCTBehaviour(ct.get())))
+                .onRegister(casingConnectivity((block, cc) -> cc.makeCasing(block, ct.get())))
                 .transform(pickaxeOnly()).asOptional()
                 .item().tag(DnDecorTags.modItemTag("deepslate_tiles_decor"), DnDecorTags.modItemTag("dyed_deepslate_tiles_decor")).asOptional().build()
                 .register();
@@ -564,11 +566,12 @@ public class DnDecorBlocks {
         var baseID = "dark_metal_plating";
         var colorID = color.getSerializedName();
         var blockID = colorID + "_" + baseID;
-        var ct = omni("dark_metal/" + colorID);
+        // PORT-NOTE(26.1): lazy, CT sprite shifts are client only (built eagerly this crashed dedicated servers)
+        com.google.common.base.Supplier<CTSpriteShiftEntry> ct = com.google.common.base.Suppliers.memoize(() -> omni("dark_metal/" + colorID));
         return REG.block(blockID, Block::new)
                 .properties(p -> p.mapColor(color.getMapColor()).sound(SoundType.NETHERITE_BLOCK).strength(0.5f,1.5f))
-                .onRegister(connectedTextures(() -> new EncasedCTBehaviour(ct)))
-                .onRegister(casingConnectivity((block, cc) -> cc.make(block, ct)))
+                .onRegister(connectedTextures(() -> new EncasedCTBehaviour(ct.get())))
+                .onRegister(casingConnectivity((block, cc) -> cc.make(block, ct.get())))
                 .transform(pickaxeOnly()).asOptional()
                 .item().tag(DnDecorTags.modItemTag(baseID + "_decor"), DnDecorTags.modItemTag(baseID + "_dyed_decor")).asOptional().build()
                 .register();
@@ -676,7 +679,7 @@ public class DnDecorBlocks {
         builder = builder;
         if (metal.equals(AllMetalTypes.NETHERITE)) builder = builder.item().properties(Item.Properties::fireResistant).build();
         else builder = builder.simpleItem();
-        return builder.simpleItem().register();
+        return builder.register();
     });
 
     public static final CopperBlockSet COPPER_FLOORS = new CopperBlockSet(REG, "copper_floor");

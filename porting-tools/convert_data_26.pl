@@ -2,12 +2,13 @@
 # Converts D&D's generated 1.21.1 NeoForge data (src/generated/resources/data) to 26.1 / Create Fly formats.
 # Datagen is stubbed, so this stands in for the recipe provider. Adapted from Steam 'n' Rails' converter.
 #
-# Run from the repo root: perl porting-tools/convert_data_26.pl
+# Run once from the repo root, on the unconverted data: perl porting-tools/convert_data_26.pl (not safe to rerun)
 #
 # - recipes: ingredient objects ({"item"}/{"tag"}) -> "id" / "#tag"; Create deploying and splashing to Create Fly's
 #   codecs (deploying target/ingredient, splashing single ingredient).
 # - recipes and advancements gated on neoforge:mod_loaded dye_depot are deleted (Dye Depot has no 26.1 Fabric build,
 #   so their colours never exist; see PORTING-26.1.md).
+# - loot tables of blocks in Dye Depot colours are deleted.
 # - neoforge/data_maps (oxidizables, waxables) are deleted: CopperBlockSet registers them with Fabric instead.
 # Loot tables, advancements and tags are already in 1.21 formats that 26.1 still reads.
 use strict;
@@ -125,6 +126,13 @@ for my $section (qw(recipe advancement)) {
         write_json($f, convert_recipe($d));
         $count{recipes}++;
     }
+}
+# Loot tables of blocks in Dye Depot's colours (D&D only registers those when Dye Depot is installed)
+my $dd = join '|', qw(amber aqua beige coral forest ginger indigo maroon mint navy olive rose slate tan teal verdant);
+for my $f (files_under("$data/dndecor/loot_table/blocks")) {
+    next unless $f =~ m{/(?:solid_)?(?:$dd)_[a-z0-9_]+\.json$};
+    unlink $f or die "$f: $!";
+    $count{'dye_depot loot tables deleted'}++;
 }
 if (-d "$data/neoforge") { remove_tree("$data/neoforge"); $count{'neoforge data dirs removed'} = 1; }
 print "converted: " . join(', ', map { "$count{$_} $_" } sort keys %count) . "\n";

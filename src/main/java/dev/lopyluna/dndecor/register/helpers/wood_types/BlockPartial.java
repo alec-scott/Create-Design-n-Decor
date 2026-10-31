@@ -55,7 +55,9 @@ public abstract class BlockPartial<B extends Block> {
         String patternName = Lang.nonPluralId(pattern.createName(variantName));
         String blockName = patternName + "_" + this.name;
         BlockBuilder<B, CreateRegistrate> blockBuilder = DnDecor.REG
-                .block(blockName, p -> createBlock(block))
+                .block(blockName, p -> createBlock(block, p))
+                // PORT-NOTE(26.1): copy the parent's properties through Registrate, which sets the block id 26.1 requires
+                .initialProperties(block)
                 .transform(b -> transformBlock(b, variantName, pattern));
         ItemBuilder<BlockItem, BlockBuilder<B, CreateRegistrate>> itemBuilder = blockBuilder.item().transform(b -> transformItem(b, variantName, pattern));
         if (canRecycle()) itemBuilder.tag(variant.materialTag);
@@ -78,7 +80,7 @@ public abstract class BlockPartial<B extends Block> {
     }
     protected abstract Iterable<TagKey<Block>> getBlockTags();
     protected abstract Iterable<TagKey<Item>> getItemTags();
-    protected abstract B createBlock(Supplier<? extends Block> block);
+    protected abstract B createBlock(Supplier<? extends Block> block, BlockBehaviour.Properties properties);
     protected abstract void createRecipes(DnDecorStoneTypes type, BlockEntry<? extends Block> patternBlock, DataGenContext<Block, ? extends Block> c, RegistrateRecipeProvider p);
     protected abstract void generateBlockState(DataGenContext<Block, B> ctx, RegistrateBlockstateProvider prov, String variantName, BlockPattern pattern, Supplier<? extends Block> block);
 
@@ -87,8 +89,8 @@ public abstract class BlockPartial<B extends Block> {
             super("stairs");
         }
         @Override
-        protected StairBlock createBlock(Supplier<? extends Block> block) {
-            return new StairBlock(block.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(block.get()));
+        protected StairBlock createBlock(Supplier<? extends Block> block, BlockBehaviour.Properties properties) {
+            return new StairBlock(block.get().defaultBlockState(), properties);
         }
         @Override
         protected void generateBlockState(DataGenContext<Block, StairBlock> ctx, RegistrateBlockstateProvider prov, String variantName, BlockPattern pattern, Supplier<? extends Block> block) { /* PORT-NOTE(26.1): datagen only; the generated resources are committed */ }
@@ -110,8 +112,8 @@ public abstract class BlockPartial<B extends Block> {
             this.customSide = customSide;
         }
         @Override
-        protected SlabBlock createBlock(Supplier<? extends Block> block) {
-            return new SlabBlock(BlockBehaviour.Properties.ofFullCopy(block.get()));
+        protected SlabBlock createBlock(Supplier<? extends Block> block, BlockBehaviour.Properties properties) {
+            return new SlabBlock(properties);
         }
         @Override
         protected boolean canRecycle() {
@@ -140,8 +142,8 @@ public abstract class BlockPartial<B extends Block> {
             super("wall");
         }
         @Override
-        protected WallBlock createBlock(Supplier<? extends Block> block) {
-            return new WallBlock(BlockBehaviour.Properties.ofFullCopy(block.get()).forceSolidOn());
+        protected WallBlock createBlock(Supplier<? extends Block> block, BlockBehaviour.Properties properties) {
+            return new WallBlock(properties.forceSolidOn());
         }
         @Override
         protected ItemBuilder<BlockItem, BlockBuilder<WallBlock, CreateRegistrate>> transformItem(
