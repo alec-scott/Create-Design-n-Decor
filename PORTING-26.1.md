@@ -114,3 +114,7 @@ Create Fly comes from the local checkout's jar (`create_fly_jar` in `gradle.prop
 - [ ] Dye Depot: restore as optional compat if a 26.1 Fabric build appears.
 - [ ] In-game test: placement, belts, containers, cogwheels, flywheels, display boards, crushing wheels, millstones,
       text plates, levers, contraptions.
+
+## Version string (2026-11-08)
+
+Fabric Loader warned that `2.2b+fabric-mc26.1.2` is not SemVer (`Could not parse version number component '2b'`). The mod version is now `2.2.0+upstream.2.2b.fabric-mc26.1.2`: `mod_semver` in `gradle.properties` is the SemVer part, and upstream's `2.2b` stays in the build metadata. Checked with Loader 0.20.1's `SemanticVersion.parse`. The jar file name changes too, so remove the old jar when updating.
